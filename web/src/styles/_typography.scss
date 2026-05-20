@@ -1,0 +1,28 @@
+// 타이포 스케일 — t-title-*, t-body-*, t-label, t-cta, t-num-big
+@use 'sass:list';
+
+$type-scale: (
+  title-l: (24px, 700, 1.3, -0.024em),
+  title-m: (20px, 700, 1.3, -0.022em),
+  title-s: (18px, 600, 1.35, -0.02em),
+  body-l: (16px, 400, 1.5, -0.014em),
+  body-m: (14px, 400, 1.5, -0.012em),
+  body-s: (12px, 400, 1.45, -0.006em),
+  label: (13px, 600, 1.4, -0.012em),
+  cta: (17px, 600, 1.3, -0.018em),
+);
+
+@each $name, $vals in $type-scale {
+  .t-#{$name} {
+    font-size: list.nth($vals, 1);
+    font-weight: list.nth($vals, 2);
+    line-height: list.nth($vals, 3);
+    letter-spacing: list.nth($vals, 4);
+  }
+}
+
+.t-num-big {
+  font-family: 'Wanted Sans', 'Pretendard', system-ui;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}

@@ -1,0 +1,71 @@
+// 시나리오 캔버스 (앱 외곽 레이아웃)
+@use 'tokens' as t;
+
+.canvas {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #f0eee9;
+  padding: 24px 16px 56px;
+  align-items: center;
+  gap: 24px;
+
+  &__title {
+    text-align: center;
+    max-width: 640px;
+
+    h1 {
+      font-size: 26px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin: 0 0 6px;
+    }
+
+    p {
+      font-size: 14px;
+      color: t.$fg-alt;
+      margin: 0;
+    }
+  }
+
+  &__chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    max-width: 720px;
+  }
+
+  &__chip {
+    padding: 10px 16px;
+    border-radius: 999px;
+    background: #fff;
+    border: 1px solid t.$line;
+    font-size: 13px;
+    font-weight: 600;
+    color: t.$fg-neutral;
+    cursor: pointer;
+
+    &.active {
+      background: t.$fg-strong;
+      color: #fff;
+      border-color: t.$fg-strong;
+    }
+  }
+
+  &__frame-label {
+    font-size: 12px;
+    font-weight: 700;
+    color: t.$fg-neutral;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+}
+
+@media (max-width: 480px) {
+  .canvas {
+    padding: 16px 0 32px;
+
+    &__title { padding: 0 16px; }
+  }
+}

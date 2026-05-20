@@ -1,0 +1,85 @@
+// 디자인 토큰 — 브랜드/시맨틱 컬러, 반경, 라인
+// SCSS 변수 (컴파일 타임) + CSS 커스텀 프로퍼티 (런타임) 양쪽 모두 노출
+
+// ── 브랜드
+$brand: #ff6b00;
+$brand-strong: #e55f00;
+$brand-soft: #fff1e6;
+$brand-tint: rgba(255, 107, 0, 0.08);
+
+// ── 배경
+$bg: #ffffff;
+$bg-elev: #fafafa;
+$bg-neutral: #f4f4f5;
+$bg-cool: #f7f7f8;
+
+// ── 전경 (텍스트)
+$fg: #171719;
+$fg-strong: #0e0f10;
+$fg-neutral: #46474c;
+$fg-alt: #70737c;
+$fg-assist: #989ba2;
+$fg-dim: #aeb0b6;
+
+// ── 라인
+$line: rgba(112, 115, 124, 0.22);
+$line-strong: rgba(112, 115, 124, 0.32);
+
+// ── 시맨틱
+$green: #00bf40;
+$green-soft: #e6fff0;
+$red: #ff4242;
+$red-soft: #fff0f0;
+$amber: #ff9b00;
+$amber-soft: #fff7e6;
+$blue: #0066ff;
+$blue-soft: #eaf2fe;
+
+// ── 반경
+$r-4: 4px;
+$r-8: 8px;
+$r-12: 12px;
+$r-16: 16px;
+$r-24: 24px;
+
+// 인라인 스타일에서 var(--brand) 등을 그대로 쓸 수 있도록 CSS 변수도 노출
+:root {
+  --brand: #{$brand};
+  --brand-strong: #{$brand-strong};
+  --brand-soft: #{$brand-soft};
+  --brand-tint: #{$brand-tint};
+
+  --bg: #{$bg};
+  --bg-elev: #{$bg-elev};
+  --bg-neutral: #{$bg-neutral};
+  --bg-cool: #{$bg-cool};
+
+  --fg: #{$fg};
+  --fg-strong: #{$fg-strong};
+  --fg-neutral: #{$fg-neutral};
+  --fg-alt: #{$fg-alt};
+  --fg-assist: #{$fg-assist};
+  --fg-dim: #{$fg-dim};
+
+  --line: #{$line};
+  --line-strong: #{$line-strong};
+
+  --green: #{$green};
+  --green-soft: #{$green-soft};
+  --red: #{$red};
+  --red-soft: #{$red-soft};
+  --amber: #{$amber};
+  --amber-soft: #{$amber-soft};
+  --blue: #{$blue};
+  --blue-soft: #{$blue-soft};
+
+  --r-4: #{$r-4};
+  --r-8: #{$r-8};
+  --r-12: #{$r-12};
+  --r-16: #{$r-16};
+  --r-24: #{$r-24};
+
+  // 상태바 높이 — 데스크탑은 iOS 프레임의 status bar 자리 54px,
+  // 모바일 풀스크린 모드(.app-mobile)에서는 safe-area-inset-top 으로 교체
+  --status-bar-h: 54px;
+}

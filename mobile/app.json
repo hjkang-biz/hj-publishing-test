@@ -1,0 +1,12 @@
+{
+  "expo": {
+    "name": "E-오더",
+    "slug": "e-order",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "platforms": ["ios", "android"],
+    "ios": { "bundleIdentifier": "com.hitejinro.eorder", "supportsTablet": false },
+    "android": { "package": "com.hitejinro.eorder" }
+  }
+}

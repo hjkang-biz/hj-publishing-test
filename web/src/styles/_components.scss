@@ -1,0 +1,253 @@
+// UI 컴포넌트 — screen/cta/chip/badge/card/stepper/prod-tile/tabbar/gauge/seg
+@use 'tokens' as t;
+
+// ── 화면 셸
+.screen {
+  width: 100%;
+  height: 100%;
+  background: t.$bg;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+}
+
+.screen-scroll {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  padding-top: var(--status-bar-h);
+
+  &.no-status-pad { padding-top: 0; }
+}
+
+.screen-bottom-pad { padding-bottom: 110px; }
+
+// ── CTA 버튼
+.cta {
+  width: 100%;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: t.$brand;
+  color: #fff;
+  border-radius: 14px;
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: -0.018em;
+  transition: transform 0.12s ease, background 0.12s ease;
+
+  &:active {
+    transform: scale(0.985);
+    background: t.$brand-strong;
+  }
+
+  &.secondary {
+    background: t.$bg-neutral;
+    color: t.$fg;
+  }
+
+  &.ghost {
+    background: transparent;
+    color: t.$brand;
+    border: 1.5px solid t.$brand;
+  }
+
+  &.disabled {
+    background: t.$bg-neutral;
+    color: t.$fg-assist;
+    pointer-events: none;
+  }
+}
+
+// ── 칩
+.chip {
+  height: 32px;
+  padding: 0 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: t.$bg-cool;
+  border: 1px solid t.$line;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 500;
+  color: t.$fg-neutral;
+
+  &.active {
+    background: t.$fg-strong;
+    color: #fff;
+    border-color: t.$fg-strong;
+  }
+
+  &.brand {
+    background: t.$brand-soft;
+    color: t.$brand-strong;
+    border-color: rgba(255, 107, 0, 0.18);
+  }
+}
+
+// ── 배지
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  height: 22px;
+  padding: 0 8px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+
+  &.green { background: t.$green-soft; color: #00892e; }
+  &.amber { background: t.$amber-soft; color: #b86c00; }
+  &.red   { background: t.$red-soft;   color: #c00000; }
+  &.blue  { background: t.$blue-soft;  color: #0052cc; }
+  &.brand { background: t.$brand-soft; color: t.$brand-strong; }
+  &.dark  { background: rgba(0, 0, 0, 0.85); color: #fff; }
+}
+
+// ── 카드
+.card {
+  background: t.$bg;
+  border: 1px solid t.$line;
+  border-radius: t.$r-16;
+
+  &.tight { border-radius: t.$r-12; }
+}
+
+// ── 수량 스테퍼
+.stepper {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid t.$line;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #fff;
+
+  button {
+    width: 34px;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: t.$fg-neutral;
+    font-size: 18px;
+    font-weight: 600;
+
+    &:active { background: t.$bg-cool; }
+  }
+
+  .v {
+    min-width: 32px;
+    text-align: center;
+    font-weight: 600;
+    font-size: 14px;
+    color: t.$fg;
+  }
+}
+
+// ── 상품 타일
+.prod-tile {
+  width: 56px;
+  height: 56px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  color: #fff;
+  font-size: 11px;
+  flex-shrink: 0;
+  position: relative;
+
+  &.big {
+    width: 72px;
+    height: 72px;
+    font-size: 13px;
+    border-radius: 12px;
+  }
+
+  &.xl {
+    width: 100%;
+    aspect-ratio: 1/1;
+    border-radius: 16px;
+    font-size: 22px;
+  }
+}
+
+// ── 탭바
+.tabbar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 5;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-top: 1px solid t.$line;
+  padding: 8px 0 28px;
+  display: flex;
+  align-items: stretch;
+
+  .tab {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    color: t.$fg-assist;
+    padding: 6px 0;
+    font-size: 10px;
+    font-weight: 600;
+
+    &.active {
+      color: t.$fg-strong;
+
+      .tab-icon { color: t.$brand; }
+    }
+  }
+}
+
+// ── 게이지
+.gauge-track {
+  height: 8px;
+  border-radius: 999px;
+  background: t.$bg-neutral;
+  overflow: hidden;
+  position: relative;
+}
+
+.gauge-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #00bf40 0%, #ff9b00 70%, #ff4242 100%);
+
+  &.solid { background: t.$brand; }
+}
+
+// ── 세그먼트 컨트롤
+.seg {
+  display: inline-flex;
+  padding: 3px;
+  background: t.$bg-neutral;
+  border-radius: 10px;
+
+  button {
+    padding: 7px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    color: t.$fg-alt;
+
+    &.active {
+      background: #fff;
+      color: t.$fg-strong;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+    }
+  }
+}

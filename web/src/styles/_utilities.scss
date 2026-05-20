@@ -1,0 +1,60 @@
+// 전경 컬러 + 레이아웃 유틸리티
+@use 'tokens' as t;
+
+// ── 전경 컬러
+.fg-strong  { color: t.$fg-strong; }
+.fg-neutral { color: t.$fg-neutral; }
+.fg-alt     { color: t.$fg-alt; }
+.fg-assist  { color: t.$fg-assist; }
+.fg-brand   { color: t.$brand; }
+.fg-red     { color: t.$red; }
+.fg-green   { color: t.$green; }
+.fg-amber   { color: t.$amber; }
+
+// ── flex helpers
+.row { display: flex; align-items: center; }
+.col { display: flex; flex-direction: column; }
+.between { justify-content: space-between; }
+.center { justify-content: center; align-items: center; }
+.grow { flex: 1; }
+.wrap { flex-wrap: wrap; }
+
+// ── gap-N (2, 4, 6, 8, 10, 12, 16, 20, 24)
+@each $g in (2, 4, 6, 8, 10, 12, 16, 20, 24) {
+  .gap-#{$g} { gap: #{$g}px; }
+}
+
+// ── 기타
+.divider {
+  height: 1px;
+  background: t.$line;
+  width: 100%;
+}
+
+.press {
+  transition: transform 0.12s ease, background 0.12s ease;
+
+  &:active {
+    transform: scale(0.98);
+  }
+}
+
+.h-scroll {
+  display: flex;
+  overflow-x: auto;
+  gap: 12px;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+
+  > * {
+    scroll-snap-align: start;
+    flex-shrink: 0;
+  }
+
+  &::-webkit-scrollbar { display: none; }
+}
+
+.no-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar { display: none; }
+}

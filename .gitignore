@@ -1,0 +1,19 @@
+node_modules/
+dist/
+.DS_Store
+.expo/
+.expo-shared/
+npm-debug.log*
+*.log
+.vite/
+
+build/
+.env
+.env.local
+
+# React Native / mobile
+mobile/ios/Pods/
+mobile/ios/build/
+mobile/android/.gradle/
+mobile/android/build/
+mobile/android/app/build/
