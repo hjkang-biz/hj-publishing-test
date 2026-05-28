@@ -8,8 +8,16 @@ import { AfterCloseFlow } from './flows/AfterCloseReorder.jsx';
 import { RecoFlowV2 } from './flows/RecoFlow.jsx';
 import { ScanOrderFlow } from './flows/ScanOrder.jsx';
 import { MultiStoreFlow } from './flows/MultiStoreTower.jsx';
+import { B2BHomeFlow } from './flows/B2BHome.jsx';
 
 const SCENARIOS = [
+  {
+    id: 's0',
+    label: '⓪ B2B 홈',
+    sub: '카테고리 · 즐겨찾기 · 최근주문 · 추천',
+    Component: B2BHomeFlow,
+    dark: false,
+  },
   {
     id: 's1',
     label: '① 마감 후 재주문',
