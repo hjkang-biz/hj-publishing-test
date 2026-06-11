@@ -246,11 +246,11 @@ function RecoHeroCard({ reco: r, total, ctx, onTap }) {
       style={{
         borderRadius: 20,
         cursor: 'pointer',
-        background: 'linear-gradient(155deg, #FFB14A 0%, #FF6B00 55%, #E55F00 100%)',
+        background: 'linear-gradient(155deg, #5B8DEF 0%, #1F6FEB 55%, #0B4ED9 100%)',
         color: '#fff',
         overflow: 'hidden',
         position: 'relative',
-        boxShadow: '0 12px 28px rgba(255,107,0,0.32)',
+        boxShadow: '0 12px 28px rgba(31,111,235,0.32)',
       }}
     >
       <div
@@ -309,7 +309,7 @@ function RecoHeroCard({ reco: r, total, ctx, onTap }) {
               style={{
                 marginLeft: i === 0 ? 0 : -8,
                 zIndex: 10 - i,
-                boxShadow: '0 0 0 2px rgba(255,107,0,0.8)',
+                boxShadow: '0 0 0 2px rgba(31,111,235,0.8)',
                 borderRadius: 10,
               }}
             >
@@ -681,7 +681,7 @@ function ReasoningCard({ data }) {
           padding: '14px 16px',
           borderRadius: 14,
           background: 'linear-gradient(180deg, #FFF8F0 0%, #FFFFFF 100%)',
-          border: '1px solid rgba(255,107,0,0.18)',
+          border: '1px solid rgba(31,111,235,0.18)',
           display: 'flex',
           gap: 12,
         }}
@@ -1042,7 +1042,7 @@ function DoneV2({ data, qtys, addonOn, onHome }) {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              boxShadow: '0 10px 24px rgba(255,107,0,0.32)',
+              boxShadow: '0 10px 24px rgba(31,111,235,0.32)',
             }}
           >
             <Ic name="check" size={44} color="#fff" strokeWidth={2.8} />
@@ -1099,7 +1099,7 @@ function DoneV2({ data, qtys, addonOn, onHome }) {
               padding: '14px 16px',
               borderRadius: 14,
               background: 'linear-gradient(180deg, #FFF8F0, #fff)',
-              border: '1px solid rgba(255,107,0,0.18)',
+              border: '1px solid rgba(31,111,235,0.18)',
               display: 'flex',
               alignItems: 'center',
               gap: 12,

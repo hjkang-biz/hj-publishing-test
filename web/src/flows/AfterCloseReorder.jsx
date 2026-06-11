@@ -370,7 +370,7 @@ export function AfterCloseFlow() {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                boxShadow: '0 8px 24px rgba(255,107,0,0.32)',
+                boxShadow: '0 8px 24px rgba(31,111,235,0.32)',
               }}
             >
               <Ic name="check" size={48} color="#fff" strokeWidth={2.8} />
@@ -535,7 +535,7 @@ function SearchBar() {
 function QuickGrid({ onFav }) {
   const items = [
     { icon: 'heart', label: '즐겨찾기', color: '#FF4242', bg: '#fff0f0', onClick: onFav },
-    { icon: 'refresh', label: '재주문', color: '#FF6B00', bg: '#FFF1E6' },
+    { icon: 'refresh', label: '재주문', color: '#1F6FEB', bg: '#E8F0FE' },
     { icon: 'receipt', label: '발주서', color: '#0066FF', bg: '#eaf2fe' },
     { icon: 'box', label: '빈통회수', color: '#00A636', bg: '#e6fff0' },
   ];
@@ -631,12 +631,12 @@ function AIBanner() {
           padding: '14px 16px',
           borderRadius: 16,
           cursor: 'pointer',
-          background: 'linear-gradient(135deg, #FF8A33 0%, #FF6B00 50%, #E55F00 100%)',
+          background: 'linear-gradient(135deg, #4F86F2 0%, #1F6FEB 50%, #0B4ED9 100%)',
           color: '#fff',
           display: 'flex',
           alignItems: 'center',
           gap: 12,
-          boxShadow: '0 6px 16px rgba(255,107,0,0.25)',
+          boxShadow: '0 6px 16px rgba(31,111,235,0.25)',
         }}
       >
         <div
@@ -702,7 +702,7 @@ function Categories() {
   const cats = [
     { name: '맥주', emoji: '🍺', bg: '#FFF7E6' },
     { name: '소주', emoji: '🍶', bg: '#E6F8FF' },
-    { name: '위스키', emoji: '🥃', bg: '#FFF1E6' },
+    { name: '위스키', emoji: '🥃', bg: '#E8F0FE' },
     { name: '와인', emoji: '🍷', bg: '#FBE8EC' },
     { name: '사케', emoji: '🍙', bg: '#F4ECFB' },
     { name: '기타', emoji: '🧊', bg: '#EFF1F5' },

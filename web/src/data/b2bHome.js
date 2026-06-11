@@ -19,6 +19,19 @@ export const CATALOG = [
 const productMap = Object.fromEntries(CATALOG.map((p) => [p.id, p]));
 export const getOrderProduct = (pid) => productMap[pid];
 
+// 상품 상세 화면용 부가 정보 — 용량/도수/입수/원산지 + 설명/카테고리.
+export const PRODUCT_DETAILS = {
+  p1: { maker: '하이트진로', cat: '소주 · 일반', abv: '16.9%', origin: '대한민국', volume: '360ml', unit: '20병', desc: '깔끔한 단맛과 부드러운 목넘김으로 사랑받는 진로이즈백. 두꺼비 라벨의 대표 소주로 어떤 안주와도 잘 어울립니다.' },
+  p2: { maker: '하이트진로', cat: '소주 · 일반', abv: '16.5%', origin: '대한민국', volume: '360ml', unit: '20병', desc: '1998년 출시 이후 꾸준히 사랑받는 국민 소주. 깨끗하고 깔끔한 맛으로 부담 없이 즐기기 좋습니다.' },
+  p3: { maker: '하이트진로', cat: '맥주 · 라거', abv: '4.6%', origin: '대한민국', volume: '500ml', unit: '20병', desc: '청정라거 테라. 호주 골든트라이앵글 맥아로 만든 청량한 탄산감과 깔끔한 끝맛이 특징입니다.' },
+  p4: { maker: '오비맥주', cat: '맥주 · 라거', abv: '4.5%', origin: '대한민국', volume: '500ml', unit: '24캔', desc: '톡 쏘는 강렬한 탄산과 깔끔한 맛의 카스 후레쉬. 차갑게 즐길수록 청량감이 살아납니다.' },
+  p5: { maker: '하이트진로', cat: '맥주 · 올몰트', abv: '4.5%', origin: '대한민국', volume: '500ml', unit: '20병', desc: '천천히 숙성한 올몰트 라거 켈리. 부드러운 거품과 깊은 풍미로 프리미엄한 한 잔을 완성합니다.' },
+  p6: { maker: '롯데칠성', cat: '청주 · 약주', abv: '13%', origin: '대한민국', volume: '295ml', unit: '30병', desc: '맑고 부드러운 정통 청주 청하. 차갑게 또는 따뜻하게, 다양한 요리와 곁들이기 좋습니다.' },
+  p7: { maker: '롯데칠성', cat: '리큐르 · 과실주', abv: '14%', origin: '대한민국', volume: '375ml', unit: '20병', desc: '매실의 은은한 향과 부드러운 단맛이 어우러진 리큐르. 얼음과 함께 가볍게 즐기기 좋습니다.' },
+  p8: { maker: '하이트진로', cat: '무알콜 · 믹서', abv: '0%', origin: '대한민국', volume: '250ml', unit: '24캔', desc: '깔끔한 탄산의 토닉워터. 위스키·진 등과 섞어 하이볼·칵테일 베이스로 활용하기 좋습니다.' },
+};
+export const getProductDetail = (pid) => PRODUCT_DETAILS[pid];
+
 export const RECENT_ORDERS = [
   {
     id: 'o1', date: '2026.05.14 (목)', orderNo: '#20413',
@@ -64,7 +77,7 @@ export const BRANDS = {
 export const BANNERS = [
   {
     id: 'b1', title: '5월 이즈백\n캐시백 프로모션', sub: '박스당 1,500원 적립',
-    bg: 'linear-gradient(135deg,#E55F00 0%,#FF6B00 60%,#FF9450 100%)',
+    bg: 'linear-gradient(135deg,#0B4ED9 0%,#1F6FEB 60%,#5B8DEF 100%)',
     fg: '#fff', accent: '#FFD24A', kind: 'soju-clear',
   },
   {
@@ -74,7 +87,7 @@ export const BANNERS = [
   },
   {
     id: 'b3', title: '신규 거래처\n첫 주문 5만원 쿠폰', sub: '~ 5/31까지',
-    bg: 'linear-gradient(135deg,#FFF1E6 0%,#FFD9B8 100%)',
-    fg: '#0F1115', accent: '#FF6B00', kind: 'cheongha',
+    bg: 'linear-gradient(135deg,#E8F0FE 0%,#C7DBFD 100%)',
+    fg: '#0F1115', accent: '#0B4ED9', kind: 'cheongha',
   },
 ];

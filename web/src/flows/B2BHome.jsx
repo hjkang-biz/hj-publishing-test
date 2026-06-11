@@ -2,12 +2,12 @@
 //
 // 디자인의 카테고리 탭 / 브랜드 스와이프 / 최근주문 묶음 카드 / 즐겨찾기 / 추천
 // / 빠른 발주 / 마감 카운트다운 / 외상 잔액 카드 / 장바구니 미니바 를 한 화면에
-// 모은 통합 홈. 디자인은 하이트진로 그린을 메인으로 썼지만, 이 프로젝트는 기존
-// 브랜드(오렌지)를 유지하기로 했기 때문에 primary accent 만 오렌지로 교체했다.
-// 컨텍스트 컬러(red/amber/blue/제품 일러스트)는 디자인 의도를 그대로 따른다.
+// 모은 통합 홈. primary accent 는 디자인 핸드오프의 최종 프라이머리 컬러인
+// 쿨 블루(#1F6FEB, var(--brand))를 따른다 — 소주/맥주 냉장고 무드.
+// 컨텍스트 컬러(red/amber/제품 일러스트)는 디자인 의도를 그대로 따른다.
 
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { BANNERS, BRANDS, CATALOG, CATEGORIES, RECENT_ORDERS, getOrderProduct } from '../data/b2bHome.js';
+import { BANNERS, BRANDS, CATALOG, CATEGORIES, RECENT_ORDERS, getOrderProduct, getProductDetail } from '../data/b2bHome.js';
 
 // ─── 인라인 토큰 ──────────────────────────────────────────
 // 디자인 css 의 일부 토큰은 우리 SCSS 토큰과 매핑이 어렵거나, 이 화면에서만
@@ -50,6 +50,13 @@ const Icon = {
     <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={c} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <circle cx="11" cy="11" r="6.5" />
       <path d="m16 16 4 4" />
+    </svg>
+  ),
+  mic: (s = 20, c = 'currentColor') => (
+    <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={c} strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="9" y="3" width="6" height="11" rx="3" />
+      <path d="M5 11a7 7 0 0 0 14 0" />
+      <path d="M12 18v3" />
     </svg>
   ),
   chevron: (dir = 'down', s = 16, c = 'currentColor') => {
@@ -597,16 +604,403 @@ function Banner() {
   );
 }
 
-// ─── 검색바 ────────────────────────────────────────────────
-function SearchBar() {
+// ─── 검색바 + 음성 발주 진입 ───────────────────────────────
+// 디자인 핸드오프(variant-a)의 검색 행 패턴: 검색 입력 + 우측 브랜드 마이크 버튼.
+// 마이크 → 음성 발주 바텀시트.
+function SearchBar({ onVoice }) {
   return (
     <div style={{ padding: '4px 16px 10px', background: '#fff' }}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: 8, height: 44, padding: '0 14px', borderRadius: 12, background: '#F2F4F7' }}>
-        {Icon.search(20, '#8A93A0')}
-        <input
-          placeholder="상품명, 브랜드, 카테고리로 검색하세요"
-          style={{ flex: 1, border: 'none', outline: 'none', background: 'transparent', fontSize: 13.5, fontWeight: 500, color: 'var(--fg-strong)' }}
+      <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+        <div style={{ flex: 1, minWidth: 0, display: 'flex', alignItems: 'center', gap: 8, height: 44, padding: '0 14px', borderRadius: 12, background: '#F2F4F7' }}>
+          {Icon.search(20, '#8A93A0')}
+          <input
+            placeholder="상품명, 브랜드, 카테고리로 검색하세요"
+            style={{ flex: 1, minWidth: 0, border: 'none', outline: 'none', background: 'transparent', fontSize: 13.5, fontWeight: 500, color: 'var(--fg-strong)' }}
+          />
+        </div>
+        <button
+          onClick={onVoice}
+          aria-label="음성으로 발주하기"
+          style={{
+            flexShrink: 0,
+            width: 44,
+            height: 44,
+            borderRadius: 12,
+            background: BRAND,
+            color: '#fff',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            boxShadow: '0 4px 12px rgba(31,111,235,0.35)',
+          }}
+        >
+          {Icon.mic(20, '#fff')}
+        </button>
+      </div>
+    </div>
+  );
+}
+
+// ─── 음성 발주 (풀스크린) ──────────────────────────────────
+// "음성 발주" 핵심 기능. 퍼블리싱 단계 데모이므로 실제 음성 인식 대신
+// listening → recognized 상태를 타이머로 시뮬레이션한다. 인식 결과는
+// 카탈로그 상품으로 파싱되어 그대로 장바구니에 담긴다.
+const VOICE_ITEMS = [
+  { pid: 'p2', qty: 2 },
+  { pid: 'p4', qty: 1 },
+];
+
+function VoiceWave({ active }) {
+  // 5개 바가 위아래로 출렁이는 음성 입력 인디케이터.
+  return (
+    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6, height: 30 }}>
+      {[0, 1, 2, 3, 4].map((i) => (
+        <span
+          key={i}
+          style={{
+            width: 4,
+            borderRadius: 9999,
+            background: active ? '#5B9BFF' : 'rgba(255,255,255,0.25)',
+            height: 30,
+            transformOrigin: 'center',
+            animation: active ? `b2bVoiceBar 0.9s ease-in-out ${i * 0.12}s infinite` : 'none',
+          }}
         />
+      ))}
+    </div>
+  );
+}
+
+// 풀스크린 음성 발주용 흰색 상태바 (다크 배경 위).
+function VoiceStatusBar() {
+  return (
+    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '14px 30px 0', height: 54 }}>
+      <span style={{ fontFamily: '-apple-system, "SF Pro", system-ui', fontWeight: 600, fontSize: 16, color: '#fff' }}>9:41</span>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
+        <svg width="18" height="11" viewBox="0 0 19 12"><rect x="0" y="7.5" width="3.2" height="4.5" rx="0.7" fill="#fff" /><rect x="4.8" y="5" width="3.2" height="7" rx="0.7" fill="#fff" /><rect x="9.6" y="2.5" width="3.2" height="9.5" rx="0.7" fill="#fff" /><rect x="14.4" y="0" width="3.2" height="12" rx="0.7" fill="#fff" /></svg>
+        <svg width="16" height="11" viewBox="0 0 17 12"><path d="M8.5 3.2C10.8 3.2 12.9 4.1 14.4 5.6L15.5 4.5C13.7 2.7 11.2 1.5 8.5 1.5C5.8 1.5 3.3 2.7 1.5 4.5L2.6 5.6C4.1 4.1 6.2 3.2 8.5 3.2Z" fill="#fff" /><path d="M8.5 6.8C9.9 6.8 11.1 7.3 12 8.2L13.1 7.1C11.8 5.9 10.2 5.1 8.5 5.1C6.8 5.1 5.2 5.9 3.9 7.1L5 8.2C5.9 7.3 7.1 6.8 8.5 6.8Z" fill="#fff" /><circle cx="8.5" cy="10.5" r="1.5" fill="#fff" /></svg>
+        <svg width="26" height="12" viewBox="0 0 27 13"><rect x="0.5" y="0.5" width="23" height="12" rx="3.5" stroke="#fff" strokeOpacity="0.4" fill="none" /><rect x="2" y="2" width="20" height="9" rx="2" fill="#fff" /><path d="M25 4.5V8.5C25.8 8.2 26.5 7.2 26.5 6.5C26.5 5.8 25.8 4.8 25 4.5Z" fill="#fff" fillOpacity="0.45" /></svg>
+      </div>
+    </div>
+  );
+}
+
+function VoiceOrderScreen({ open, onClose, onConfirm }) {
+  // phase: 'listening' | 'recognized'
+  const [phase, setPhase] = useState('listening');
+  const timer = useRef(null);
+
+  const startListening = () => {
+    setPhase('listening');
+    clearTimeout(timer.current);
+    timer.current = setTimeout(() => setPhase('recognized'), 1800);
+  };
+
+  // 열릴 때마다 listening 으로 초기화하고, 1.8s 후 인식 완료로 전환.
+  useEffect(() => {
+    if (!open) return;
+    startListening();
+    return () => clearTimeout(timer.current);
+  }, [open]);
+
+  if (!open) return null;
+
+  const items = VOICE_ITEMS.map((it) => ({ p: getOrderProduct(it.pid), qty: it.qty })).filter((x) => x.p);
+  const totalBoxes = items.reduce((s, x) => s + x.qty, 0);
+  const totalAmount = items.reduce((s, x) => s + x.p.price * x.qty, 0);
+  const listening = phase === 'listening';
+
+  const handleConfirm = () => {
+    onConfirm(items.map((x) => ({ pid: x.p.id, qty: x.qty })), { totalBoxes, totalAmount });
+    onClose();
+  };
+
+  return (
+    <div
+      style={{
+        position: 'absolute',
+        inset: 0,
+        zIndex: 200,
+        background: 'radial-gradient(115% 70% at 50% 24%, #1E3F75 0%, #122A4E 48%, #0A1428 100%)',
+        display: 'flex',
+        flexDirection: 'column',
+        color: '#fff',
+        fontFamily: "'Pretendard', system-ui, sans-serif",
+        animation: 'b2bVeilIn .22s ease both',
+      }}
+    >
+      {/* 다이나믹 아일랜드 */}
+      <div style={{ position: 'absolute', top: 11, left: '50%', transform: 'translateX(-50%)', width: 126, height: 37, borderRadius: 24, background: '#000', zIndex: 5 }} />
+
+      <VoiceStatusBar />
+
+      {/* 네비 */}
+      <div style={{ display: 'flex', alignItems: 'center', padding: '6px 16px 0', height: 48 }}>
+        <button
+          onClick={onClose}
+          aria-label="닫기"
+          style={{ width: 36, height: 36, borderRadius: 10, background: 'rgba(255,255,255,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+        >
+          {Icon.chevron('left', 18, '#fff')}
+        </button>
+        <div style={{ flex: 1, textAlign: 'center', fontSize: 15, fontWeight: 700, letterSpacing: '-0.02em', marginLeft: -36 }}>음성 발주</div>
+      </div>
+
+      {/* 중앙 컨텐츠 */}
+      <div style={{ flex: 1, minHeight: 0, overflowY: 'auto', display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '0 24px' }} className="no-scrollbar">
+        {/* 마이크 */}
+        <div style={{ position: 'relative', width: 120, height: 120, display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: 44 }}>
+          <span style={{ position: 'absolute', inset: 0, borderRadius: 9999, background: '#3B82F6', opacity: 0.18, animation: listening ? 'b2bMicPulse 1.7s ease-out infinite' : 'none' }} />
+          <span style={{ position: 'absolute', inset: 16, borderRadius: 9999, background: '#3B82F6', opacity: 0.22, animation: listening ? 'b2bMicPulse 1.7s ease-out .5s infinite' : 'none' }} />
+          <div style={{ width: 84, height: 84, borderRadius: 9999, background: 'linear-gradient(160deg, #4D8DF7 0%, #2E6BF0 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 12px 32px rgba(46,107,240,0.55), inset 0 1px 2px rgba(255,255,255,0.4)' }}>
+            {Icon.mic(38, '#fff')}
+          </div>
+        </div>
+
+        {listening ? (
+          <>
+            <div style={{ marginTop: 30, marginBottom: 18 }}><VoiceWave active /></div>
+            <div style={{ fontSize: 15, fontWeight: 600, color: '#9DB6DC' }}>듣고 있어요…</div>
+          </>
+        ) : (
+          <>
+            <div style={{ fontSize: 13.5, fontWeight: 600, color: '#8DA5CE', marginTop: 22 }}>이렇게 들었어요</div>
+            <div style={{ fontSize: 23, fontWeight: 800, color: '#fff', textAlign: 'center', lineHeight: 1.45, letterSpacing: '-0.02em', marginTop: 10 }}>
+              “참이슬 후레쉬 <span style={{ color: '#5B9BFF' }}>두 박스</span>,<br />카스 <span style={{ color: '#5B9BFF' }}>한 박스</span>요”
+            </div>
+
+            {/* 인식된 내용 카드 */}
+            <div style={{ width: '100%', marginTop: 26, padding: 16, borderRadius: 18, background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)' }}>
+              <div style={{ fontSize: 12, fontWeight: 700, color: '#8DA5CE', marginBottom: 12, letterSpacing: '-0.01em' }}>인식된 내용</div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+                {items.map(({ p, qty }) => (
+                  <div key={p.id} style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                    <div style={{ width: 40, height: 40, borderRadius: 10, background: p.tint || '#F2F4F7', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, overflow: 'hidden' }}>
+                      {p.kind.startsWith('can:') ? <Can kind={p.kind.slice(4)} size={28} /> : <Bottle kind={p.kind} size={32} />}
+                    </div>
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <div style={{ fontSize: 14, fontWeight: 700, color: '#fff', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{p.name.split(' (')[0]}</div>
+                      <div style={{ fontSize: 12, color: '#8DA5CE', fontWeight: 500, marginTop: 2 }}>{qty}박스 · ₩{(p.price * qty).toLocaleString()}</div>
+                    </div>
+                    <span style={{ flexShrink: 0, color: '#46D38A', display: 'flex' }}>
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12l5 5L20 7" /></svg>
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </>
+        )}
+        <div style={{ height: 24 }} />
+      </div>
+
+      {/* 하단 액션 */}
+      <div style={{ padding: '12px 20px 12px' }}>
+        {listening ? (
+          <button
+            onClick={onClose}
+            style={{ width: '100%', height: 52, borderRadius: 14, background: 'rgba(255,255,255,0.1)', color: '#fff', fontWeight: 700, fontSize: 15 }}
+          >
+            취소
+          </button>
+        ) : (
+          <div style={{ display: 'flex', gap: 10 }}>
+            <button
+              onClick={startListening}
+              style={{ flexShrink: 0, width: 116, height: 56, borderRadius: 14, background: 'rgba(255,255,255,0.1)', color: '#fff', fontWeight: 700, fontSize: 14, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}
+            >
+              {Icon.mic(16, '#fff')} 다시 말하기
+            </button>
+            <button
+              onClick={handleConfirm}
+              style={{
+                flex: 1,
+                height: 56,
+                borderRadius: 14,
+                background: 'linear-gradient(180deg, #F5D87A 0%, #E9C24F 100%)',
+                color: '#23314F',
+                fontWeight: 800,
+                fontSize: 16,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: 8,
+                boxShadow: '0 8px 22px rgba(233,194,79,0.35)',
+              }}
+            >
+              ₩{totalAmount.toLocaleString()} 발주 {Icon.chevron('right', 16, '#23314F')}
+            </button>
+          </div>
+        )}
+      </div>
+
+      {/* 홈 인디케이터 */}
+      <div style={{ height: 26, display: 'flex', justifyContent: 'center', alignItems: 'flex-start', paddingTop: 6 }}>
+        <div style={{ width: 139, height: 5, borderRadius: 100, background: 'rgba(255,255,255,0.7)' }} />
+      </div>
+    </div>
+  );
+}
+
+// ─── 상품 상세 (풀스크린) ──────────────────────────────────
+// 디자인 핸드오프(screenshot C)의 상품 상세: 다크 그라데이션 히어로 + 제품
+// 일러스트, 스펙 그리드, 도매 가격, 재발주 안내, 하단 고정 CTA.
+function heroGradient(kind) {
+  const clean = kind.startsWith('can:') ? kind.slice(4) : kind;
+  const map = {
+    'soju-green': ['#1F8A4C', '#0B4E2A'],
+    'soju-clear': ['#5E86B0', '#2C4A6E'],
+    'beer-brown': ['#7A4A2A', '#34200F'],
+    'beer-amber': ['#C2862F', '#5E3C12'],
+    cass: ['#2E72D6', '#103E86'],
+    hite: ['#C2502F', '#5A1E12'],
+    kelly: ['#C2862F', '#5E3C12'],
+    terra: ['#2F7D48', '#0B3A1E'],
+    cheongha: ['#7FA6C4', '#3C5A74'],
+    maehwasoo: ['#D87E92', '#7A3B4C'],
+    whisky: ['#9C6A33', '#3A2412'],
+    wine: ['#7A1A30', '#3A0A18'],
+  };
+  const [a, b] = map[clean] || ['#3A4250', '#1A1F28'];
+  return `linear-gradient(165deg, ${a} 0%, ${b} 100%)`;
+}
+
+function ProductDetailScreen({ product, onClose, onAdd, cartCount = 0 }) {
+  const [qty, setQty] = useState(1);
+  useEffect(() => {
+    setQty(1);
+  }, [product?.id]);
+
+  if (!product) return null;
+  const p = product;
+  const d = getProductDetail(p.id) || {};
+  const isCan = p.kind.startsWith('can:');
+  const cleanKind = isCan ? p.kind.slice(4) : p.kind;
+  const specs = [
+    { label: '용량', value: d.volume || '—' },
+    { label: '도수', value: d.abv || '—' },
+    { label: '입수', value: d.unit || '—' },
+    { label: '원산지', value: d.origin || '—' },
+  ];
+
+  return (
+    <div
+      style={{
+        position: 'absolute',
+        inset: 0,
+        zIndex: 150,
+        background: '#fff',
+        display: 'flex',
+        flexDirection: 'column',
+        fontFamily: "'Pretendard', system-ui, sans-serif",
+        animation: 'b2bSlideIn .26s cubic-bezier(.2,.8,.2,1) both',
+      }}
+    >
+      <div className="no-scrollbar" style={{ flex: 1, minHeight: 0, overflowY: 'auto' }}>
+        {/* 히어로 */}
+        <div style={{ position: 'relative', height: 348, background: heroGradient(p.kind), overflow: 'hidden' }}>
+          <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(80% 50% at 50% 18%, rgba(255,255,255,0.18), transparent 60%)', pointerEvents: 'none' }} />
+          <div style={{ position: 'absolute', top: 11, left: '50%', transform: 'translateX(-50%)', width: 126, height: 37, borderRadius: 24, background: '#000', zIndex: 5 }} />
+          <VoiceStatusBar />
+
+          {/* 네비 */}
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '6px 16px 0' }}>
+            <button onClick={onClose} aria-label="뒤로" style={{ width: 38, height: 38, borderRadius: 9999, background: 'rgba(0,0,0,0.28)', backdropFilter: 'blur(6px)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              {Icon.chevron('left', 19, '#fff')}
+            </button>
+            <button aria-label="장바구니" style={{ width: 38, height: 38, borderRadius: 9999, background: 'rgba(0,0,0,0.28)', backdropFilter: 'blur(6px)', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative' }}>
+              {Icon.cart(20, '#fff')}
+              {cartCount ? (
+                <span style={{ position: 'absolute', top: -3, right: -4, minWidth: 16, height: 16, padding: '0 4px', background: RED, color: '#fff', borderRadius: 9999, fontSize: 9.5, fontWeight: 800, display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1.5px solid rgba(0,0,0,0.2)' }}>{cartCount}</span>
+              ) : null}
+            </button>
+          </div>
+
+          {/* 제품 일러스트 */}
+          <div style={{ position: 'absolute', left: 0, right: 0, bottom: 8, display: 'flex', justifyContent: 'center', filter: 'drop-shadow(0 14px 24px rgba(0,0,0,0.32))' }}>
+            {isCan ? <Can kind={cleanKind} size={200} /> : <Bottle kind={cleanKind} size={200} />}
+          </div>
+        </div>
+
+        {/* 본문 시트 */}
+        <div style={{ position: 'relative', zIndex: 2, marginTop: -20, background: '#fff', borderTopLeftRadius: 22, borderTopRightRadius: 22, padding: '20px 18px 8px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
+            {p.tag && <Tag kind={p.tag === 'Best' ? 'best' : p.tag === '추천' ? 'rec' : 'new'}>{p.tag}</Tag>}
+            <span style={{ fontSize: 12.5, color: 'var(--fg-alt)', fontWeight: 600 }}>{d.cat || ''}</span>
+          </div>
+
+          {d.maker && <div style={{ fontSize: 12.5, color: 'var(--fg-assist)', fontWeight: 600, marginBottom: 3 }}>{d.maker}</div>}
+          <h2 style={{ margin: 0, fontSize: 24, fontWeight: 800, letterSpacing: '-0.03em', color: 'var(--fg-strong)', lineHeight: 1.25 }}>{p.name.split(' (')[0]}</h2>
+          {d.desc && <p style={{ margin: '10px 0 0', fontSize: 13.5, color: 'var(--fg-neutral)', lineHeight: 1.65 }}>{d.desc}</p>}
+
+          {/* 스펙 그리드 */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 8, margin: '18px 0', padding: '14px 0', borderTop: `1px solid ${LINE2}`, borderBottom: `1px solid ${LINE2}` }}>
+            {specs.map((s) => (
+              <div key={s.label} style={{ textAlign: 'center' }}>
+                <div style={{ fontSize: 11, color: 'var(--fg-assist)', fontWeight: 600, marginBottom: 5 }}>{s.label}</div>
+                <div style={{ fontSize: 13.5, fontWeight: 800, color: 'var(--fg-strong)', letterSpacing: '-0.02em' }}>{s.value}</div>
+              </div>
+            ))}
+          </div>
+
+          {/* 가격 */}
+          <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between' }}>
+            <span style={{ fontSize: 13, color: 'var(--fg-alt)', fontWeight: 600 }}>도매 가격 (1박스)</span>
+            <span style={{ fontSize: 24, fontWeight: 800, color: 'var(--fg-strong)', letterSpacing: '-0.03em' }}>₩{p.price.toLocaleString()}</span>
+          </div>
+
+          {/* 혜택 */}
+          <div style={{ marginTop: 14, display: 'flex', flexDirection: 'column', gap: 7 }}>
+            {['3박스 이상 주문 시 3% 할인', '50만원 이상 무료 배송'].map((t) => (
+              <div key={t} style={{ display: 'flex', alignItems: 'center', gap: 7, fontSize: 12.5, color: 'var(--fg-neutral)', fontWeight: 500 }}>
+                <span style={{ width: 4, height: 4, borderRadius: 9999, background: 'var(--fg-dim)', flexShrink: 0 }} />
+                {t}
+              </div>
+            ))}
+          </div>
+
+          {/* 재발주 안내 */}
+          <div style={{ marginTop: 16, padding: '12px 14px', borderRadius: 12, background: '#FFF7E6', border: '1px solid #FCE4B5', display: 'flex', gap: 9 }}>
+            <span style={{ flexShrink: 0, marginTop: 1 }}>{Icon.clock(16, AMBER)}</span>
+            <div style={{ fontSize: 12.5, color: '#7A4A0E', lineHeight: 1.55, fontWeight: 500 }}>
+              지난 4주 평균 <b>월 1박스</b> 발주하셨어요. 다음 발주 권장 시점은 <b>5월 21일</b>입니다.
+            </div>
+          </div>
+
+          <div style={{ height: 16 }} />
+        </div>
+      </div>
+
+      {/* 하단 고정 CTA */}
+      <div style={{ flexShrink: 0, display: 'flex', alignItems: 'center', gap: 10, padding: '12px 16px', borderTop: `1px solid ${LINE2}`, background: '#fff' }}>
+        <Stepper qty={qty} onChange={setQty} />
+        <button
+          onClick={() => {
+            onAdd(p, qty);
+            onClose();
+          }}
+          style={{
+            flex: 1,
+            height: 52,
+            borderRadius: 13,
+            background: '#1A2238',
+            color: '#fff',
+            fontWeight: 800,
+            fontSize: 14.5,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: 8,
+            letterSpacing: '-0.02em',
+          }}
+        >
+          {Icon.cartSmall(15, '#fff')} 장바구니에 담기 · ₩{(p.price * qty).toLocaleString()}
+        </button>
+      </div>
+
+      {/* 홈 인디케이터 */}
+      <div style={{ flexShrink: 0, height: 24, display: 'flex', justifyContent: 'center', alignItems: 'flex-start', paddingTop: 6 }}>
+        <div style={{ width: 139, height: 5, borderRadius: 100, background: 'rgba(0,0,0,0.25)' }} />
       </div>
     </div>
   );
@@ -932,12 +1326,12 @@ function ViewToggle({ mode, onChange }) {
 }
 
 // ─── 상품 카드 (이미지) / 리스트 row ──────────────────────
-function ProductCardImage({ p, fav, onFav, onAdd, ctaMode = 'default' }) {
+function ProductCardImage({ p, fav, onFav, onAdd, ctaMode = 'default', onOpen }) {
   const [qty, setQty] = useState(1);
   const isReorder = ctaMode === 'reorder';
   return (
     <div style={{ background: '#fff', borderRadius: 14, border: `1px solid ${LINE2}`, padding: 10, display: 'flex', flexDirection: 'column', gap: 6, boxShadow: SHADOW_CARD }}>
-      <div style={{ position: 'relative' }}>
+      <div style={{ position: 'relative', cursor: onOpen ? 'pointer' : 'default' }} onClick={() => onOpen && onOpen(p)}>
         <ProductImage kind={p.kind} tint={p.tint} />
         {p.tag && (
           <div style={{ position: 'absolute', top: 6, left: 6 }}>
@@ -945,7 +1339,7 @@ function ProductCardImage({ p, fav, onFav, onAdd, ctaMode = 'default' }) {
           </div>
         )}
         <button
-          onClick={onFav}
+          onClick={(e) => { e.stopPropagation(); onFav && onFav(); }}
           style={{
             position: 'absolute',
             top: 6,
@@ -964,6 +1358,7 @@ function ProductCardImage({ p, fav, onFav, onAdd, ctaMode = 'default' }) {
         </button>
       </div>
       <div
+        onClick={() => onOpen && onOpen(p)}
         style={{
           fontSize: 13,
           fontWeight: 600,
@@ -975,6 +1370,7 @@ function ProductCardImage({ p, fav, onFav, onAdd, ctaMode = 'default' }) {
           WebkitLineClamp: 2,
           WebkitBoxOrient: 'vertical',
           minHeight: 34,
+          cursor: onOpen ? 'pointer' : 'default',
         }}
       >
         {p.name}
@@ -1011,11 +1407,11 @@ function ProductCardImage({ p, fav, onFav, onAdd, ctaMode = 'default' }) {
   );
 }
 
-function ProductRow({ p, fav, onFav, onAdd }) {
+function ProductRow({ p, fav, onFav, onAdd, onOpen }) {
   const [qty, setQty] = useState(1);
   return (
     <div style={{ background: '#fff', borderRadius: 14, border: `1px solid ${LINE2}`, padding: 12, display: 'flex', gap: 12, boxShadow: SHADOW_CARD }}>
-      <div style={{ position: 'relative' }}>
+      <div style={{ position: 'relative', cursor: onOpen ? 'pointer' : 'default' }} onClick={() => onOpen && onOpen(p)}>
         <ProductImageFixed kind={p.kind} size={84} tint={p.tint} />
         {p.tag && (
           <div style={{ position: 'absolute', top: 5, left: 5 }}>
@@ -1025,7 +1421,7 @@ function ProductRow({ p, fav, onFav, onAdd }) {
       </div>
       <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 5, minWidth: 0 }}>
         <div style={{ display: 'flex', alignItems: 'flex-start', gap: 6 }}>
-          <div style={{ flex: 1, fontSize: 13.5, fontWeight: 600, lineHeight: 1.35, color: 'var(--fg-strong)' }}>{p.name}</div>
+          <div onClick={() => onOpen && onOpen(p)} style={{ flex: 1, fontSize: 13.5, fontWeight: 600, lineHeight: 1.35, color: 'var(--fg-strong)', cursor: onOpen ? 'pointer' : 'default' }}>{p.name}</div>
           <button onClick={onFav} style={{ padding: 2, marginTop: -2 }}>{Icon.heart(fav, 18)}</button>
         </div>
         <div>
@@ -1059,13 +1455,13 @@ function ProductRow({ p, fav, onFav, onAdd }) {
   );
 }
 
-function ProductScroller({ products, favs, toggleFav, onAdd, cardWidth = 158, ctaMode = 'default' }) {
+function ProductScroller({ products, favs, toggleFav, onAdd, cardWidth = 158, ctaMode = 'default', onOpen }) {
   const dragRef = useDragScroll();
   return (
     <div ref={dragRef} className="no-scrollbar" style={{ display: 'flex', gap: 12, padding: '0 16px 12px', overflowX: 'auto', scrollSnapType: 'x proximity', WebkitOverflowScrolling: 'touch', scrollPaddingLeft: 16 }}>
       {products.map((p) => (
         <div key={p.id} style={{ width: cardWidth, flexShrink: 0, scrollSnapAlign: 'start' }}>
-          <ProductCardImage p={p} fav={!!favs[p.id]} onFav={() => toggleFav(p.id)} onAdd={onAdd} ctaMode={ctaMode} />
+          <ProductCardImage p={p} fav={!!favs[p.id]} onFav={() => toggleFav(p.id)} onAdd={onAdd} ctaMode={ctaMode} onOpen={onOpen} />
         </div>
       ))}
       <div style={{ width: 8, flexShrink: 0 }} />
@@ -1318,7 +1714,7 @@ function CartMiniBar({ count = 0, amount = 0, summary = '', onCheckout }) {
     >
       <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', gap: 4 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 6, lineHeight: 1 }}>
-          <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4, color: '#FF9450' }}>
+          <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4, color: '#4F86F2' }}>
             {Icon.cartSmall(14, 'currentColor')}
             <span style={{ fontSize: 11.5, fontWeight: 700, letterSpacing: '-0.01em', lineHeight: 1 }}>장바구니</span>
           </span>
@@ -1374,6 +1770,8 @@ export function B2BHomeFlow() {
   const [cartCount, setCartCount] = useState(15);
   const [cartAmount, setCartAmount] = useState(112000);
   const [cartSummary, setCartSummary] = useState('진로이즈백 외 3종 · 15박스');
+  const [voiceOpen, setVoiceOpen] = useState(false);
+  const [detailProduct, setDetailProduct] = useState(null);
   const [toast, setToast] = useState(null);
   const toastTimer = useRef(null);
 
@@ -1396,6 +1794,17 @@ export function B2BHomeFlow() {
     setCartAmount((a) => a + (p.price || 0) * qty);
     setCartSummary(`${short} 외 N종 · 박스 추가`);
     showToast(`${short} · ${qty}박스 담았어요`);
+  };
+
+  // 음성 발주 — 인식된 항목들을 한 번에 장바구니에 담는다.
+  const onVoiceConfirm = (lines, { totalBoxes, totalAmount }) => {
+    if (!lines.length) return;
+    const first = getOrderProduct(lines[0].pid);
+    const short = first ? first.name.split(' (')[0] : '';
+    setCartCount((c) => c + totalBoxes);
+    setCartAmount((a) => a + totalAmount);
+    setCartSummary(`${short}${lines.length > 1 ? ` 외 ${lines.length - 1}종` : ''} · ${totalBoxes}박스`);
+    showToast(`음성으로 ${lines.length}종 ${totalBoxes}박스 담았어요`, 2000);
   };
 
   const onReorderGroup = (order) => {
@@ -1433,7 +1842,7 @@ export function B2BHomeFlow() {
       <div className="no-scrollbar" style={{ height: '100%', overflowY: 'auto', paddingBottom: 140 /* CartMiniBar + TabBar */ }}>
         <Header cartCount={cartCount} onCart={() => showToast('장바구니로 이동합니다', 1500)} />
         <Banner />
-        <SearchBar />
+        <SearchBar onVoice={() => setVoiceOpen(true)} />
         <DeadlineBar deadlineTime="14:00" />
         <QuickReorder items={quickItems} onQuickAdd={onAdd} />
         <CategoryTabs active={activeCat} onChange={setActiveCat} />
@@ -1465,18 +1874,18 @@ export function B2BHomeFlow() {
         {/* 즐겨찾기 */}
         <SectionHeader title="즐겨찾기" count={favorites.length} right={<MoreBtn />} />
         {viewMode === 'grid' ? (
-          <ProductScroller products={favorites} favs={favs} toggleFav={toggleFav} onAdd={onAdd} />
+          <ProductScroller products={favorites} favs={favs} toggleFav={toggleFav} onAdd={onAdd} onOpen={setDetailProduct} />
         ) : (
           <div style={{ padding: '4px 16px 8px', display: 'flex', flexDirection: 'column', gap: 10 }}>
             {favorites.map((p) => (
-              <ProductRow key={p.id} p={p} fav={!!favs[p.id]} onFav={() => toggleFav(p.id)} onAdd={onAdd} />
+              <ProductRow key={p.id} p={p} fav={!!favs[p.id]} onFav={() => toggleFav(p.id)} onAdd={onAdd} onOpen={setDetailProduct} />
             ))}
           </div>
         )}
 
         {/* 추천상품 — 항상 가로 스와이프 */}
         <SectionHeader title="추천상품" count={null} right={<MoreBtn />} />
-        <ProductScroller products={recommended} favs={favs} toggleFav={toggleFav} onAdd={onAdd} />
+        <ProductScroller products={recommended} favs={favs} toggleFav={toggleFav} onAdd={onAdd} onOpen={setDetailProduct} />
 
         <div style={{ height: 6 }} />
         <MonthlySummaryCard ordersCount={12} ordersAmount={458000} deltaPct={8} monthLabel="5월" creditUsed={3200000} creditLimit={5000000} />
@@ -1495,6 +1904,10 @@ export function B2BHomeFlow() {
       />
 
       <BottomTabBar active={tab} onChange={handleTab} />
+
+      <VoiceOrderScreen open={voiceOpen} onClose={() => setVoiceOpen(false)} onConfirm={onVoiceConfirm} />
+
+      <ProductDetailScreen product={detailProduct} onClose={() => setDetailProduct(null)} onAdd={onAdd} cartCount={cartCount} />
 
       {toast && (
         <div
@@ -1527,6 +1940,17 @@ export function B2BHomeFlow() {
         @keyframes b2bToastIn {
           from { transform: translate(-50%, 12px); opacity: 0; }
           to   { transform: translate(-50%, 0);    opacity: 1; }
+        }
+        @keyframes b2bVeilIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes b2bSheetUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+        @keyframes b2bSlideIn { from { transform: translateX(100%); } to { transform: translateX(0); } }
+        @keyframes b2bMicPulse {
+          0%   { transform: scale(0.85); opacity: 0.5; }
+          100% { transform: scale(1.45); opacity: 0; }
+        }
+        @keyframes b2bVoiceBar {
+          0%, 100% { transform: scaleY(0.35); }
+          50%      { transform: scaleY(1); }
         }
         .no-scrollbar { scrollbar-width: none; -ms-overflow-style: none; }
         .no-scrollbar::-webkit-scrollbar { display: none; }

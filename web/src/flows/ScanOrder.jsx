@@ -67,7 +67,7 @@ export function ScanOrderFlow() {
               display: 'flex',
               alignItems: 'center',
               gap: 10,
-              border: '1px solid rgba(255,107,0,0.18)',
+              border: '1px solid rgba(31,111,235,0.18)',
             }}
           >
             <div
@@ -488,7 +488,7 @@ function CartRow({ sku, qty, highlight }) {
           ? {
               borderColor: 'var(--brand)',
               background: 'var(--brand-tint)',
-              boxShadow: '0 0 0 3px rgba(255,107,0,0.12)',
+              boxShadow: '0 0 0 3px rgba(31,111,235,0.12)',
             }
           : {}),
       }}

@@ -139,8 +139,8 @@ export function MultiStoreFlow() {
               display: 'flex',
               alignItems: 'center',
               gap: 12,
-              border: '1px solid rgba(255,107,0,0.22)',
-              background: 'linear-gradient(180deg, #fff 0%, #fff8f0 100%)',
+              border: '1px solid rgba(31,111,235,0.22)',
+              background: 'linear-gradient(180deg, #fff 0%, #EEF3FF 100%)',
             }}
           >
             <div

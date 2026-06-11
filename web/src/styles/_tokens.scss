@@ -1,11 +1,12 @@
 // 디자인 토큰 — 브랜드/시맨틱 컬러, 반경, 라인
 // SCSS 변수 (컴파일 타임) + CSS 커스텀 프로퍼티 (런타임) 양쪽 모두 노출
 
-// ── 브랜드
-$brand: #ff6b00;
-$brand-strong: #e55f00;
-$brand-soft: #fff1e6;
-$brand-tint: rgba(255, 107, 0, 0.08);
+// ── 브랜드 — 시원·청량한 쿨 블루 (소주/맥주 냉장고 무드). 디자인 핸드오프의
+//    최종 프라이머리 컬러(#1F6FEB)를 반영. 이전: 하이트진로 오렌지(#ff6b00).
+$brand: #1F6FEB;
+$brand-strong: #0B4ED9;
+$brand-soft: #E8F0FE;
+$brand-tint: rgba(31, 111, 235, 0.08);
 
 // ── 배경
 $bg: #ffffff;
