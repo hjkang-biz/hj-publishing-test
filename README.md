@@ -1,6 +1,6 @@
 # E-오더(HJ) · 하이브리드 앱 프로토타입
 
-하이트진로 B2B 주류 발주 앱의 핵심 시나리오 4종을 **React 웹 + React Native WebView** 하이브리드 구조로 구현한 데모입니다. 퍼블리셔/디자이너가 화면 구현 가능 여부를 검증할 수 있는 수준으로 만들었습니다.
+하이트진로 B2B 주류 발주 앱의 핵심 시나리오 5종을 **React 웹 + React Native WebView** 하이브리드 구조로 구현한 데모입니다. 퍼블리셔/디자이너가 화면 구현 가능 여부를 검증할 수 있는 수준으로 만들었습니다.
 
 ## 구성
 
@@ -30,7 +30,7 @@ npm install
 npm run dev          # http://localhost:5173
 ```
 
-- 상단 칩으로 4개 시나리오를 자유롭게 전환
+- 상단 칩으로 5개 시나리오를 자유롭게 전환
 - iOS 26 디바이스 프레임(402×874) 안에서 실제 화면처럼 동작
 - 빌드: `npm run build` → `web/dist/` (정적 호스팅 가능)
 
@@ -53,7 +53,7 @@ npm start            # Expo Dev Tools 실행 → iOS/Android 시뮬레이터 또
 ```
 web/src/
 ├── main.jsx, App.jsx              ← 진입점 + 시나리오 캔버스
-├── styles.css                     ← 디자인 토큰 + 공통 클래스
+├── styles/                        ← 디자인 토큰 + 공통 클래스 (SCSS 모듈: _tokens, _base, _typography, _utilities, _components, _animations, _canvas, _mobile)
 ├── components/
 │   ├── Icons.jsx                  ← Lucide 풍 인라인 SVG
 │   ├── IOSDevice.jsx              ← iOS 26 디바이스 프레임
@@ -61,7 +61,7 @@ web/src/
 ├── data/
 │   ├── products.js                ← 상품/매장/즐겨찾기 (시나리오 ①·②·③)
 │   ├── reco.js                    ← 추천 엔진 출력 (4주 패턴 · 묶음)
-│   └── b2bHome.js                 ← B2B 홈 전용 카탈로그 · 브랜드 · 최근주문 · 배너
+│   └── b2bHome.js                 ← B2B 홈 전용 카탈로그 · 상품 상세 메타 · 브랜드 · 최근주문 · 배너
 └── flows/
     ├── B2BHome.jsx                ← 시나리오 ⓪
     ├── AfterCloseReorder.jsx      ← 시나리오 ①
@@ -73,7 +73,7 @@ web/src/
 ## 디자인 토큰
 
 `web/src/styles/_tokens.scss` 의 `:root` 에 정의:
-- 브랜드 컬러: `--brand: #3BB2F8` (시원·청량한 쿨 블루 — 소주/맥주 냉장고 무드)
+- 브랜드 컬러: `--brand: #1F6FEB` (시원·선명한 로열 블루 — 소주/맥주 냉장고 무드)
 - 시맨틱: green/amber/red/blue + soft 베리언트
 - 반경: 4/8/12/16/24
 - 타이포: `t-title-l/m/s`, `t-body-l/m/s`, `t-label`, `t-cta` 클래스로 사용
