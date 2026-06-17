@@ -1,14 +1,17 @@
 // 디자인 토큰 — 브랜드/시맨틱 컬러, 반경, 라인
-// SCSS 변수 (컴파일 타임) + CSS 커스텀 프로퍼티 (런타임) 양쪽 모두 노출
+// SCSS 변수 (컴파일 타임, 반경 등 비-테마 값) + CSS 커스텀 프로퍼티 (런타임 테마)
+//
+// ⚠️ 컬러는 반드시 CSS 변수(var(--…))로 참조할 것.
+//    SCSS 컬러 변수를 직접 쓰면 컴파일 타임에 고정되어 다크모드 전환이 안 됨.
+//    다크모드는 시스템 설정(prefers-color-scheme)을 따라 자동 전환된다 → 기종 무관.
 
-// ── 브랜드 — 시원·청량한 쿨 블루 (소주/맥주 냉장고 무드). 디자인 핸드오프의
-//    최종 프라이머리 컬러(#1F6FEB)를 반영. 이전: 하이트진로 오렌지(#ff6b00).
+// ── 브랜드 — 시원·청량한 쿨 블루 (소주/맥주 냉장고 무드)
 $brand: #1F6FEB;
 $brand-strong: #0B4ED9;
 $brand-soft: #E8F0FE;
 $brand-tint: rgba(31, 111, 235, 0.08);
 
-// ── 배경
+// ── 배경 (라이트 기준값 — 다크는 아래 media 블록에서 재정의)
 $bg: #ffffff;
 $bg-elev: #fafafa;
 $bg-neutral: #f4f4f5;
@@ -36,24 +39,44 @@ $amber-soft: #fff7e6;
 $blue: #0066ff;
 $blue-soft: #eaf2fe;
 
-// ── 반경
+// ── 반경 (테마 무관 — 컴파일 타임 상수)
 $r-4: 4px;
 $r-8: 8px;
 $r-12: 12px;
 $r-16: 16px;
 $r-24: 24px;
 
-// 인라인 스타일에서 var(--brand) 등을 그대로 쓸 수 있도록 CSS 변수도 노출
+// ── 라이트 테마 (기본) ─────────────────────────────────────
 :root {
+  color-scheme: light;
+
   --brand: #{$brand};
   --brand-strong: #{$brand-strong};
   --brand-soft: #{$brand-soft};
   --brand-tint: #{$brand-tint};
+  // 브랜드 위 텍스트(흰색) — 다크에서도 동일하게 흰색 유지
+  --on-brand: #ffffff;
+  // 반전 표면(fg-strong 배경의 활성 칩 등) 위 텍스트/보조 — 테마 반대색
+  --invert-fg: #ffffff;
+  --invert-faint: rgba(255, 255, 255, 0.18);
 
   --bg: #{$bg};
   --bg-elev: #{$bg-elev};
   --bg-neutral: #{$bg-neutral};
   --bg-cool: #{$bg-cool};
+
+  // 표면(카드/시트/입력 등 기존 하드코딩 #fff 대체)
+  --surface: #ffffff;        // 카드·시트·화면 표면
+  --surface-2: #ffffff;      // 스테퍼·입력 등 한 단계 더 또렷한 표면
+  --surface-blur: rgba(255, 255, 255, 0.92); // 탭바·바텀바(블러 위)
+  --canvas-bg: #f0eee9;      // 데스크탑 캔버스/모바일 셸 바깥 배경
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.10);
+
+  // iOS 디바이스 프레임(데스크탑 캔버스 전용) — 시스템 테마 추종
+  --device-bezel: #F2F2F7;
+  --status-fg: #000000;
+  --home-indicator: rgba(0, 0, 0, 0.25);
 
   --fg: #{$fg};
   --fg-strong: #{$fg-strong};
@@ -67,12 +90,16 @@ $r-24: 24px;
 
   --green: #{$green};
   --green-soft: #{$green-soft};
+  --green-on: #00892e;       // green-soft 배지 위 텍스트
   --red: #{$red};
   --red-soft: #{$red-soft};
+  --red-on: #c00000;
   --amber: #{$amber};
   --amber-soft: #{$amber-soft};
+  --amber-on: #b86c00;
   --blue: #{$blue};
   --blue-soft: #{$blue-soft};
+  --blue-on: #0052cc;
 
   --r-4: #{$r-4};
   --r-8: #{$r-8};
@@ -83,4 +110,62 @@ $r-24: 24px;
   // 상태바 높이 — 데스크탑은 iOS 프레임의 status bar 자리 54px,
   // 모바일 풀스크린 모드(.app-mobile)에서는 safe-area-inset-top 으로 교체
   --status-bar-h: 54px;
+}
+
+// ── 다크 테마 (시스템 설정 자동 추종) ──────────────────────
+// 기종/브라우저 무관: OS 다크모드면 모든 var(--…) 색이 여기 값으로 전환된다.
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+
+    // 브랜드 — 어두운 배경에서 또렷하도록 살짝 밝게
+    --brand: #4F86F2;
+    --brand-strong: #6FA0FF;
+    --brand-soft: rgba(79, 134, 242, 0.20);
+    --brand-tint: rgba(79, 134, 242, 0.16);
+    --on-brand: #ffffff;
+    --invert-fg: #000000;
+    --invert-faint: rgba(0, 0, 0, 0.22);
+
+    // OLED 친화 베이스(#000) + 단계별 표면 (iOS 다크 톤)
+    --bg: #000000;
+    --bg-elev: #1c1c1e;
+    --bg-neutral: #2c2c2e;
+    --bg-cool: #1c1c1e;
+
+    --surface: #1c1c1e;
+    --surface-2: #2c2c2e;
+    --surface-blur: rgba(28, 28, 30, 0.82);
+    --canvas-bg: #000000;
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.5);
+    --shadow-md: 0 4px 14px rgba(0, 0, 0, 0.6);
+
+    --device-bezel: #000000;
+    --status-fg: #ffffff;
+    --home-indicator: rgba(255, 255, 255, 0.7);
+
+    --fg: #f2f2f7;
+    --fg-strong: #ffffff;
+    --fg-neutral: #c7c9cf;
+    --fg-alt: #9a9da3;
+    --fg-assist: #7c7f86;
+    --fg-dim: #5c5f66;
+
+    --line: rgba(255, 255, 255, 0.16);
+    --line-strong: rgba(255, 255, 255, 0.28);
+
+    // 시맨틱 — soft 배경은 어둡게 틴트, on-텍스트는 밝게
+    --green: #30d158;
+    --green-soft: rgba(48, 209, 88, 0.18);
+    --green-on: #4ade80;
+    --red: #ff6961;
+    --red-soft: rgba(255, 105, 97, 0.18);
+    --red-on: #ff8a82;
+    --amber: #ffb340;
+    --amber-soft: rgba(255, 179, 64, 0.18);
+    --amber-on: #ffc46b;
+    --blue: #5b9bff;
+    --blue-soft: rgba(91, 155, 255, 0.18);
+    --blue-on: #8db8ff;
+  }
 }

@@ -1,5 +1,4 @@
 // 기본 리셋 + body 스타일
-@use 'tokens' as t;
 
 * {
   box-sizing: border-box;
@@ -16,8 +15,8 @@ body,
 
 body {
   font-family: 'Pretendard', -apple-system, system-ui, sans-serif;
-  background: #f0eee9;
-  color: t.$fg;
+  background: var(--canvas-bg);
+  color: var(--fg);
   -webkit-font-smoothing: antialiased;
 }
 

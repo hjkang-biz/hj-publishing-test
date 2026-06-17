@@ -1,15 +1,14 @@
 // 전경 컬러 + 레이아웃 유틸리티
-@use 'tokens' as t;
 
 // ── 전경 컬러
-.fg-strong  { color: t.$fg-strong; }
-.fg-neutral { color: t.$fg-neutral; }
-.fg-alt     { color: t.$fg-alt; }
-.fg-assist  { color: t.$fg-assist; }
-.fg-brand   { color: t.$brand; }
-.fg-red     { color: t.$red; }
-.fg-green   { color: t.$green; }
-.fg-amber   { color: t.$amber; }
+.fg-strong  { color: var(--fg-strong); }
+.fg-neutral { color: var(--fg-neutral); }
+.fg-alt     { color: var(--fg-alt); }
+.fg-assist  { color: var(--fg-assist); }
+.fg-brand   { color: var(--brand); }
+.fg-red     { color: var(--red); }
+.fg-green   { color: var(--green); }
+.fg-amber   { color: var(--amber); }
 
 // ── flex helpers
 .row { display: flex; align-items: center; }
@@ -27,7 +26,7 @@
 // ── 기타
 .divider {
   height: 1px;
-  background: t.$line;
+  background: var(--line);
   width: 100%;
 }
 

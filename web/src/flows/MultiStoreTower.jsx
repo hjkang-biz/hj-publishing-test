@@ -14,7 +14,7 @@ export function MultiStoreFlow() {
   const visible = tab === 'all' ? stores : stores.filter((s) => s.id === tab);
 
   return (
-    <div className="screen" style={{ background: '#fafafa' }}>
+    <div className="screen" style={{ background: 'var(--bg)' }}>
       <div className="screen-scroll screen-bottom-pad" style={{ paddingTop: 50 }}>
         <div
           style={{
@@ -113,7 +113,7 @@ export function MultiStoreFlow() {
             className="card"
             style={{
               padding: '16px 4px',
-              background: '#fff',
+              background: 'var(--surface)',
               boxShadow: '0 8px 24px rgba(0,0,0,0.08)',
               display: 'flex',
             }}
@@ -139,8 +139,8 @@ export function MultiStoreFlow() {
               display: 'flex',
               alignItems: 'center',
               gap: 12,
-              border: '1px solid rgba(31,111,235,0.22)',
-              background: 'linear-gradient(180deg, #fff 0%, #EEF3FF 100%)',
+              border: '1px solid var(--brand-soft)',
+              background: 'var(--brand-soft)',
             }}
           >
             <div
@@ -320,8 +320,8 @@ function FilterChip({ label, active, onClick, count }) {
         height: 36,
         padding: '0 14px',
         borderRadius: 999,
-        background: active ? 'var(--fg-strong)' : '#fff',
-        color: active ? '#fff' : 'var(--fg-neutral)',
+        background: active ? 'var(--fg-strong)' : 'var(--surface)',
+        color: active ? 'var(--invert-fg)' : 'var(--fg-neutral)',
         border: active ? 'none' : '1px solid var(--line)',
         fontSize: 13,
         fontWeight: 600,
@@ -337,8 +337,8 @@ function FilterChip({ label, active, onClick, count }) {
           style={{
             padding: '0 6px',
             borderRadius: 999,
-            background: active ? 'rgba(255,255,255,0.18)' : 'var(--bg-neutral)',
-            color: active ? '#fff' : 'var(--fg-alt)',
+            background: active ? 'var(--invert-faint)' : 'var(--bg-neutral)',
+            color: active ? 'var(--invert-fg)' : 'var(--fg-alt)',
             fontSize: 11,
             fontWeight: 700,
             height: 18,
@@ -381,7 +381,7 @@ function StoreCard({ s }) {
           className="badge"
           style={{
             background: trendUp ? 'var(--green-soft)' : 'var(--red-soft)',
-            color: trendUp ? '#00892e' : '#c00000',
+            color: trendUp ? 'var(--green-on)' : 'var(--red-on)',
           }}
         >
           {trendUp ? <Ic name="trend" size={12} strokeWidth={2.2} /> : <Ic name="trendDown" size={12} strokeWidth={2.2} />}

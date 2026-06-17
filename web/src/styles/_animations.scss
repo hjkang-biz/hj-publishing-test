@@ -1,5 +1,4 @@
 // 키프레임 + 애니메이션 유틸리티 클래스
-@use 'tokens' as t;
 
 @keyframes pulse-ring {
   0%, 100% { box-shadow: 0 0 0 0 rgba(31, 111, 235, 0.4); }
@@ -30,9 +29,9 @@
   left: 0;
   right: 0;
   height: 2px;
-  background: linear-gradient(90deg, transparent, t.$brand, transparent);
+  background: linear-gradient(90deg, transparent, var(--brand), transparent);
   animation: scan-sweep 1.6s ease-in-out infinite alternate;
-  box-shadow: 0 0 16px t.$brand;
+  box-shadow: 0 0 16px var(--brand);
 }
 
 .fade-up {

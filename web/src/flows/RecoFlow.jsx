@@ -165,7 +165,7 @@ function HomeV2({ onReco, onBundle }) {
                 className="press"
                 style={{
                   flex: 1,
-                  background: '#fff',
+                  background: 'var(--surface)',
                   border: '1px solid var(--line)',
                   borderRadius: 14,
                   padding: '12px 6px',
@@ -357,7 +357,7 @@ function BundleCard({ b, onTap }) {
         width: 220,
         minHeight: 178,
         textAlign: 'left',
-        background: '#fff',
+        background: 'var(--surface)',
         border: '1px solid var(--line)',
         borderRadius: 16,
         padding: 14,
@@ -398,7 +398,7 @@ function BundleCard({ b, onTap }) {
                 height: 28,
                 borderRadius: 7,
                 background: `linear-gradient(160deg, ${byId(it.sku).color}, ${byId(it.sku).accent})`,
-                border: '2px solid #fff',
+                border: '2px solid var(--surface)',
                 flexShrink: 0,
               }}
             />
@@ -680,8 +680,8 @@ function ReasoningCard({ data }) {
         style={{
           padding: '14px 16px',
           borderRadius: 14,
-          background: 'linear-gradient(180deg, #FFF8F0 0%, #FFFFFF 100%)',
-          border: '1px solid rgba(31,111,235,0.18)',
+          background: 'var(--brand-soft)',
+          border: '1px solid var(--brand-soft)',
           display: 'flex',
           gap: 12,
         }}
@@ -786,7 +786,7 @@ function GuardCredit({ ctx, after, pct, over }) {
       style={{
         padding: '12px 14px',
         borderRadius: 12,
-        background: '#fff',
+        background: 'var(--surface)',
         border: '1px solid var(--line)',
         display: 'flex',
         flexDirection: 'column',
@@ -922,7 +922,7 @@ function Sparkline({ data, suggested }) {
       {data.map((v, i) => (
         <circle key={i} cx={i * step} cy={y(v)} r="1.8" fill="var(--fg-alt)" />
       ))}
-      <circle cx={lastX} cy={y(suggested)} r="3" fill="var(--brand)" stroke="#fff" strokeWidth="1.5" />
+      <circle cx={lastX} cy={y(suggested)} r="3" fill="var(--brand)" stroke="var(--surface)" strokeWidth="1.5" />
     </svg>
   );
 }
@@ -936,7 +936,7 @@ function AddonRow({ addon, on, onToggle }) {
       style={{
         width: '100%',
         textAlign: 'left',
-        background: on ? 'var(--brand-tint)' : '#fff',
+        background: on ? 'var(--brand-tint)' : 'var(--surface)',
         border: '1px solid ' + (on ? 'var(--brand)' : 'var(--line)'),
         borderRadius: 14,
         padding: 14,
@@ -960,7 +960,7 @@ function AddonRow({ addon, on, onToggle }) {
           width: 28,
           height: 28,
           borderRadius: 999,
-          background: on ? 'var(--brand)' : '#fff',
+          background: on ? 'var(--brand)' : 'var(--surface)',
           border: on ? 'none' : '1.5px solid var(--line-strong)',
           display: 'flex',
           alignItems: 'center',
@@ -1060,7 +1060,7 @@ function DoneV2({ data, qtys, addonOn, onHome }) {
             style={{
               padding: '14px 16px',
               borderRadius: 14,
-              background: '#fff',
+              background: 'var(--surface)',
               border: '1px solid var(--line)',
               display: 'flex',
               alignItems: 'center',
@@ -1098,8 +1098,8 @@ function DoneV2({ data, qtys, addonOn, onHome }) {
             style={{
               padding: '14px 16px',
               borderRadius: 14,
-              background: 'linear-gradient(180deg, #FFF8F0, #fff)',
-              border: '1px solid rgba(31,111,235,0.18)',
+              background: 'var(--brand-soft)',
+              border: '1px solid var(--brand-soft)',
               display: 'flex',
               alignItems: 'center',
               gap: 12,
@@ -1181,7 +1181,7 @@ function DoneV2({ data, qtys, addonOn, onHome }) {
               marginTop: 12,
               width: '100%',
               padding: '14px 16px',
-              background: '#fff',
+              background: 'var(--surface)',
               border: '1px solid var(--line)',
               borderRadius: 14,
               display: 'flex',
@@ -1218,7 +1218,7 @@ function DoneV2({ data, qtys, addonOn, onHome }) {
               marginTop: 8,
               width: '100%',
               padding: '14px 16px',
-              background: '#fff',
+              background: 'var(--surface)',
               border: '1px solid var(--line)',
               borderRadius: 14,
               display: 'flex',
@@ -1255,7 +1255,7 @@ function DoneV2({ data, qtys, addonOn, onHome }) {
             </button>
             <button
               className="cta"
-              style={{ background: '#fff', color: 'var(--brand)', border: '1.5px solid var(--brand)' }}
+              style={{ background: 'var(--surface)', color: 'var(--brand)', border: '1.5px solid var(--brand)' }}
             >
               주문 내역 보기
             </button>

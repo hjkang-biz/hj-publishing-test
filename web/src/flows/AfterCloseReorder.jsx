@@ -73,7 +73,7 @@ export function AfterCloseFlow() {
                     gap: 12,
                     outline: sel ? '2px solid var(--brand)' : 'none',
                     outlineOffset: -2,
-                    background: sel ? 'var(--brand-tint)' : '#fff',
+                    background: sel ? 'var(--brand-tint)' : 'var(--surface)',
                   }}
                 >
                   <button
@@ -83,7 +83,7 @@ export function AfterCloseFlow() {
                       height: 22,
                       borderRadius: 6,
                       border: sel ? 'none' : '1.5px solid var(--line-strong)',
-                      background: sel ? 'var(--brand)' : '#fff',
+                      background: sel ? 'var(--brand)' : 'var(--surface)',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
@@ -145,7 +145,7 @@ export function AfterCloseFlow() {
             }}
           >
             <div style={{ fontSize: 18 }}>🎉</div>
-            <span className="t-body-m" style={{ color: '#00892e', fontWeight: 600 }}>
+            <span className="t-body-m" style={{ color: 'var(--green-on)', fontWeight: 600 }}>
               최소 주문 금액 충족! 무료 배송 가능
             </span>
           </div>
@@ -275,7 +275,7 @@ export function AfterCloseFlow() {
                     padding: 14,
                     cursor: 'pointer',
                     borderColor: pay === o.id ? 'var(--brand)' : 'var(--line)',
-                    background: pay === o.id ? 'var(--brand-tint)' : '#fff',
+                    background: pay === o.id ? 'var(--brand-tint)' : 'var(--surface)',
                   }}
                 >
                   <div className="row between">
@@ -291,7 +291,7 @@ export function AfterCloseFlow() {
                         height: 22,
                         borderRadius: 999,
                         border: pay === o.id ? 'none' : '1.5px solid var(--line-strong)',
-                        background: pay === o.id ? 'var(--brand)' : '#fff',
+                        background: pay === o.id ? 'var(--brand)' : 'var(--surface)',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
@@ -357,7 +357,7 @@ export function AfterCloseFlow() {
       <div className="screen">
         <div
           className="screen-scroll no-status-pad"
-          style={{ paddingTop: 60, paddingBottom: 130, background: '#fff' }}
+          style={{ paddingTop: 60, paddingBottom: 130, background: 'var(--surface)' }}
         >
           <div className="col" style={{ alignItems: 'center', padding: '32px 24px 12px', gap: 16 }}>
             <div
@@ -419,7 +419,7 @@ export function AfterCloseFlow() {
                 marginTop: 14,
                 width: '100%',
                 padding: '14px 16px',
-                background: '#fff',
+                background: 'var(--surface)',
                 border: '1px solid var(--line)',
                 borderRadius: 14,
                 display: 'flex',
@@ -456,7 +456,7 @@ export function AfterCloseFlow() {
               </button>
               <button
                 className="cta"
-                style={{ background: '#fff', color: 'var(--brand)', border: '1.5px solid var(--brand)' }}
+                style={{ background: 'var(--surface)', color: 'var(--brand)', border: '1.5px solid var(--brand)' }}
               >
                 주문 내역 보기
               </button>
@@ -548,7 +548,7 @@ function QuickGrid({ onFav }) {
           className="press"
           style={{
             flex: 1,
-            background: '#fff',
+            background: 'var(--surface)',
             border: '1px solid var(--line)',
             borderRadius: 14,
             padding: '12px 6px',
@@ -789,7 +789,7 @@ function DateStrip({ selected, onChange }) {
               height: 80,
               flexShrink: 0,
               borderRadius: 14,
-              background: sel ? 'var(--brand)' : day.dis ? 'var(--bg-cool)' : '#fff',
+              background: sel ? 'var(--brand)' : day.dis ? 'var(--bg-cool)' : 'var(--surface)',
               border: sel ? 'none' : '1px solid var(--line)',
               color: sel ? '#fff' : day.dis ? 'var(--fg-dim)' : 'var(--fg-strong)',
               display: 'flex',

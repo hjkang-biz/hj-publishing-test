@@ -12,8 +12,8 @@ import { BANNERS, BRANDS, CATALOG, CATEGORIES, RECENT_ORDERS, getOrderProduct, g
 // ─── 인라인 토큰 ──────────────────────────────────────────
 // 디자인 css 의 일부 토큰은 우리 SCSS 토큰과 매핑이 어렵거나, 이 화면에서만
 // 필요한 nuance(라이트 라인, 카드 그림자) 가 있어서 컴포넌트 안에서만 쓴다.
-const LINE2 = '#EFF1F5';
-const BG_PAGE = '#F7F8FA';
+const LINE2 = 'var(--line)';
+const BG_PAGE = 'var(--bg)';
 const SHADOW_CARD = '0 1px 2px rgba(15,17,21,0.04), 0 4px 14px rgba(15,17,21,0.05)';
 const SHADOW_POP = '0 8px 24px rgba(15,17,21,0.18)';
 const RED = '#E5432B';
@@ -68,7 +68,7 @@ const Icon = {
     );
   },
   heart: (filled = false, s = 20, c = RED) => (
-    <svg width={s} height={s} viewBox="0 0 24 24" fill={filled ? c : 'none'} stroke={filled ? c : '#8A93A0'} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <svg width={s} height={s} viewBox="0 0 24 24" fill={filled ? c : 'none'} stroke={filled ? c : 'var(--fg-alt)'} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
       <path d="M12 20s-7-4.5-7-10a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 19 10c0 5.5-7 10-7 10Z" />
     </svg>
   ),
@@ -150,12 +150,12 @@ const Icon = {
         <path d="M3 11.5 12 4l9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1v-8.5Z" />
       </svg>
     ) : (
-      <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke="#8A93A0" strokeWidth="1.8" strokeLinejoin="round">
+      <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke="var(--fg-alt)" strokeWidth="1.8" strokeLinejoin="round">
         <path d="M3 11.5 12 4l9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1v-8.5Z" />
       </svg>
     ),
   order: (active, s = 24) => {
-    const c = active ? BRAND : '#8A93A0';
+    const c = active ? BRAND : 'var(--fg-alt)';
     return (
       <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={c} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
         <rect x="6" y="4" width="12" height="17" rx="2" />
@@ -164,7 +164,7 @@ const Icon = {
     );
   },
   bottleNav: (active, s = 24) => {
-    const c = active ? BRAND : '#8A93A0';
+    const c = active ? BRAND : 'var(--fg-alt)';
     return (
       <svg width={s} height={s} viewBox="0 0 24 24" fill={active ? c : 'none'} stroke={c} strokeWidth="1.6" strokeLinejoin="round">
         <path d="M10 2h4v3h-4z" fill={c} />
@@ -173,7 +173,7 @@ const Icon = {
     );
   },
   gift: (active, s = 24) => {
-    const c = active ? BRAND : '#8A93A0';
+    const c = active ? BRAND : 'var(--fg-alt)';
     return (
       <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={c} strokeWidth="1.8" strokeLinejoin="round">
         <rect x="3" y="8" width="18" height="12" rx="1.5" />
@@ -183,7 +183,7 @@ const Icon = {
     );
   },
   user: (active, s = 24) => {
-    const c = active ? BRAND : '#8A93A0';
+    const c = active ? BRAND : 'var(--fg-alt)';
     return (
       <svg width={s} height={s} viewBox="0 0 24 24" fill={active ? c : 'none'} stroke={c} strokeWidth="1.8">
         <circle cx="12" cy="8.5" r="3.5" />
@@ -392,7 +392,7 @@ function useDragScroll() {
 // ─── 상단 헤더 ────────────────────────────────────────────
 function Header({ cartCount, onCart }) {
   return (
-    <div style={{ padding: '8px 14px 12px', display: 'flex', alignItems: 'center', gap: 6, background: '#fff' }}>
+    <div style={{ padding: '8px 14px 12px', display: 'flex', alignItems: 'center', gap: 6, background: 'var(--surface)' }}>
       <div style={{ display: 'flex', gap: 5, flex: 1, minWidth: 0, alignItems: 'center' }}>
         <WholesalerLogo name="세계주류" />
         <div style={{ display: 'flex', alignItems: 'center', gap: 5, minWidth: 0, flex: 1, padding: '6px 4px' }}>
@@ -415,12 +415,12 @@ function Header({ cartCount, onCart }) {
           </span>
         </div>
       </div>
-      <HeaderIconBtn label="배송현황">{Icon.clipboard(20, '#2A2F36')}</HeaderIconBtn>
+      <HeaderIconBtn label="배송현황">{Icon.clipboard(20, 'var(--fg-strong)')}</HeaderIconBtn>
       <HeaderIconBtn label="장바구니" badge={cartCount} onClick={onCart}>
-        {Icon.cart(20, '#2A2F36')}
+        {Icon.cart(20, 'var(--fg-strong)')}
       </HeaderIconBtn>
       <HeaderIconBtn label="알림" badge={2}>
-        {Icon.bell(20, '#2A2F36')}
+        {Icon.bell(20, 'var(--fg-strong)')}
       </HeaderIconBtn>
     </div>
   );
@@ -448,7 +448,7 @@ function HeaderIconBtn({ children, label, badge, onClick }) {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              border: '1.5px solid #fff',
+              border: '1.5px solid var(--surface)',
             }}
           >
             {badge}
@@ -462,7 +462,7 @@ function HeaderIconBtn({ children, label, badge, onClick }) {
 // 도매상 로고 — 파란 구 + 흰 S + 빨간 한글 워드마크
 function WholesalerLogo({ name = '세계주류' }) {
   return (
-    <div style={{ display: 'inline-flex', alignItems: 'center', gap: 5, padding: '4px 9px 4px 5px', borderRadius: 10, background: '#fff', border: `1px solid ${LINE2}`, flexShrink: 0 }}>
+    <div style={{ display: 'inline-flex', alignItems: 'center', gap: 5, padding: '4px 9px 4px 5px', borderRadius: 10, background: 'var(--surface)', border: `1px solid ${LINE2}`, flexShrink: 0 }}>
       <svg width="26" height="26" viewBox="0 0 32 32" style={{ flexShrink: 0 }}>
         <defs>
           <radialGradient id="sphG" cx="35%" cy="30%" r="75%">
@@ -525,7 +525,7 @@ function Banner() {
   };
 
   return (
-    <div style={{ padding: '4px 16px 0', background: '#fff' }}>
+    <div style={{ padding: '4px 16px 0', background: 'var(--surface)' }}>
       <div
         style={{
           position: 'relative',
@@ -609,10 +609,10 @@ function Banner() {
 // 마이크 → 음성 발주 바텀시트.
 function SearchBar({ onVoice }) {
   return (
-    <div style={{ padding: '4px 16px 10px', background: '#fff' }}>
+    <div style={{ padding: '4px 16px 10px', background: 'var(--surface)' }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-        <div style={{ flex: 1, minWidth: 0, display: 'flex', alignItems: 'center', gap: 8, height: 44, padding: '0 14px', borderRadius: 12, background: '#F2F4F7' }}>
-          {Icon.search(20, '#8A93A0')}
+        <div style={{ flex: 1, minWidth: 0, display: 'flex', alignItems: 'center', gap: 8, height: 44, padding: '0 14px', borderRadius: 12, background: 'var(--bg-neutral)' }}>
+          {Icon.search(20, 'var(--fg-alt)')}
           <input
             placeholder="상품명, 브랜드, 카테고리로 검색하세요"
             style={{ flex: 1, minWidth: 0, border: 'none', outline: 'none', background: 'transparent', fontSize: 13.5, fontWeight: 500, color: 'var(--fg-strong)' }}
@@ -889,7 +889,7 @@ function ProductDetailScreen({ product, onClose, onAdd, cartCount = 0 }) {
         position: 'absolute',
         inset: 0,
         zIndex: 150,
-        background: '#fff',
+        background: 'var(--surface)',
         display: 'flex',
         flexDirection: 'column',
         fontFamily: "'Pretendard', system-ui, sans-serif",
@@ -923,7 +923,7 @@ function ProductDetailScreen({ product, onClose, onAdd, cartCount = 0 }) {
         </div>
 
         {/* 본문 시트 */}
-        <div style={{ position: 'relative', zIndex: 2, marginTop: -20, background: '#fff', borderTopLeftRadius: 22, borderTopRightRadius: 22, padding: '20px 18px 8px' }}>
+        <div style={{ position: 'relative', zIndex: 2, marginTop: -20, background: 'var(--surface)', borderTopLeftRadius: 22, borderTopRightRadius: 22, padding: '20px 18px 8px' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
             {p.tag && <Tag kind={p.tag === 'Best' ? 'best' : p.tag === '추천' ? 'rec' : 'new'}>{p.tag}</Tag>}
             <span style={{ fontSize: 12.5, color: 'var(--fg-alt)', fontWeight: 600 }}>{d.cat || ''}</span>
@@ -972,7 +972,7 @@ function ProductDetailScreen({ product, onClose, onAdd, cartCount = 0 }) {
       </div>
 
       {/* 하단 고정 CTA */}
-      <div style={{ flexShrink: 0, display: 'flex', alignItems: 'center', gap: 10, padding: '12px 16px', borderTop: `1px solid ${LINE2}`, background: '#fff' }}>
+      <div style={{ flexShrink: 0, display: 'flex', alignItems: 'center', gap: 10, padding: '12px 16px', borderTop: `1px solid ${LINE2}`, background: 'var(--surface)' }}>
         <Stepper qty={qty} onChange={setQty} />
         <button
           onClick={() => {
@@ -1040,7 +1040,7 @@ function DeadlineBar({ deadlineTime = '14:00' }) {
       : { bg: BRAND_SOFT, border: BRAND_TINT, fg: BRAND_STRONG, accent: BRAND };
 
   return (
-    <div style={{ padding: '0 16px 12px', background: '#fff' }}>
+    <div style={{ padding: '0 16px 12px', background: 'var(--surface)' }}>
       <button
         onClick={() => setOpen(!open)}
         style={{ width: '100%', display: 'flex', alignItems: 'center', gap: 10, padding: '11px 14px', borderRadius: 10, background: palette.bg, border: `1px solid ${palette.border}`, textAlign: 'left' }}
@@ -1055,7 +1055,7 @@ function DeadlineBar({ deadlineTime = '14:00' }) {
         <span style={{ color: palette.accent, display: 'flex' }}>{Icon.chevron(open ? 'up' : 'down', 16, palette.accent)}</span>
       </button>
       {open && (
-        <div style={{ marginTop: 6, padding: '12px 14px', borderRadius: 10, background: '#FAFBFC', border: `1px solid ${LINE2}`, fontSize: 12.5, lineHeight: 1.65, color: 'var(--fg-neutral)' }}>
+        <div style={{ marginTop: 6, padding: '12px 14px', borderRadius: 10, background: 'var(--bg-cool)', border: `1px solid ${LINE2}`, fontSize: 12.5, lineHeight: 1.65, color: 'var(--fg-neutral)' }}>
           • <b>오늘 {deadlineTime}까지</b> 주문 시 내일 오전 출고
           <br />
           • 마감 이후 주문은 모레 영업일 출고
@@ -1074,7 +1074,7 @@ function QuickReorderItem({ item, onAdd }) {
   if (!p) return null;
   const short = p.name.split(' (')[0];
   return (
-    <div style={{ flexShrink: 0, width: 178, padding: '8px 10px 10px', borderRadius: 10, border: `1.5px solid ${BRAND}`, background: '#fff', display: 'flex', flexDirection: 'column', gap: 8 }}>
+    <div style={{ flexShrink: 0, width: 178, padding: '8px 10px 10px', borderRadius: 10, border: `1.5px solid ${BRAND}`, background: 'var(--surface)', display: 'flex', flexDirection: 'column', gap: 8 }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
         <div style={{ width: 30, height: 30, borderRadius: 9999, background: p.tint || '#F2F4F7', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', flexShrink: 0 }}>
           {p.kind.startsWith('can:') ? <Can kind={p.kind.slice(4)} size={22} /> : <Bottle kind={p.kind} size={26} />}
@@ -1111,7 +1111,7 @@ function QuickReorderItem({ item, onAdd }) {
 function QuickReorder({ items = [], onQuickAdd }) {
   if (!items.length) return null;
   return (
-    <div style={{ padding: '0 16px 12px', background: '#fff' }}>
+    <div style={{ padding: '0 16px 12px', background: 'var(--surface)' }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 5, marginBottom: 8 }}>
         <span style={{ color: BRAND, display: 'flex' }}>{Icon.bolt(13, 'currentColor')}</span>
         <span style={{ fontSize: 12, fontWeight: 700, color: BRAND_STRONG, letterSpacing: '-0.01em' }}>빠른 발주</span>
@@ -1131,7 +1131,7 @@ function QuickReorder({ items = [], onQuickAdd }) {
 function CategoryTabs({ active, onChange }) {
   const dragRef = useDragScroll();
   return (
-    <div style={{ background: '#fff', borderBottom: `1px solid ${LINE2}` }}>
+    <div style={{ background: 'var(--surface)', borderBottom: `1px solid ${LINE2}` }}>
       <div ref={dragRef} className="no-scrollbar" style={{ display: 'flex', gap: 0, padding: '0 8px', overflowX: 'auto', WebkitOverflowScrolling: 'touch' }}>
         {CATEGORIES.map((c) => {
           const on = c === active;
@@ -1162,7 +1162,7 @@ function BrandScroller({ category }) {
   const brands = BRANDS[category] || BRANDS['맥주'];
   const dragRef = useDragScroll();
   return (
-    <div style={{ padding: '12px 0 16px', background: '#fff' }}>
+    <div style={{ padding: '12px 0 16px', background: 'var(--surface)' }}>
       <div ref={dragRef} className="no-scrollbar" style={{ display: 'flex', gap: 10, padding: '0 16px 4px', overflowX: 'auto', scrollSnapType: 'x proximity', WebkitOverflowScrolling: 'touch' }}>
         {brands.map(([label, kind]) => (
           <button key={label} className="press" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6, flexShrink: 0, width: 74, scrollSnapAlign: 'start' }}>
@@ -1280,7 +1280,7 @@ function HomeStepper({ qty, onChange, compact = false, size = 'md' }) {
   const btnW = isSm ? 24 : h;
   const numW = isSm ? 22 : 28;
   return (
-    <div style={{ display: 'inline-flex', alignItems: 'center', border: `1px solid var(--line)`, borderRadius: 8, height: h, overflow: 'hidden', background: '#fff' }}>
+    <div style={{ display: 'inline-flex', alignItems: 'center', border: `1px solid var(--line)`, borderRadius: 8, height: h, overflow: 'hidden', background: 'var(--surface-2)' }}>
       <button onClick={() => onChange(Math.max(1, qty - 1))} style={{ width: btnW, height: h, color: 'var(--fg-alt)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         {Icon.minus(isSm ? 12 : 14)}
       </button>
@@ -1318,7 +1318,7 @@ function ViewToggle({ mode, onChange }) {
     );
   };
   return (
-    <div style={{ display: 'inline-flex', alignItems: 'center', gap: 0, padding: 2, borderRadius: 8, background: '#F2F4F7', border: `1px solid ${LINE2}` }}>
+    <div style={{ display: 'inline-flex', alignItems: 'center', gap: 0, padding: 2, borderRadius: 8, background: 'var(--bg-neutral)', border: `1px solid ${LINE2}` }}>
       <Btn type="grid" icon={Icon.grid(15)} label="이미지 보기" />
       <Btn type="list" icon={Icon.list(15)} label="리스트 보기" />
     </div>
@@ -1330,7 +1330,7 @@ function ProductCardImage({ p, fav, onFav, onAdd, ctaMode = 'default', onOpen })
   const [qty, setQty] = useState(1);
   const isReorder = ctaMode === 'reorder';
   return (
-    <div style={{ background: '#fff', borderRadius: 14, border: `1px solid ${LINE2}`, padding: 10, display: 'flex', flexDirection: 'column', gap: 6, boxShadow: SHADOW_CARD }}>
+    <div style={{ background: 'var(--surface)', borderRadius: 14, border: `1px solid ${LINE2}`, padding: 10, display: 'flex', flexDirection: 'column', gap: 6, boxShadow: SHADOW_CARD }}>
       <div style={{ position: 'relative', cursor: onOpen ? 'pointer' : 'default' }} onClick={() => onOpen && onOpen(p)}>
         <ProductImage kind={p.kind} tint={p.tint} />
         {p.tag && (
@@ -1347,7 +1347,7 @@ function ProductCardImage({ p, fav, onFav, onAdd, ctaMode = 'default', onOpen })
             width: 28,
             height: 28,
             borderRadius: 9999,
-            background: 'rgba(255,255,255,0.95)',
+            background: 'var(--surface-blur)',
             boxShadow: '0 1px 3px rgba(0,0,0,0.08)',
             display: 'flex',
             alignItems: 'center',
@@ -1388,7 +1388,7 @@ function ProductCardImage({ p, fav, onFav, onAdd, ctaMode = 'default', onOpen })
             minWidth: 0,
             height: 30,
             borderRadius: 8,
-            background: isReorder ? '#fff' : BRAND,
+            background: isReorder ? 'var(--surface)' : BRAND,
             color: isReorder ? BRAND_STRONG : '#fff',
             border: isReorder ? `1.5px solid ${BRAND}` : 'none',
             fontWeight: 700,
@@ -1410,7 +1410,7 @@ function ProductCardImage({ p, fav, onFav, onAdd, ctaMode = 'default', onOpen })
 function ProductRow({ p, fav, onFav, onAdd, onOpen }) {
   const [qty, setQty] = useState(1);
   return (
-    <div style={{ background: '#fff', borderRadius: 14, border: `1px solid ${LINE2}`, padding: 12, display: 'flex', gap: 12, boxShadow: SHADOW_CARD }}>
+    <div style={{ background: 'var(--surface)', borderRadius: 14, border: `1px solid ${LINE2}`, padding: 12, display: 'flex', gap: 12, boxShadow: SHADOW_CARD }}>
       <div style={{ position: 'relative', cursor: onOpen ? 'pointer' : 'default' }} onClick={() => onOpen && onOpen(p)}>
         <ProductImageFixed kind={p.kind} size={84} tint={p.tint} />
         {p.tag && (
@@ -1493,7 +1493,7 @@ function OrderGroupCard({ order, onReorder }) {
   };
 
   return (
-    <div style={{ background: '#fff', borderRadius: 14, border: `1px solid ${LINE2}`, padding: '12px 12px 10px', display: 'flex', flexDirection: 'column', gap: 8, boxShadow: SHADOW_CARD, height: '100%' }}>
+    <div style={{ background: 'var(--surface)', borderRadius: 14, border: `1px solid ${LINE2}`, padding: '12px 12px 10px', display: 'flex', flexDirection: 'column', gap: 8, boxShadow: SHADOW_CARD, height: '100%' }}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <div style={{ display: 'flex', alignItems: 'baseline', gap: 6, minWidth: 0 }}>
           <div style={{ fontSize: 12, fontWeight: 700, color: 'var(--fg-strong)' }}>{order.date.slice(5)}</div>
@@ -1532,7 +1532,7 @@ function OrderGroupCard({ order, onReorder }) {
           width: '100%',
           height: 36,
           borderRadius: 8,
-          background: totalBoxes === 0 ? '#F2F4F7' : BRAND,
+          background: totalBoxes === 0 ? 'var(--bg-neutral)' : BRAND,
           color: totalBoxes === 0 ? 'var(--fg-assist)' : '#fff',
           fontWeight: 700,
           fontSize: 13,
@@ -1543,7 +1543,7 @@ function OrderGroupCard({ order, onReorder }) {
           cursor: totalBoxes === 0 ? 'not-allowed' : 'pointer',
         }}
       >
-        {Icon.refresh(13, totalBoxes === 0 ? '#8A93A0' : '#fff')} 재주문
+        {Icon.refresh(13, totalBoxes === 0 ? 'var(--fg-alt)' : '#fff')} 재주문
       </button>
     </div>
   );
@@ -1572,7 +1572,7 @@ function OrderGroupRow({ order, onReorder }) {
   };
 
   return (
-    <div style={{ background: '#fff', borderRadius: 14, border: `1px solid ${LINE2}`, padding: '14px 14px 12px', display: 'flex', flexDirection: 'column', gap: 10, boxShadow: SHADOW_CARD }}>
+    <div style={{ background: 'var(--surface)', borderRadius: 14, border: `1px solid ${LINE2}`, padding: '14px 14px 12px', display: 'flex', flexDirection: 'column', gap: 10, boxShadow: SHADOW_CARD }}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <div style={{ display: 'flex', alignItems: 'baseline', gap: 6 }}>
           <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--fg-strong)' }}>{order.date}</div>
@@ -1611,7 +1611,7 @@ function OrderGroupRow({ order, onReorder }) {
           width: '100%',
           height: 40,
           borderRadius: 8,
-          background: totalBoxes === 0 ? '#F2F4F7' : BRAND,
+          background: totalBoxes === 0 ? 'var(--bg-neutral)' : BRAND,
           color: totalBoxes === 0 ? 'var(--fg-assist)' : '#fff',
           fontWeight: 700,
           fontSize: 13.5,
@@ -1622,7 +1622,7 @@ function OrderGroupRow({ order, onReorder }) {
           cursor: totalBoxes === 0 ? 'not-allowed' : 'pointer',
         }}
       >
-        {Icon.refresh(15, totalBoxes === 0 ? '#8A93A0' : '#fff')} 재주문
+        {Icon.refresh(15, totalBoxes === 0 ? 'var(--fg-alt)' : '#fff')} 재주문
       </button>
     </div>
   );
@@ -1741,7 +1741,7 @@ function BottomTabBar({ active, onChange }) {
     { id: 'me', label: '마이', icon: Icon.user },
   ];
   return (
-    <div style={{ position: 'absolute', left: 0, right: 0, bottom: 0, zIndex: 40, background: 'rgba(255,255,255,0.96)', backdropFilter: 'blur(14px) saturate(160%)', borderTop: `1px solid ${LINE2}`, paddingBottom: 18 }}>
+    <div style={{ position: 'absolute', left: 0, right: 0, bottom: 0, zIndex: 40, background: 'var(--surface-blur)', backdropFilter: 'blur(14px) saturate(160%)', borderTop: `1px solid ${LINE2}`, paddingBottom: 18 }}>
       <div style={{ display: 'flex' }}>
         {tabs.map((t) => {
           const on = t.id === active;

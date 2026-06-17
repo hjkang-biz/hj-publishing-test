@@ -38,14 +38,14 @@ export function ProductTile({ p, size = 'sm', qty }) {
             height: 20,
             padding: '0 5px',
             background: 'var(--brand)',
-            color: '#fff',
+            color: 'var(--on-brand)',
             borderRadius: 999,
             fontSize: 11,
             fontWeight: 800,
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            border: '2px solid #fff',
+            border: '2px solid var(--surface)',
           }}
         >
           {qty}
@@ -76,7 +76,7 @@ export function PageNav({ title, onBack, right }) {
     <div
       style={{
         paddingTop: 'var(--status-bar-h)',
-        background: '#fff',
+        background: 'var(--surface)',
         borderBottom: '1px solid var(--line)',
         position: 'relative',
         zIndex: 4,
@@ -108,7 +108,7 @@ export function BottomBar({ children }) {
         left: 0,
         right: 0,
         zIndex: 6,
-        background: 'rgba(255,255,255,0.96)',
+        background: 'var(--surface-blur)',
         backdropFilter: 'blur(16px)',
         WebkitBackdropFilter: 'blur(16px)',
         borderTop: '1px solid var(--line)',

@@ -2,7 +2,9 @@
 import React from 'react';
 
 function IOSStatusBar({ dark = false, time = '9:41' }) {
-  const c = dark ? '#fff' : '#000';
+  // 시나리오가 dark이거나(예: 스캔 발주) 시스템이 다크모드면 흰색.
+  // var(--status-fg)는 시스템 테마를 따라 라이트#000/다크#fff 로 전환된다.
+  const c = dark ? '#fff' : 'var(--status-fg)';
   return (
     <div
       style={{
@@ -78,7 +80,7 @@ export function IOSDevice({ children, width = 402, height = 874, dark = false })
         borderRadius: 48,
         overflow: 'hidden',
         position: 'relative',
-        background: dark ? '#000' : '#F2F2F7',
+        background: dark ? '#000' : 'var(--device-bezel)',
         boxShadow: '0 40px 80px rgba(0,0,0,0.18), 0 0 0 1px rgba(0,0,0,0.12)',
         fontFamily: '-apple-system, system-ui, sans-serif',
         WebkitFontSmoothing: 'antialiased',
@@ -123,7 +125,7 @@ export function IOSDevice({ children, width = 402, height = 874, dark = false })
             width: 139,
             height: 5,
             borderRadius: 100,
-            background: dark ? 'rgba(255,255,255,0.7)' : 'rgba(0,0,0,0.25)',
+            background: dark ? 'rgba(255,255,255,0.7)' : 'var(--home-indicator)',
           }}
         />
       </div>

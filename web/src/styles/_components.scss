@@ -1,11 +1,12 @@
 // UI 컴포넌트 — screen/cta/chip/badge/card/stepper/prod-tile/tabbar/gauge/seg
+// 컬러는 모두 var(--…) — 다크모드 자동 전환. 반경만 컴파일 타임 상수 사용.
 @use 'tokens' as t;
 
 // ── 화면 셸
 .screen {
   width: 100%;
   height: 100%;
-  background: t.$bg;
+  background: var(--bg);
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -32,8 +33,8 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
-  background: t.$brand;
-  color: #fff;
+  background: var(--brand);
+  color: var(--on-brand);
   border-radius: 14px;
   font-size: 17px;
   font-weight: 700;
@@ -42,23 +43,23 @@
 
   &:active {
     transform: scale(0.985);
-    background: t.$brand-strong;
+    background: var(--brand-strong);
   }
 
   &.secondary {
-    background: t.$bg-neutral;
-    color: t.$fg;
+    background: var(--bg-neutral);
+    color: var(--fg);
   }
 
   &.ghost {
     background: transparent;
-    color: t.$brand;
-    border: 1.5px solid t.$brand;
+    color: var(--brand);
+    border: 1.5px solid var(--brand);
   }
 
   &.disabled {
-    background: t.$bg-neutral;
-    color: t.$fg-assist;
+    background: var(--bg-neutral);
+    color: var(--fg-assist);
     pointer-events: none;
   }
 }
@@ -70,23 +71,23 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  background: t.$bg-cool;
-  border: 1px solid t.$line;
+  background: var(--bg-cool);
+  border: 1px solid var(--line);
   border-radius: 999px;
   font-size: 13px;
   font-weight: 500;
-  color: t.$fg-neutral;
+  color: var(--fg-neutral);
 
   &.active {
-    background: t.$fg-strong;
-    color: #fff;
-    border-color: t.$fg-strong;
+    background: var(--fg-strong);
+    color: var(--bg);
+    border-color: var(--fg-strong);
   }
 
   &.brand {
-    background: t.$brand-soft;
-    color: t.$brand-strong;
-    border-color: rgba(31, 111, 235, 0.18);
+    background: var(--brand-soft);
+    color: var(--brand-strong);
+    border-color: var(--brand-soft);
   }
 }
 
@@ -102,18 +103,18 @@
   font-weight: 700;
   letter-spacing: 0.01em;
 
-  &.green { background: t.$green-soft; color: #00892e; }
-  &.amber { background: t.$amber-soft; color: #b86c00; }
-  &.red   { background: t.$red-soft;   color: #c00000; }
-  &.blue  { background: t.$blue-soft;  color: #0052cc; }
-  &.brand { background: t.$brand-soft; color: t.$brand-strong; }
-  &.dark  { background: rgba(0, 0, 0, 0.85); color: #fff; }
+  &.green { background: var(--green-soft); color: var(--green-on); }
+  &.amber { background: var(--amber-soft); color: var(--amber-on); }
+  &.red   { background: var(--red-soft);   color: var(--red-on); }
+  &.blue  { background: var(--blue-soft);  color: var(--blue-on); }
+  &.brand { background: var(--brand-soft); color: var(--brand-strong); }
+  &.dark  { background: var(--fg-strong);  color: var(--bg); }
 }
 
 // ── 카드
 .card {
-  background: t.$bg;
-  border: 1px solid t.$line;
+  background: var(--surface);
+  border: 1px solid var(--line);
   border-radius: t.$r-16;
 
   &.tight { border-radius: t.$r-12; }
@@ -123,10 +124,10 @@
 .stepper {
   display: inline-flex;
   align-items: center;
-  border: 1px solid t.$line;
+  border: 1px solid var(--line);
   border-radius: 10px;
   overflow: hidden;
-  background: #fff;
+  background: var(--surface-2);
 
   button {
     width: 34px;
@@ -134,11 +135,11 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    color: t.$fg-neutral;
+    color: var(--fg-neutral);
     font-size: 18px;
     font-weight: 600;
 
-    &:active { background: t.$bg-cool; }
+    &:active { background: var(--bg-cool); }
   }
 
   .v {
@@ -146,7 +147,7 @@
     text-align: center;
     font-weight: 600;
     font-size: 14px;
-    color: t.$fg;
+    color: var(--fg);
   }
 }
 
@@ -159,7 +160,7 @@
   align-items: center;
   justify-content: center;
   font-weight: 800;
-  color: #fff;
+  color: #fff; // 컬러 그라데이션 타일 위 라벨 — 다크에서도 흰색 유지
   font-size: 11px;
   flex-shrink: 0;
   position: relative;
@@ -186,10 +187,10 @@
   left: 0;
   right: 0;
   z-index: 5;
-  background: rgba(255, 255, 255, 0.92);
+  background: var(--surface-blur);
   backdrop-filter: blur(20px) saturate(180%);
   -webkit-backdrop-filter: blur(20px) saturate(180%);
-  border-top: 1px solid t.$line;
+  border-top: 1px solid var(--line);
   padding: 8px 0 28px;
   display: flex;
   align-items: stretch;
@@ -200,15 +201,15 @@
     flex-direction: column;
     align-items: center;
     gap: 2px;
-    color: t.$fg-assist;
+    color: var(--fg-assist);
     padding: 6px 0;
     font-size: 10px;
     font-weight: 600;
 
     &.active {
-      color: t.$fg-strong;
+      color: var(--fg-strong);
 
-      .tab-icon { color: t.$brand; }
+      .tab-icon { color: var(--brand); }
     }
   }
 }
@@ -217,7 +218,7 @@
 .gauge-track {
   height: 8px;
   border-radius: 999px;
-  background: t.$bg-neutral;
+  background: var(--bg-neutral);
   overflow: hidden;
   position: relative;
 }
@@ -225,16 +226,16 @@
 .gauge-fill {
   height: 100%;
   border-radius: 999px;
-  background: linear-gradient(90deg, #00bf40 0%, #ff9b00 70%, #ff4242 100%);
+  background: linear-gradient(90deg, var(--green) 0%, var(--amber) 70%, var(--red) 100%);
 
-  &.solid { background: t.$brand; }
+  &.solid { background: var(--brand); }
 }
 
 // ── 세그먼트 컨트롤
 .seg {
   display: inline-flex;
   padding: 3px;
-  background: t.$bg-neutral;
+  background: var(--bg-neutral);
   border-radius: 10px;
 
   button {
@@ -242,12 +243,12 @@
     border-radius: 8px;
     font-size: 13px;
     font-weight: 600;
-    color: t.$fg-alt;
+    color: var(--fg-alt);
 
     &.active {
-      background: #fff;
-      color: t.$fg-strong;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      background: var(--surface);
+      color: var(--fg-strong);
+      box-shadow: var(--shadow-sm);
     }
   }
 }

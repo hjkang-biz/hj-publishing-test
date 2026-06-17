@@ -1,11 +1,10 @@
 // 시나리오 캔버스 (앱 외곽 레이아웃)
-@use 'tokens' as t;
 
 .canvas {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background: #f0eee9;
+  background: var(--canvas-bg);
   padding: 24px 16px 56px;
   align-items: center;
   gap: 24px;
@@ -19,11 +18,12 @@
       font-weight: 800;
       letter-spacing: -0.02em;
       margin: 0 0 6px;
+      color: var(--fg-strong);
     }
 
     p {
       font-size: 14px;
-      color: t.$fg-alt;
+      color: var(--fg-alt);
       margin: 0;
     }
   }
@@ -39,24 +39,24 @@
   &__chip {
     padding: 10px 16px;
     border-radius: 999px;
-    background: #fff;
-    border: 1px solid t.$line;
+    background: var(--surface);
+    border: 1px solid var(--line);
     font-size: 13px;
     font-weight: 600;
-    color: t.$fg-neutral;
+    color: var(--fg-neutral);
     cursor: pointer;
 
     &.active {
-      background: t.$fg-strong;
-      color: #fff;
-      border-color: t.$fg-strong;
+      background: var(--fg-strong);
+      color: var(--bg);
+      border-color: var(--fg-strong);
     }
   }
 
   &__frame-label {
     font-size: 12px;
     font-weight: 700;
-    color: t.$fg-neutral;
+    color: var(--fg-neutral);
     letter-spacing: 0.04em;
     text-transform: uppercase;
   }
