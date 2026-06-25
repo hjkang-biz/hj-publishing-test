@@ -1,5 +1,6 @@
 // Flow 3: 다점포 컨트롤 타워 — 박준혁 사장님 · 3매장 통합 대시보드
 import React, { useState } from 'react';
+import { rem } from '../lib/rem.js';
 import { byId, stores, fmtWon } from '../data/products.js';
 import { Ic } from '../components/Icons.jsx';
 import { ProductTile } from '../components/Primitives.jsx';
@@ -28,7 +29,7 @@ export function MultiStoreFlow() {
             <div className="col">
               <span
                 style={{
-                  fontSize: 12,
+                  fontSize: rem(12),
                   color: 'rgba(255,255,255,0.55)',
                   letterSpacing: '0.04em',
                   fontWeight: 600,
@@ -37,8 +38,8 @@ export function MultiStoreFlow() {
                 다점포 컨트롤 타워
               </span>
               <div className="row gap-8" style={{ marginTop: 4, alignItems: 'baseline' }}>
-                <span style={{ fontSize: 22, fontWeight: 700, letterSpacing: '-0.02em' }}>박준혁 사장님</span>
-                <span style={{ fontSize: 14, color: 'rgba(255,255,255,0.6)' }}>3개 매장</span>
+                <span style={{ fontSize: rem(22), fontWeight: 700, letterSpacing: '-0.02em' }}>박준혁 사장님</span>
+                <span style={{ fontSize: rem(14), color: 'rgba(255,255,255,0.6)' }}>3개 매장</span>
               </div>
             </div>
             <button
@@ -69,14 +70,14 @@ export function MultiStoreFlow() {
           </div>
 
           <div className="row between" style={{ marginBottom: 14 }}>
-            <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.6)' }}>5월 13일(수) · 영업중</span>
+            <span style={{ fontSize: rem(13), color: 'rgba(255,255,255,0.6)' }}>5월 13일(수) · 영업중</span>
             <button
               className="row gap-4"
               style={{
                 padding: '4px 10px',
                 borderRadius: 999,
                 background: 'rgba(255,255,255,0.1)',
-                fontSize: 12,
+                fontSize: rem(12),
                 color: '#fff',
                 fontWeight: 500,
               }}
@@ -86,15 +87,15 @@ export function MultiStoreFlow() {
           </div>
 
           <div className="col" style={{ gap: 4 }}>
-            <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.6)', letterSpacing: '0.02em' }}>매장 합계 매출</span>
+            <span style={{ fontSize: rem(12), color: 'rgba(255,255,255,0.6)', letterSpacing: '0.02em' }}>매장 합계 매출</span>
             <div className="row" style={{ alignItems: 'baseline', gap: 8 }}>
-              <span className="t-num-big" style={{ fontSize: 36, fontWeight: 700, color: '#fff' }}>
+              <span className="t-num-big" style={{ fontSize: rem(36), fontWeight: 700, color: '#fff' }}>
                 ₩{(sumRev / 10000).toFixed(0)}
-                <span style={{ fontSize: 22 }}>만</span>
+                <span style={{ fontSize: rem(22) }}>만</span>
               </span>
               <span
                 style={{
-                  fontSize: 13,
+                  fontSize: rem(13),
                   fontWeight: 700,
                   color: '#4ADE80',
                   padding: '3px 8px',
@@ -237,7 +238,7 @@ export function MultiStoreFlow() {
                       borderRadius: 10,
                       background: 'var(--brand-soft)',
                       color: 'var(--brand)',
-                      fontSize: 13,
+                      fontSize: rem(13),
                       fontWeight: 700,
                     }}
                   >
@@ -258,13 +259,13 @@ export function MultiStoreFlow() {
             <div className="row between">
               <div className="col gap-2">
                 <span className="t-body-s fg-alt">5월 결제 마감</span>
-                <span className="t-num-big" style={{ fontSize: 24, color: 'var(--fg-strong)' }}>
+                <span className="t-num-big" style={{ fontSize: rem(24), color: 'var(--fg-strong)' }}>
                   5월 16일
                 </span>
               </div>
               <div className="col" style={{ alignItems: 'flex-end' }}>
                 <span className="t-body-s fg-alt">미결제 합계</span>
-                <span className="t-num-big fg-red" style={{ fontSize: 20 }}>
+                <span className="t-num-big fg-red" style={{ fontSize: rem(20) }}>
                   {fmtWon(540000)}
                 </span>
               </div>
@@ -284,7 +285,7 @@ function PillStat({ label, value, unit, sub, trend, color }) {
     <div className="col" style={{ flex: 1, padding: '0 8px', gap: 4, alignItems: 'flex-start' }}>
       <span className="t-body-s fg-alt">{label}</span>
       <div className="row" style={{ alignItems: 'baseline', gap: 2 }}>
-        <span className="t-num-big" style={{ fontSize: 22, color: vColor }}>
+        <span className="t-num-big" style={{ fontSize: rem(22), color: vColor }}>
           {value}
         </span>
         {unit && (
@@ -299,7 +300,7 @@ function PillStat({ label, value, unit, sub, trend, color }) {
         )}
       </div>
       {trend && (
-        <span className="t-body-s fg-green" style={{ fontWeight: 600, fontSize: 11 }}>
+        <span className="t-body-s fg-green" style={{ fontWeight: 600, fontSize: rem(11) }}>
           ↑ {trend}
         </span>
       )}
@@ -323,7 +324,7 @@ function FilterChip({ label, active, onClick, count }) {
         background: active ? 'var(--fg-strong)' : 'var(--surface)',
         color: active ? 'var(--invert-fg)' : 'var(--fg-neutral)',
         border: active ? 'none' : '1px solid var(--line)',
-        fontSize: 13,
+        fontSize: rem(13),
         fontWeight: 600,
         whiteSpace: 'nowrap',
         display: 'flex',
@@ -339,7 +340,7 @@ function FilterChip({ label, active, onClick, count }) {
             borderRadius: 999,
             background: active ? 'var(--invert-faint)' : 'var(--bg-neutral)',
             color: active ? 'var(--invert-fg)' : 'var(--fg-alt)',
-            fontSize: 11,
+            fontSize: rem(11),
             fontWeight: 700,
             height: 18,
             display: 'inline-flex',
@@ -424,7 +425,7 @@ function StoreCard({ s }) {
             borderRadius: 10,
             background: 'var(--bg-cool)',
             color: 'var(--fg-strong)',
-            fontSize: 14,
+            fontSize: rem(14),
             fontWeight: 600,
             display: 'flex',
             alignItems: 'center',
@@ -442,7 +443,7 @@ function StoreCard({ s }) {
             borderRadius: 10,
             background: 'var(--brand)',
             color: '#fff',
-            fontSize: 14,
+            fontSize: rem(14),
             fontWeight: 700,
             display: 'flex',
             alignItems: 'center',
@@ -460,18 +461,18 @@ function StoreCard({ s }) {
 function MiniStat({ label, value, unit, red }) {
   return (
     <div className="col" style={{ flex: 1, gap: 2, paddingRight: 8 }}>
-      <span className="t-body-s fg-alt" style={{ fontSize: 11 }}>
+      <span className="t-body-s fg-alt" style={{ fontSize: rem(11) }}>
         {label}
       </span>
       <div className="row" style={{ alignItems: 'baseline', gap: 2 }}>
         <span
           className="t-num-big"
-          style={{ fontSize: 18, color: red ? 'var(--red)' : 'var(--fg-strong)' }}
+          style={{ fontSize: rem(18), color: red ? 'var(--red)' : 'var(--fg-strong)' }}
         >
           {value}
         </span>
         {unit && (
-          <span className="t-body-s fg-alt" style={{ fontSize: 11 }}>
+          <span className="t-body-s fg-alt" style={{ fontSize: rem(11) }}>
             {unit}
           </span>
         )}

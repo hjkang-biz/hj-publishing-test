@@ -1,0 +1,14 @@
+// px → rem 변환 — 디자인 기준 16px
+//
+// ⚠️ 폰트 크기는 px 대신 이 함수(rem())로 출력할 것.
+//    rem은 루트 폰트에 비례하고, 루트는 _base.scss에서 OS 글씨 크기 설정을
+//    따라가도록 묶여 있다 → OS/브라우저 글씨 크기에 맞춰 앱 텍스트도 확대/축소된다.
+//    (레이아웃 치수는 px 유지 가능 — OS 추종이 필요한 건 글씨 크기뿐)
+@use 'sass:math';
+
+@function rem($px, $base: 16px) {
+  @if math.is-unitless($px) {
+    $px: $px * 1px;
+  }
+  @return math.div($px, $base) * 1rem;
+}

@@ -27,30 +27,8 @@ export function ProductTile({ p, size = 'sm', qty }) {
   const cls = size === 'big' ? 'prod-tile big' : size === 'xl' ? 'prod-tile xl' : 'prod-tile';
   return (
     <div className={cls} style={{ background: `linear-gradient(160deg, ${p.color} 0%, ${p.accent} 100%)` }}>
-      <span style={{ textShadow: '0 1px 2px rgba(0,0,0,0.25)', textAlign: 'center', lineHeight: 1.1 }}>{p.name}</span>
-      {qty != null && (
-        <span
-          style={{
-            position: 'absolute',
-            top: -6,
-            right: -6,
-            minWidth: 20,
-            height: 20,
-            padding: '0 5px',
-            background: 'var(--brand)',
-            color: 'var(--on-brand)',
-            borderRadius: 999,
-            fontSize: 11,
-            fontWeight: 800,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            border: '2px solid var(--surface)',
-          }}
-        >
-          {qty}
-        </span>
-      )}
+      <span className="prod-tile-label">{p.name}</span>
+      {qty != null && <span className="qty-badge">{qty}</span>}
     </div>
   );
 }
@@ -73,52 +51,18 @@ export function Stepper({ value, onChange, min = 0, max = 99 }) {
 
 export function PageNav({ title, onBack, right }) {
   return (
-    <div
-      style={{
-        paddingTop: 'var(--status-bar-h)',
-        background: 'var(--surface)',
-        borderBottom: '1px solid var(--line)',
-        position: 'relative',
-        zIndex: 4,
-      }}
-    >
-      <div className="row between" style={{ padding: '8px 6px 12px' }}>
-        <button
-          className="press"
-          style={{ width: 40, height: 40, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-          onClick={onBack}
-        >
+    <div className="page-nav">
+      <div className="row between page-nav-row">
+        <button className="press icon-btn" onClick={onBack}>
           <Ic name="chevLeft" size={24} color="var(--fg-strong)" />
         </button>
         <span className="t-title-s fg-strong">{title}</span>
-        <div style={{ width: 40, height: 40, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          {right}
-        </div>
+        <div className="icon-btn">{right}</div>
       </div>
     </div>
   );
 }
 
 export function BottomBar({ children }) {
-  return (
-    <div
-      style={{
-        position: 'absolute',
-        bottom: 0,
-        left: 0,
-        right: 0,
-        zIndex: 6,
-        background: 'var(--surface-blur)',
-        backdropFilter: 'blur(16px)',
-        WebkitBackdropFilter: 'blur(16px)',
-        borderTop: '1px solid var(--line)',
-        padding: '14px 16px calc(28px + env(safe-area-inset-bottom))',
-        display: 'flex',
-        alignItems: 'center',
-        gap: 12,
-      }}
-    >
-      {children}
-    </div>
-  );
+  return <div className="bottom-bar">{children}</div>;
 }

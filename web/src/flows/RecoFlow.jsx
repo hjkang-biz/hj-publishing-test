@@ -1,5 +1,6 @@
 // Flow 1 V2: 추천 기반 2탭 재주문 — 홈(추천 hero) → 추천 리스트 → 발주 확정
 import React, { useState, useMemo } from 'react';
+import { rem } from '../lib/rem.js';
 import { byId, fmtWon } from '../data/products.js';
 import { reco, recoTotal, recoUnits } from '../data/reco.js';
 import { Ic } from '../components/Icons.jsx';
@@ -281,7 +282,7 @@ function RecoHeroCard({ reco: r, total, ctx, onTap }) {
         <div className="row between" style={{ marginBottom: 10 }}>
           <div className="row gap-6">
             <Ic name="sparkles" size={16} color="#fff" strokeWidth={2.2} />
-            <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: '0.02em', opacity: 0.95 }}>AI 추천 발주</span>
+            <span style={{ fontSize: rem(12), fontWeight: 700, letterSpacing: '0.02em', opacity: 0.95 }}>AI 추천 발주</span>
           </div>
           <div
             className="row gap-4"
@@ -293,14 +294,14 @@ function RecoHeroCard({ reco: r, total, ctx, onTap }) {
             }}
           >
             <div style={{ width: 6, height: 6, borderRadius: 999, background: '#4ADE80' }} />
-            <span style={{ fontSize: 11, fontWeight: 700 }}>패턴 일치 {r.confidence}%</span>
+            <span style={{ fontSize: rem(11), fontWeight: 700 }}>패턴 일치 {r.confidence}%</span>
           </div>
         </div>
         <div className="col" style={{ gap: 4, marginBottom: 14 }}>
-          <span style={{ fontSize: 19, fontWeight: 700, letterSpacing: '-0.02em', lineHeight: 1.3 }}>
+          <span style={{ fontSize: rem(19), fontWeight: 700, letterSpacing: '-0.02em', lineHeight: 1.3 }}>
             이번 주 권장 발주가 준비됐어요
           </span>
-          <span style={{ fontSize: 13, opacity: 0.88, lineHeight: 1.4 }}>{r.reasonLong}</span>
+          <span style={{ fontSize: rem(13), opacity: 0.88, lineHeight: 1.4 }}>{r.reasonLong}</span>
         </div>
         <div className="row" style={{ gap: 0, marginBottom: 14 }}>
           {previewSkus.map((sku, i) => (
@@ -317,8 +318,8 @@ function RecoHeroCard({ reco: r, total, ctx, onTap }) {
             </div>
           ))}
           <div className="col" style={{ marginLeft: 12, flex: 1, justifyContent: 'center', gap: 2 }}>
-            <span style={{ fontSize: 11, opacity: 0.85, fontWeight: 600 }}>5개 SKU · 17박스 · 360병</span>
-            <span style={{ fontSize: 22, fontWeight: 800, letterSpacing: '-0.02em' }}>{fmtWon(total)}</span>
+            <span style={{ fontSize: rem(11), opacity: 0.85, fontWeight: 600 }}>5개 SKU · 17박스 · 360병</span>
+            <span style={{ fontSize: rem(22), fontWeight: 800, letterSpacing: '-0.02em' }}>{fmtWon(total)}</span>
           </div>
         </div>
         <div
@@ -332,12 +333,12 @@ function RecoHeroCard({ reco: r, total, ctx, onTap }) {
         >
           <div className="row gap-8">
             <Ic name="truck" size={16} color="#fff" strokeWidth={2} />
-            <span style={{ fontSize: 13, fontWeight: 600 }}>
+            <span style={{ fontSize: rem(13), fontWeight: 600 }}>
               {ctx.deliveryDate} {ctx.deliveryWindow} 도착
             </span>
           </div>
           <div className="row gap-4">
-            <span style={{ fontSize: 13, fontWeight: 700 }}>확인하기</span>
+            <span style={{ fontSize: rem(13), fontWeight: 700 }}>확인하기</span>
             <Ic name="chev" size={16} color="#fff" strokeWidth={2.4} />
           </div>
         </div>
@@ -376,7 +377,7 @@ function BundleCard({ b, onTap }) {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            fontSize: 22,
+            fontSize: rem(22),
           }}
         >
           {b.emoji}
@@ -384,7 +385,7 @@ function BundleCard({ b, onTap }) {
         {b.badge && <span className="badge brand">{b.badge}</span>}
       </div>
       <div className="col gap-2">
-        <span className="t-title-s fg-strong" style={{ fontSize: 16 }}>
+        <span className="t-title-s fg-strong" style={{ fontSize: rem(16) }}>
           {b.name}
         </span>
         <span className="t-body-s fg-alt">{b.sub}</span>
@@ -726,7 +727,7 @@ function ReasoningCard({ data }) {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          fontSize: 24,
+          fontSize: rem(24),
         }}
       >
         {b.emoji}
@@ -1133,7 +1134,7 @@ function DoneV2({ data, qtys, addonOn, onHome }) {
                 borderRadius: 10,
                 background: 'var(--brand-soft)',
                 color: 'var(--brand-strong)',
-                fontSize: 13,
+                fontSize: rem(13),
                 fontWeight: 700,
                 display: 'flex',
                 alignItems: 'center',

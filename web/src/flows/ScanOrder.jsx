@@ -1,5 +1,6 @@
 // Flow 2: 영업 중 스캔 발주 — 카메라 뷰파인더 → 바텀시트 → 장바구니 하이라이트
 import React, { useState, useEffect } from 'react';
+import { rem } from '../lib/rem.js';
 import { byId, fmtWon } from '../data/products.js';
 import { Ic } from '../components/Icons.jsx';
 import { ProductTile, StockBadge, Stepper } from '../components/Primitives.jsx';
@@ -161,8 +162,8 @@ function ScannerView({ cartCount }) {
           <Ic name="x" size={22} color="#fff" strokeWidth={2.2} />
         </button>
         <div className="col" style={{ alignItems: 'center', gap: 2 }}>
-          <span style={{ color: '#fff', fontSize: 16, fontWeight: 700, letterSpacing: '-0.02em' }}>바코드 스캔</span>
-          <span style={{ color: 'rgba(255,255,255,0.7)', fontSize: 12 }}>박스 라벨을 가운데에 맞춰주세요</span>
+          <span style={{ color: '#fff', fontSize: rem(16), fontWeight: 700, letterSpacing: '-0.02em' }}>바코드 스캔</span>
+          <span style={{ color: 'rgba(255,255,255,0.7)', fontSize: rem(12) }}>박스 라벨을 가운데에 맞춰주세요</span>
         </div>
         <button
           style={{
@@ -190,7 +191,7 @@ function ScannerView({ cartCount }) {
                 background: 'var(--brand)',
                 color: '#fff',
                 borderRadius: 999,
-                fontSize: 11,
+                fontSize: rem(11),
                 fontWeight: 800,
                 display: 'flex',
                 alignItems: 'center',
@@ -261,7 +262,7 @@ function ScannerView({ cartCount }) {
         <div className="col gap-12">
           <div className="row gap-10" style={{ alignItems: 'center', justifyContent: 'center' }}>
             <div className="pulse" style={{ width: 8, height: 8, borderRadius: 999, background: 'var(--brand)' }} />
-            <span style={{ color: '#fff', fontSize: 14, fontWeight: 600 }}>스캔 중…</span>
+            <span style={{ color: '#fff', fontSize: rem(14), fontWeight: 600 }}>스캔 중…</span>
           </div>
           <div className="row gap-8" style={{ justifyContent: 'center' }}>
             <button
@@ -272,7 +273,7 @@ function ScannerView({ cartCount }) {
                 background: 'rgba(255,255,255,0.18)',
                 backdropFilter: 'blur(20px)',
                 color: '#fff',
-                fontSize: 13,
+                fontSize: rem(13),
                 fontWeight: 600,
                 display: 'flex',
                 alignItems: 'center',
@@ -289,7 +290,7 @@ function ScannerView({ cartCount }) {
                 background: 'rgba(255,255,255,0.18)',
                 backdropFilter: 'blur(20px)',
                 color: '#fff',
-                fontSize: 13,
+                fontSize: rem(13),
                 fontWeight: 600,
                 display: 'flex',
                 alignItems: 'center',
@@ -469,7 +470,7 @@ function Toast({ msg }) {
       >
         <Ic name="check" size={16} color="#fff" strokeWidth={2.6} />
       </div>
-      <span style={{ color: '#fff', fontSize: 14, fontWeight: 600 }}>{msg}</span>
+      <span style={{ color: '#fff', fontSize: rem(14), fontWeight: 600 }}>{msg}</span>
     </div>
   );
 }

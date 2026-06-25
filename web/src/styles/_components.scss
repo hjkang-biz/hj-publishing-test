@@ -1,6 +1,7 @@
 // UI 컴포넌트 — screen/cta/chip/badge/card/stepper/prod-tile/tabbar/gauge/seg
 // 컬러는 모두 var(--…) — 다크모드 자동 전환. 반경만 컴파일 타임 상수 사용.
 @use 'tokens' as t;
+@use 'functions' as fn; // font-size는 fn.rem() — OS 글씨 크기 설정 추종
 
 // ── 화면 셸
 .screen {
@@ -36,7 +37,7 @@
   background: var(--brand);
   color: var(--on-brand);
   border-radius: 14px;
-  font-size: 17px;
+  font-size: fn.rem(17px);
   font-weight: 700;
   letter-spacing: -0.018em;
   transition: transform 0.12s ease, background 0.12s ease;
@@ -74,7 +75,7 @@
   background: var(--bg-cool);
   border: 1px solid var(--line);
   border-radius: 999px;
-  font-size: 13px;
+  font-size: fn.rem(13px);
   font-weight: 500;
   color: var(--fg-neutral);
 
@@ -99,7 +100,7 @@
   height: 22px;
   padding: 0 8px;
   border-radius: 6px;
-  font-size: 11px;
+  font-size: fn.rem(11px);
   font-weight: 700;
   letter-spacing: 0.01em;
 
@@ -136,7 +137,7 @@
     align-items: center;
     justify-content: center;
     color: var(--fg-neutral);
-    font-size: 18px;
+    font-size: fn.rem(18px);
     font-weight: 600;
 
     &:active { background: var(--bg-cool); }
@@ -146,12 +147,13 @@
     min-width: 32px;
     text-align: center;
     font-weight: 600;
-    font-size: 14px;
+    font-size: fn.rem(14px);
     color: var(--fg);
   }
 }
 
 // ── 상품 타일
+// 타일 배경 그라데이션만 인라인(상품별 p.color/p.accent 데이터 구동) — 나머지는 클래스
 .prod-tile {
   width: 56px;
   height: 56px;
@@ -161,14 +163,14 @@
   justify-content: center;
   font-weight: 800;
   color: #fff; // 컬러 그라데이션 타일 위 라벨 — 다크에서도 흰색 유지
-  font-size: 11px;
+  font-size: fn.rem(11px);
   flex-shrink: 0;
   position: relative;
 
   &.big {
     width: 72px;
     height: 72px;
-    font-size: 13px;
+    font-size: fn.rem(13px);
     border-radius: 12px;
   }
 
@@ -176,8 +178,34 @@
     width: 100%;
     aspect-ratio: 1/1;
     border-radius: 16px;
-    font-size: 22px;
+    font-size: fn.rem(22px);
   }
+}
+
+// 타일 위 상품명 라벨
+.prod-tile-label {
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+  text-align: center;
+  line-height: 1.1;
+}
+
+// 타일 우상단 수량 배지
+.qty-badge {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 5px;
+  background: var(--brand);
+  color: var(--on-brand);
+  border-radius: 999px;
+  font-size: fn.rem(11px);
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--surface);
 }
 
 // ── 탭바
@@ -203,7 +231,7 @@
     gap: 2px;
     color: var(--fg-assist);
     padding: 6px 0;
-    font-size: 10px;
+    font-size: fn.rem(10px);
     font-weight: 600;
 
     &.active {
@@ -231,6 +259,43 @@
   &.solid { background: var(--brand); }
 }
 
+// ── 상단 페이지 내비게이션 (뒤로가기 + 타이틀 + 우측 슬롯)
+.page-nav {
+  padding-top: var(--status-bar-h);
+  background: var(--surface);
+  border-bottom: 1px solid var(--line);
+  position: relative;
+  z-index: 4;
+}
+
+.page-nav-row { padding: 8px 6px 12px; }
+
+// 40×40 정사각 아이콘 버튼/슬롯 (재사용)
+.icon-btn {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+// ── 하단 고정 바 (블러 위, safe-area 대응)
+.bottom-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 6;
+  background: var(--surface-blur);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-top: 1px solid var(--line);
+  padding: 14px 16px calc(28px + env(safe-area-inset-bottom));
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
 // ── 세그먼트 컨트롤
 .seg {
   display: inline-flex;
@@ -241,7 +306,7 @@
   button {
     padding: 7px 14px;
     border-radius: 8px;
-    font-size: 13px;
+    font-size: fn.rem(13px);
     font-weight: 600;
     color: var(--fg-alt);
 

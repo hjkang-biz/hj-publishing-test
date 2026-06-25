@@ -4,6 +4,21 @@
   box-sizing: border-box;
 }
 
+// ── 루트 폰트를 OS 글씨 크기 설정에 묶는다 → rem 기반 텍스트가 함께 확대/축소
+//    · 기본: 브라우저 기본값(≈16px) 존중 + 모바일 자동 보정 방해 방지
+//    · iOS: Dynamic Type(설정 > 텍스트 크기 / 큰 텍스트) 추종 — 웹은 이 키워드로만 따라감
+//    · Android Chrome: 글꼴 크기 설정이 rem 텍스트에 곱해져 자동 적용
+:root {
+  font-size: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+
+@supports (font: -apple-system-body) {
+  :root {
+    font: -apple-system-body; // 폰트 패밀리는 아래 body에서 다시 지정
+  }
+}
+
 html,
 body,
 #root {

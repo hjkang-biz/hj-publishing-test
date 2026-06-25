@@ -7,6 +7,7 @@
 // 컨텍스트 컬러(red/amber/제품 일러스트)는 디자인 의도를 그대로 따른다.
 
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { rem } from '../lib/rem.js';
 import { BANNERS, BRANDS, CATALOG, CATEGORIES, RECENT_ORDERS, getOrderProduct, getProductDetail } from '../data/b2bHome.js';
 
 // ─── 인라인 토큰 ──────────────────────────────────────────
@@ -398,7 +399,7 @@ function Header({ cartCount, onCart }) {
         <div style={{ display: 'flex', alignItems: 'center', gap: 5, minWidth: 0, flex: 1, padding: '6px 4px' }}>
           <span
             style={{
-              fontSize: 10,
+              fontSize: rem(10),
               fontWeight: 700,
               background: BRAND_SOFT,
               color: BRAND_STRONG,
@@ -410,7 +411,7 @@ function Header({ cartCount, onCart }) {
           >
             거래처
           </span>
-          <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', fontSize: 13, fontWeight: 700, color: 'var(--fg-strong)', letterSpacing: '-0.02em' }}>
+          <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', fontSize: rem(13), fontWeight: 700, color: 'var(--fg-strong)', letterSpacing: '-0.02em' }}>
             강남양꼬치 본점
           </span>
         </div>
@@ -443,7 +444,7 @@ function HeaderIconBtn({ children, label, badge, onClick }) {
               background: RED,
               color: '#fff',
               borderRadius: 9999,
-              fontSize: 9.5,
+              fontSize: rem(9.5),
               fontWeight: 800,
               display: 'flex',
               alignItems: 'center',
@@ -485,7 +486,7 @@ function WholesalerLogo({ name = '세계주류' }) {
           fill="none"
         />
       </svg>
-      <span style={{ fontSize: 13, fontWeight: 900, color: '#C42929', letterSpacing: '-0.04em', fontFamily: 'Pretendard, system-ui', whiteSpace: 'nowrap' }}>{name}</span>
+      <span style={{ fontSize: rem(13), fontWeight: 900, color: '#C42929', letterSpacing: '-0.04em', fontFamily: 'Pretendard, system-ui', whiteSpace: 'nowrap' }}>{name}</span>
     </div>
   );
 }
@@ -556,7 +557,7 @@ function Banner() {
               <div style={{ flex: 1, zIndex: 1 }}>
                 <div
                   style={{
-                    fontSize: 10,
+                    fontSize: rem(10),
                     fontWeight: 800,
                     letterSpacing: '.06em',
                     background: b.fg === '#0F1115' ? 'rgba(0,0,0,0.08)' : 'rgba(255,255,255,0.22)',
@@ -573,10 +574,10 @@ function Banner() {
                   <span style={{ width: 5, height: 5, borderRadius: 9999, background: b.accent }} />
                   EVENT
                 </div>
-                <div style={{ fontSize: 19, fontWeight: 900, lineHeight: 1.22, whiteSpace: 'pre-line', letterSpacing: '-0.03em', textShadow: b.fg === '#fff' ? '0 1px 2px rgba(0,0,0,0.08)' : 'none' }}>
+                <div style={{ fontSize: rem(19), fontWeight: 900, lineHeight: 1.22, whiteSpace: 'pre-line', letterSpacing: '-0.03em', textShadow: b.fg === '#fff' ? '0 1px 2px rgba(0,0,0,0.08)' : 'none' }}>
                   {b.title}
                 </div>
-                <div style={{ fontSize: 12.5, opacity: 0.92, marginTop: 7, fontWeight: 500, letterSpacing: '-0.01em' }}>{b.sub}</div>
+                <div style={{ fontSize: rem(12.5), opacity: 0.92, marginTop: 7, fontWeight: 500, letterSpacing: '-0.01em' }}>{b.sub}</div>
               </div>
               <div style={{ position: 'absolute', right: -8, bottom: -18, opacity: 0.96, transform: 'rotate(-8deg)', filter: 'drop-shadow(0 8px 16px rgba(0,0,0,0.18))' }}>
                 <Bottle kind={b.kind} size={130} />
@@ -615,7 +616,7 @@ function SearchBar({ onVoice }) {
           {Icon.search(20, 'var(--fg-alt)')}
           <input
             placeholder="상품명, 브랜드, 카테고리로 검색하세요"
-            style={{ flex: 1, minWidth: 0, border: 'none', outline: 'none', background: 'transparent', fontSize: 13.5, fontWeight: 500, color: 'var(--fg-strong)' }}
+            style={{ flex: 1, minWidth: 0, border: 'none', outline: 'none', background: 'transparent', fontSize: rem(13.5), fontWeight: 500, color: 'var(--fg-strong)' }}
           />
         </div>
         <button
@@ -675,7 +676,7 @@ function VoiceWave({ active }) {
 function VoiceStatusBar() {
   return (
     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '14px 30px 0', height: 54 }}>
-      <span style={{ fontFamily: '-apple-system, "SF Pro", system-ui', fontWeight: 600, fontSize: 16, color: '#fff' }}>9:41</span>
+      <span style={{ fontFamily: '-apple-system, "SF Pro", system-ui', fontWeight: 600, fontSize: rem(16), color: '#fff' }}>9:41</span>
       <div style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
         <svg width="18" height="11" viewBox="0 0 19 12"><rect x="0" y="7.5" width="3.2" height="4.5" rx="0.7" fill="#fff" /><rect x="4.8" y="5" width="3.2" height="7" rx="0.7" fill="#fff" /><rect x="9.6" y="2.5" width="3.2" height="9.5" rx="0.7" fill="#fff" /><rect x="14.4" y="0" width="3.2" height="12" rx="0.7" fill="#fff" /></svg>
         <svg width="16" height="11" viewBox="0 0 17 12"><path d="M8.5 3.2C10.8 3.2 12.9 4.1 14.4 5.6L15.5 4.5C13.7 2.7 11.2 1.5 8.5 1.5C5.8 1.5 3.3 2.7 1.5 4.5L2.6 5.6C4.1 4.1 6.2 3.2 8.5 3.2Z" fill="#fff" /><path d="M8.5 6.8C9.9 6.8 11.1 7.3 12 8.2L13.1 7.1C11.8 5.9 10.2 5.1 8.5 5.1C6.8 5.1 5.2 5.9 3.9 7.1L5 8.2C5.9 7.3 7.1 6.8 8.5 6.8Z" fill="#fff" /><circle cx="8.5" cy="10.5" r="1.5" fill="#fff" /></svg>
@@ -743,7 +744,7 @@ function VoiceOrderScreen({ open, onClose, onConfirm }) {
         >
           {Icon.chevron('left', 18, '#fff')}
         </button>
-        <div style={{ flex: 1, textAlign: 'center', fontSize: 15, fontWeight: 700, letterSpacing: '-0.02em', marginLeft: -36 }}>음성 발주</div>
+        <div style={{ flex: 1, textAlign: 'center', fontSize: rem(15), fontWeight: 700, letterSpacing: '-0.02em', marginLeft: -36 }}>음성 발주</div>
       </div>
 
       {/* 중앙 컨텐츠 */}
@@ -760,18 +761,18 @@ function VoiceOrderScreen({ open, onClose, onConfirm }) {
         {listening ? (
           <>
             <div style={{ marginTop: 30, marginBottom: 18 }}><VoiceWave active /></div>
-            <div style={{ fontSize: 15, fontWeight: 600, color: '#9DB6DC' }}>듣고 있어요…</div>
+            <div style={{ fontSize: rem(15), fontWeight: 600, color: '#9DB6DC' }}>듣고 있어요…</div>
           </>
         ) : (
           <>
-            <div style={{ fontSize: 13.5, fontWeight: 600, color: '#8DA5CE', marginTop: 22 }}>이렇게 들었어요</div>
-            <div style={{ fontSize: 23, fontWeight: 800, color: '#fff', textAlign: 'center', lineHeight: 1.45, letterSpacing: '-0.02em', marginTop: 10 }}>
+            <div style={{ fontSize: rem(13.5), fontWeight: 600, color: '#8DA5CE', marginTop: 22 }}>이렇게 들었어요</div>
+            <div style={{ fontSize: rem(23), fontWeight: 800, color: '#fff', textAlign: 'center', lineHeight: 1.45, letterSpacing: '-0.02em', marginTop: 10 }}>
               “참이슬 후레쉬 <span style={{ color: '#5B9BFF' }}>두 박스</span>,<br />카스 <span style={{ color: '#5B9BFF' }}>한 박스</span>요”
             </div>
 
             {/* 인식된 내용 카드 */}
             <div style={{ width: '100%', marginTop: 26, padding: 16, borderRadius: 18, background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)' }}>
-              <div style={{ fontSize: 12, fontWeight: 700, color: '#8DA5CE', marginBottom: 12, letterSpacing: '-0.01em' }}>인식된 내용</div>
+              <div style={{ fontSize: rem(12), fontWeight: 700, color: '#8DA5CE', marginBottom: 12, letterSpacing: '-0.01em' }}>인식된 내용</div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
                 {items.map(({ p, qty }) => (
                   <div key={p.id} style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
@@ -779,8 +780,8 @@ function VoiceOrderScreen({ open, onClose, onConfirm }) {
                       {p.kind.startsWith('can:') ? <Can kind={p.kind.slice(4)} size={28} /> : <Bottle kind={p.kind} size={32} />}
                     </div>
                     <div style={{ flex: 1, minWidth: 0 }}>
-                      <div style={{ fontSize: 14, fontWeight: 700, color: '#fff', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{p.name.split(' (')[0]}</div>
-                      <div style={{ fontSize: 12, color: '#8DA5CE', fontWeight: 500, marginTop: 2 }}>{qty}박스 · ₩{(p.price * qty).toLocaleString()}</div>
+                      <div style={{ fontSize: rem(14), fontWeight: 700, color: '#fff', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{p.name.split(' (')[0]}</div>
+                      <div style={{ fontSize: rem(12), color: '#8DA5CE', fontWeight: 500, marginTop: 2 }}>{qty}박스 · ₩{(p.price * qty).toLocaleString()}</div>
                     </div>
                     <span style={{ flexShrink: 0, color: '#46D38A', display: 'flex' }}>
                       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12l5 5L20 7" /></svg>
@@ -799,7 +800,7 @@ function VoiceOrderScreen({ open, onClose, onConfirm }) {
         {listening ? (
           <button
             onClick={onClose}
-            style={{ width: '100%', height: 52, borderRadius: 14, background: 'rgba(255,255,255,0.1)', color: '#fff', fontWeight: 700, fontSize: 15 }}
+            style={{ width: '100%', height: 52, borderRadius: 14, background: 'rgba(255,255,255,0.1)', color: '#fff', fontWeight: 700, fontSize: rem(15) }}
           >
             취소
           </button>
@@ -807,7 +808,7 @@ function VoiceOrderScreen({ open, onClose, onConfirm }) {
           <div style={{ display: 'flex', gap: 10 }}>
             <button
               onClick={startListening}
-              style={{ flexShrink: 0, width: 116, height: 56, borderRadius: 14, background: 'rgba(255,255,255,0.1)', color: '#fff', fontWeight: 700, fontSize: 14, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}
+              style={{ flexShrink: 0, width: 116, height: 56, borderRadius: 14, background: 'rgba(255,255,255,0.1)', color: '#fff', fontWeight: 700, fontSize: rem(14), display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}
             >
               {Icon.mic(16, '#fff')} 다시 말하기
             </button>
@@ -820,7 +821,7 @@ function VoiceOrderScreen({ open, onClose, onConfirm }) {
                 background: 'linear-gradient(180deg, #F5D87A 0%, #E9C24F 100%)',
                 color: '#23314F',
                 fontWeight: 800,
-                fontSize: 16,
+                fontSize: rem(16),
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -911,7 +912,7 @@ function ProductDetailScreen({ product, onClose, onAdd, cartCount = 0 }) {
             <button aria-label="장바구니" style={{ width: 38, height: 38, borderRadius: 9999, background: 'rgba(0,0,0,0.28)', backdropFilter: 'blur(6px)', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative' }}>
               {Icon.cart(20, '#fff')}
               {cartCount ? (
-                <span style={{ position: 'absolute', top: -3, right: -4, minWidth: 16, height: 16, padding: '0 4px', background: RED, color: '#fff', borderRadius: 9999, fontSize: 9.5, fontWeight: 800, display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1.5px solid rgba(0,0,0,0.2)' }}>{cartCount}</span>
+                <span style={{ position: 'absolute', top: -3, right: -4, minWidth: 16, height: 16, padding: '0 4px', background: RED, color: '#fff', borderRadius: 9999, fontSize: rem(9.5), fontWeight: 800, display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1.5px solid rgba(0,0,0,0.2)' }}>{cartCount}</span>
               ) : null}
             </button>
           </div>
@@ -926,33 +927,33 @@ function ProductDetailScreen({ product, onClose, onAdd, cartCount = 0 }) {
         <div style={{ position: 'relative', zIndex: 2, marginTop: -20, background: 'var(--surface)', borderTopLeftRadius: 22, borderTopRightRadius: 22, padding: '20px 18px 8px' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
             {p.tag && <Tag kind={p.tag === 'Best' ? 'best' : p.tag === '추천' ? 'rec' : 'new'}>{p.tag}</Tag>}
-            <span style={{ fontSize: 12.5, color: 'var(--fg-alt)', fontWeight: 600 }}>{d.cat || ''}</span>
+            <span style={{ fontSize: rem(12.5), color: 'var(--fg-alt)', fontWeight: 600 }}>{d.cat || ''}</span>
           </div>
 
-          {d.maker && <div style={{ fontSize: 12.5, color: 'var(--fg-assist)', fontWeight: 600, marginBottom: 3 }}>{d.maker}</div>}
-          <h2 style={{ margin: 0, fontSize: 24, fontWeight: 800, letterSpacing: '-0.03em', color: 'var(--fg-strong)', lineHeight: 1.25 }}>{p.name.split(' (')[0]}</h2>
-          {d.desc && <p style={{ margin: '10px 0 0', fontSize: 13.5, color: 'var(--fg-neutral)', lineHeight: 1.65 }}>{d.desc}</p>}
+          {d.maker && <div style={{ fontSize: rem(12.5), color: 'var(--fg-assist)', fontWeight: 600, marginBottom: 3 }}>{d.maker}</div>}
+          <h2 style={{ margin: 0, fontSize: rem(24), fontWeight: 800, letterSpacing: '-0.03em', color: 'var(--fg-strong)', lineHeight: 1.25 }}>{p.name.split(' (')[0]}</h2>
+          {d.desc && <p style={{ margin: '10px 0 0', fontSize: rem(13.5), color: 'var(--fg-neutral)', lineHeight: 1.65 }}>{d.desc}</p>}
 
           {/* 스펙 그리드 */}
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 8, margin: '18px 0', padding: '14px 0', borderTop: `1px solid ${LINE2}`, borderBottom: `1px solid ${LINE2}` }}>
             {specs.map((s) => (
               <div key={s.label} style={{ textAlign: 'center' }}>
-                <div style={{ fontSize: 11, color: 'var(--fg-assist)', fontWeight: 600, marginBottom: 5 }}>{s.label}</div>
-                <div style={{ fontSize: 13.5, fontWeight: 800, color: 'var(--fg-strong)', letterSpacing: '-0.02em' }}>{s.value}</div>
+                <div style={{ fontSize: rem(11), color: 'var(--fg-assist)', fontWeight: 600, marginBottom: 5 }}>{s.label}</div>
+                <div style={{ fontSize: rem(13.5), fontWeight: 800, color: 'var(--fg-strong)', letterSpacing: '-0.02em' }}>{s.value}</div>
               </div>
             ))}
           </div>
 
           {/* 가격 */}
           <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between' }}>
-            <span style={{ fontSize: 13, color: 'var(--fg-alt)', fontWeight: 600 }}>도매 가격 (1박스)</span>
-            <span style={{ fontSize: 24, fontWeight: 800, color: 'var(--fg-strong)', letterSpacing: '-0.03em' }}>₩{p.price.toLocaleString()}</span>
+            <span style={{ fontSize: rem(13), color: 'var(--fg-alt)', fontWeight: 600 }}>도매 가격 (1박스)</span>
+            <span style={{ fontSize: rem(24), fontWeight: 800, color: 'var(--fg-strong)', letterSpacing: '-0.03em' }}>₩{p.price.toLocaleString()}</span>
           </div>
 
           {/* 혜택 */}
           <div style={{ marginTop: 14, display: 'flex', flexDirection: 'column', gap: 7 }}>
             {['3박스 이상 주문 시 3% 할인', '50만원 이상 무료 배송'].map((t) => (
-              <div key={t} style={{ display: 'flex', alignItems: 'center', gap: 7, fontSize: 12.5, color: 'var(--fg-neutral)', fontWeight: 500 }}>
+              <div key={t} style={{ display: 'flex', alignItems: 'center', gap: 7, fontSize: rem(12.5), color: 'var(--fg-neutral)', fontWeight: 500 }}>
                 <span style={{ width: 4, height: 4, borderRadius: 9999, background: 'var(--fg-dim)', flexShrink: 0 }} />
                 {t}
               </div>
@@ -962,7 +963,7 @@ function ProductDetailScreen({ product, onClose, onAdd, cartCount = 0 }) {
           {/* 재발주 안내 */}
           <div style={{ marginTop: 16, padding: '12px 14px', borderRadius: 12, background: '#FFF7E6', border: '1px solid #FCE4B5', display: 'flex', gap: 9 }}>
             <span style={{ flexShrink: 0, marginTop: 1 }}>{Icon.clock(16, AMBER)}</span>
-            <div style={{ fontSize: 12.5, color: '#7A4A0E', lineHeight: 1.55, fontWeight: 500 }}>
+            <div style={{ fontSize: rem(12.5), color: '#7A4A0E', lineHeight: 1.55, fontWeight: 500 }}>
               지난 4주 평균 <b>월 1박스</b> 발주하셨어요. 다음 발주 권장 시점은 <b>5월 21일</b>입니다.
             </div>
           </div>
@@ -986,7 +987,7 @@ function ProductDetailScreen({ product, onClose, onAdd, cartCount = 0 }) {
             background: '#1A2238',
             color: '#fff',
             fontWeight: 800,
-            fontSize: 14.5,
+            fontSize: rem(14.5),
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -1047,15 +1048,15 @@ function DeadlineBar({ deadlineTime = '14:00' }) {
       >
         <span style={{ color: palette.accent, display: 'flex' }}>{Icon.clock(16, palette.accent)}</span>
         <div style={{ flex: 1, display: 'flex', alignItems: 'baseline', gap: 8, flexWrap: 'wrap' }}>
-          <span style={{ fontSize: 12.5, fontWeight: 700, color: palette.fg }}>오늘 {deadlineTime} 주문 마감</span>
-          <span style={{ fontSize: 13, fontWeight: 800, color: palette.accent, fontVariantNumeric: 'tabular-nums', letterSpacing: '-0.02em' }}>
+          <span style={{ fontSize: rem(12.5), fontWeight: 700, color: palette.fg }}>오늘 {deadlineTime} 주문 마감</span>
+          <span style={{ fontSize: rem(13), fontWeight: 800, color: palette.accent, fontVariantNumeric: 'tabular-nums', letterSpacing: '-0.02em' }}>
             {pad2(hours)}:{pad2(mins)}:{pad2(secs)} 남음
           </span>
         </div>
         <span style={{ color: palette.accent, display: 'flex' }}>{Icon.chevron(open ? 'up' : 'down', 16, palette.accent)}</span>
       </button>
       {open && (
-        <div style={{ marginTop: 6, padding: '12px 14px', borderRadius: 10, background: 'var(--bg-cool)', border: `1px solid ${LINE2}`, fontSize: 12.5, lineHeight: 1.65, color: 'var(--fg-neutral)' }}>
+        <div style={{ marginTop: 6, padding: '12px 14px', borderRadius: 10, background: 'var(--bg-cool)', border: `1px solid ${LINE2}`, fontSize: rem(12.5), lineHeight: 1.65, color: 'var(--fg-neutral)' }}>
           • <b>오늘 {deadlineTime}까지</b> 주문 시 내일 오전 출고
           <br />
           • 마감 이후 주문은 모레 영업일 출고
@@ -1079,7 +1080,7 @@ function QuickReorderItem({ item, onAdd }) {
         <div style={{ width: 30, height: 30, borderRadius: 9999, background: p.tint || '#F2F4F7', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', flexShrink: 0 }}>
           {p.kind.startsWith('can:') ? <Can kind={p.kind.slice(4)} size={22} /> : <Bottle kind={p.kind} size={26} />}
         </div>
-        <div style={{ fontSize: 12, fontWeight: 700, color: 'var(--fg-strong)', lineHeight: 1.2, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', flex: 1, minWidth: 0 }}>
+        <div style={{ fontSize: rem(12), fontWeight: 700, color: 'var(--fg-strong)', lineHeight: 1.2, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', flex: 1, minWidth: 0 }}>
           {short}
         </div>
       </div>
@@ -1094,7 +1095,7 @@ function QuickReorderItem({ item, onAdd }) {
             background: BRAND,
             color: '#fff',
             fontWeight: 700,
-            fontSize: 11,
+            fontSize: rem(11),
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -1114,8 +1115,8 @@ function QuickReorder({ items = [], onQuickAdd }) {
     <div style={{ padding: '0 16px 12px', background: 'var(--surface)' }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 5, marginBottom: 8 }}>
         <span style={{ color: BRAND, display: 'flex' }}>{Icon.bolt(13, 'currentColor')}</span>
-        <span style={{ fontSize: 12, fontWeight: 700, color: BRAND_STRONG, letterSpacing: '-0.01em' }}>빠른 발주</span>
-        <span style={{ fontSize: 11, color: 'var(--fg-assist)', fontWeight: 500 }}>· 평소 시키는 수량</span>
+        <span style={{ fontSize: rem(12), fontWeight: 700, color: BRAND_STRONG, letterSpacing: '-0.01em' }}>빠른 발주</span>
+        <span style={{ fontSize: rem(11), color: 'var(--fg-assist)', fontWeight: 500 }}>· 평소 시키는 수량</span>
       </div>
       <div className="no-scrollbar" style={{ display: 'flex', gap: 8, overflowX: 'auto', WebkitOverflowScrolling: 'touch' }}>
         {items.map((it) => (
@@ -1143,7 +1144,7 @@ function CategoryTabs({ active, onChange }) {
                 padding: '12px 12px',
                 position: 'relative',
                 whiteSpace: 'nowrap',
-                fontSize: 14.5,
+                fontSize: rem(14.5),
                 fontWeight: on ? 800 : 500,
                 color: on ? 'var(--fg-strong)' : 'var(--fg-alt)',
               }}
@@ -1167,7 +1168,7 @@ function BrandScroller({ category }) {
         {brands.map(([label, kind]) => (
           <button key={label} className="press" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6, flexShrink: 0, width: 74, scrollSnapAlign: 'start' }}>
             <BrandLogoTile kind={kind} size={74} />
-            <div style={{ fontSize: 11.5, fontWeight: 600, color: 'var(--fg-neutral)', textAlign: 'center', lineHeight: 1.25, maxWidth: 74, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+            <div style={{ fontSize: rem(11.5), fontWeight: 600, color: 'var(--fg-neutral)', textAlign: 'center', lineHeight: 1.25, maxWidth: 74, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
               {label}
             </div>
           </button>
@@ -1204,8 +1205,8 @@ function SectionHeader({ title, count, right }) {
   return (
     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '18px 16px 10px' }}>
       <div style={{ display: 'flex', alignItems: 'baseline', gap: 6 }}>
-        <h3 style={{ margin: 0, fontSize: 17, fontWeight: 800, letterSpacing: '-0.02em' }}>{title}</h3>
-        {count != null && <span style={{ fontSize: 13, color: 'var(--fg-assist)', fontWeight: 600 }}>{count}</span>}
+        <h3 style={{ margin: 0, fontSize: rem(17), fontWeight: 800, letterSpacing: '-0.02em' }}>{title}</h3>
+        {count != null && <span style={{ fontSize: rem(13), color: 'var(--fg-assist)', fontWeight: 600 }}>{count}</span>}
       </div>
       {right}
     </div>
@@ -1224,7 +1225,7 @@ function SpecChip({ children, size = 'md' }) {
         background: BRAND_SOFT,
         border: `1px solid ${BRAND}`,
         color: BRAND_STRONG,
-        fontSize: isSm ? 11 : 11.5,
+        fontSize: rem(isSm ? 11 : 11.5),
         fontWeight: 700,
         letterSpacing: '-0.01em',
         whiteSpace: 'nowrap',
@@ -1243,7 +1244,7 @@ function StockChip({ stock }) {
   };
   const v = map[stock] || map.in;
   return (
-    <span style={{ display: 'inline-flex', alignItems: 'center', gap: 5, fontSize: 11.5, fontWeight: 600, color: v.c }}>
+    <span style={{ display: 'inline-flex', alignItems: 'center', gap: 5, fontSize: rem(11.5), fontWeight: 600, color: v.c }}>
       <span style={{ width: 6, height: 6, borderRadius: 9999, background: v.d }} />
       {v.t}
     </span>
@@ -1262,7 +1263,7 @@ function Tag({ children, kind = 'best' }) {
       style={{
         background: v.bg,
         color: v.c,
-        fontSize: 10.5,
+        fontSize: rem(10.5),
         fontWeight: 800,
         padding: '3px 7px',
         borderRadius: 6,
@@ -1284,7 +1285,7 @@ function HomeStepper({ qty, onChange, compact = false, size = 'md' }) {
       <button onClick={() => onChange(Math.max(1, qty - 1))} style={{ width: btnW, height: h, color: 'var(--fg-alt)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         {Icon.minus(isSm ? 12 : 14)}
       </button>
-      <span style={{ minWidth: numW, textAlign: 'center', fontSize: isSm ? 12 : 13, fontWeight: 700 }}>{qty}</span>
+      <span style={{ minWidth: numW, textAlign: 'center', fontSize: rem(isSm ? 12 : 13), fontWeight: 700 }}>{qty}</span>
       <button onClick={() => onChange(qty + 1)} style={{ width: btnW, height: h, color: 'var(--fg-strong)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         {Icon.plus(isSm ? 12 : 14)}
       </button>
@@ -1360,7 +1361,7 @@ function ProductCardImage({ p, fav, onFav, onAdd, ctaMode = 'default', onOpen })
       <div
         onClick={() => onOpen && onOpen(p)}
         style={{
-          fontSize: 13,
+          fontSize: rem(13),
           fontWeight: 600,
           lineHeight: 1.3,
           color: 'var(--fg-strong)',
@@ -1392,7 +1393,7 @@ function ProductCardImage({ p, fav, onFav, onAdd, ctaMode = 'default', onOpen })
             color: isReorder ? BRAND_STRONG : '#fff',
             border: isReorder ? `1.5px solid ${BRAND}` : 'none',
             fontWeight: 700,
-            fontSize: 12,
+            fontSize: rem(12),
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -1421,7 +1422,7 @@ function ProductRow({ p, fav, onFav, onAdd, onOpen }) {
       </div>
       <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 5, minWidth: 0 }}>
         <div style={{ display: 'flex', alignItems: 'flex-start', gap: 6 }}>
-          <div onClick={() => onOpen && onOpen(p)} style={{ flex: 1, fontSize: 13.5, fontWeight: 600, lineHeight: 1.35, color: 'var(--fg-strong)', cursor: onOpen ? 'pointer' : 'default' }}>{p.name}</div>
+          <div onClick={() => onOpen && onOpen(p)} style={{ flex: 1, fontSize: rem(13.5), fontWeight: 600, lineHeight: 1.35, color: 'var(--fg-strong)', cursor: onOpen ? 'pointer' : 'default' }}>{p.name}</div>
           <button onClick={onFav} style={{ padding: 2, marginTop: -2 }}>{Icon.heart(fav, 18)}</button>
         </div>
         <div>
@@ -1440,7 +1441,7 @@ function ProductRow({ p, fav, onFav, onAdd, onOpen }) {
                 background: BRAND,
                 color: '#fff',
                 fontWeight: 700,
-                fontSize: 12,
+                fontSize: rem(12),
                 display: 'flex',
                 alignItems: 'center',
                 gap: 4,
@@ -1496,10 +1497,10 @@ function OrderGroupCard({ order, onReorder }) {
     <div style={{ background: 'var(--surface)', borderRadius: 14, border: `1px solid ${LINE2}`, padding: '12px 12px 10px', display: 'flex', flexDirection: 'column', gap: 8, boxShadow: SHADOW_CARD, height: '100%' }}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <div style={{ display: 'flex', alignItems: 'baseline', gap: 6, minWidth: 0 }}>
-          <div style={{ fontSize: 12, fontWeight: 700, color: 'var(--fg-strong)' }}>{order.date.slice(5)}</div>
-          <div style={{ fontSize: 10.5, color: 'var(--fg-assist)', fontWeight: 500, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{order.orderNo}</div>
+          <div style={{ fontSize: rem(12), fontWeight: 700, color: 'var(--fg-strong)' }}>{order.date.slice(5)}</div>
+          <div style={{ fontSize: rem(10.5), color: 'var(--fg-assist)', fontWeight: 500, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{order.orderNo}</div>
         </div>
-        <span style={{ fontSize: 10, fontWeight: 700, color: BRAND_STRONG, background: BRAND_SOFT, padding: '2px 7px', borderRadius: 9999, flexShrink: 0 }}>{order.status}</span>
+        <span style={{ fontSize: rem(10), fontWeight: 700, color: BRAND_STRONG, background: BRAND_SOFT, padding: '2px 7px', borderRadius: 9999, flexShrink: 0 }}>{order.status}</span>
       </div>
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: 8, paddingTop: 8, borderTop: `1px solid ${LINE2}` }}>
@@ -1512,7 +1513,7 @@ function OrderGroupCard({ order, onReorder }) {
                 {p.kind.startsWith('can:') ? <Can kind={p.kind.slice(4)} size={26} /> : <Bottle kind={p.kind} size={30} />}
               </div>
               <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', gap: 2 }}>
-                <div style={{ fontSize: 12, fontWeight: 700, color: 'var(--fg-strong)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', lineHeight: 1.25 }}>{p.name}</div>
+                <div style={{ fontSize: rem(12), fontWeight: 700, color: 'var(--fg-strong)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', lineHeight: 1.25 }}>{p.name}</div>
                 <div>
                   <SpecChip size="sm">{p.spec}</SpecChip>
                 </div>
@@ -1535,7 +1536,7 @@ function OrderGroupCard({ order, onReorder }) {
           background: totalBoxes === 0 ? 'var(--bg-neutral)' : BRAND,
           color: totalBoxes === 0 ? 'var(--fg-assist)' : '#fff',
           fontWeight: 700,
-          fontSize: 13,
+          fontSize: rem(13),
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
@@ -1575,10 +1576,10 @@ function OrderGroupRow({ order, onReorder }) {
     <div style={{ background: 'var(--surface)', borderRadius: 14, border: `1px solid ${LINE2}`, padding: '14px 14px 12px', display: 'flex', flexDirection: 'column', gap: 10, boxShadow: SHADOW_CARD }}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <div style={{ display: 'flex', alignItems: 'baseline', gap: 6 }}>
-          <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--fg-strong)' }}>{order.date}</div>
-          <div style={{ fontSize: 11, color: 'var(--fg-assist)', fontWeight: 500 }}>{order.orderNo}</div>
+          <div style={{ fontSize: rem(13), fontWeight: 700, color: 'var(--fg-strong)' }}>{order.date}</div>
+          <div style={{ fontSize: rem(11), color: 'var(--fg-assist)', fontWeight: 500 }}>{order.orderNo}</div>
         </div>
-        <span style={{ fontSize: 10, fontWeight: 700, color: BRAND_STRONG, background: BRAND_SOFT, padding: '2px 8px', borderRadius: 9999 }}>{order.status}</span>
+        <span style={{ fontSize: rem(10), fontWeight: 700, color: BRAND_STRONG, background: BRAND_SOFT, padding: '2px 8px', borderRadius: 9999 }}>{order.status}</span>
       </div>
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: 10, paddingTop: 10, borderTop: `1px solid ${LINE2}` }}>
@@ -1591,7 +1592,7 @@ function OrderGroupRow({ order, onReorder }) {
                 {p.kind.startsWith('can:') ? <Can kind={p.kind.slice(4)} size={30} /> : <Bottle kind={p.kind} size={34} />}
               </div>
               <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', gap: 3 }}>
-                <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--fg-strong)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', lineHeight: 1.3 }}>{p.name}</div>
+                <div style={{ fontSize: rem(13), fontWeight: 700, color: 'var(--fg-strong)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', lineHeight: 1.3 }}>{p.name}</div>
                 <div>
                   <SpecChip size="sm">{p.spec}</SpecChip>
                 </div>
@@ -1614,7 +1615,7 @@ function OrderGroupRow({ order, onReorder }) {
           background: totalBoxes === 0 ? 'var(--bg-neutral)' : BRAND,
           color: totalBoxes === 0 ? 'var(--fg-assist)' : '#fff',
           fontWeight: 700,
-          fontSize: 13.5,
+          fontSize: rem(13.5),
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
@@ -1658,28 +1659,28 @@ function MonthlySummaryCard({ ordersCount = 12, ordersAmount = 458000, deltaPct 
       <button style={{ flex: 1, background: BRAND_SOFT, borderRadius: 14, padding: '12px 12px', border: `1px solid ${BRAND_TINT}`, display: 'flex', flexDirection: 'column', gap: 3, textAlign: 'left' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
           <span style={{ color: BRAND, display: 'flex' }}>{Icon.chart(13, 'currentColor')}</span>
-          <span style={{ fontSize: 11, fontWeight: 700, color: BRAND_STRONG, letterSpacing: '-0.01em' }}>{monthLabel} 누적 발주</span>
+          <span style={{ fontSize: rem(11), fontWeight: 700, color: BRAND_STRONG, letterSpacing: '-0.01em' }}>{monthLabel} 누적 발주</span>
         </div>
         <div style={{ display: 'flex', alignItems: 'baseline', gap: 3, marginTop: 2 }}>
-          <span style={{ fontSize: 18, fontWeight: 800, color: 'var(--fg-strong)', letterSpacing: '-0.03em' }}>{ordersCount}</span>
-          <span style={{ fontSize: 11, fontWeight: 600, color: 'var(--fg-alt)' }}>건</span>
+          <span style={{ fontSize: rem(18), fontWeight: 800, color: 'var(--fg-strong)', letterSpacing: '-0.03em' }}>{ordersCount}</span>
+          <span style={{ fontSize: rem(11), fontWeight: 600, color: 'var(--fg-alt)' }}>건</span>
         </div>
-        <div style={{ fontSize: 13.5, fontWeight: 800, color: BRAND_STRONG, letterSpacing: '-0.02em' }}>₩{ordersAmount.toLocaleString()}</div>
+        <div style={{ fontSize: rem(13.5), fontWeight: 800, color: BRAND_STRONG, letterSpacing: '-0.02em' }}>₩{ordersAmount.toLocaleString()}</div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 3, marginTop: 1 }}>
           <span style={{ color: BRAND, display: 'flex' }}>{Icon.trendUp(11, 'currentColor')}</span>
-          <span style={{ fontSize: 10.5, color: 'var(--fg-alt)', fontWeight: 600 }}>지난달 +{deltaPct}%</span>
+          <span style={{ fontSize: rem(10.5), color: 'var(--fg-alt)', fontWeight: 600 }}>지난달 +{deltaPct}%</span>
         </div>
       </button>
 
       <button style={{ flex: 1, background: creditPalette.bg, borderRadius: 14, padding: '12px', border: `1px solid ${creditPalette.border}`, display: 'flex', flexDirection: 'column', gap: 3, textAlign: 'left' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
           <span style={{ color: creditPalette.accent, display: 'flex' }}>{Icon.wallet(13, creditPalette.accent)}</span>
-          <span style={{ fontSize: 11, fontWeight: 700, color: creditPalette.fg, letterSpacing: '-0.01em' }}>외상 잔액</span>
+          <span style={{ fontSize: rem(11), fontWeight: 700, color: creditPalette.fg, letterSpacing: '-0.01em' }}>외상 잔액</span>
         </div>
         <div style={{ display: 'flex', alignItems: 'baseline', gap: 3, marginTop: 2 }}>
-          <span style={{ fontSize: 18, fontWeight: 800, color: 'var(--fg-strong)', letterSpacing: '-0.03em' }}>₩{wonShort(creditUsed)}</span>
+          <span style={{ fontSize: rem(18), fontWeight: 800, color: 'var(--fg-strong)', letterSpacing: '-0.03em' }}>₩{wonShort(creditUsed)}</span>
         </div>
-        <div style={{ fontSize: 11, color: creditPalette.fg, fontWeight: 600 }}>
+        <div style={{ fontSize: rem(11), color: creditPalette.fg, fontWeight: 600 }}>
           한도 ₩{wonShort(creditLimit)} 중 {creditPct}%
         </div>
         <div style={{ height: 5, background: 'rgba(180,83,9,0.18)', borderRadius: 9999, overflow: 'hidden', marginTop: 6 }}>
@@ -1716,16 +1717,16 @@ function CartMiniBar({ count = 0, amount = 0, summary = '', onCheckout }) {
         <div style={{ display: 'flex', alignItems: 'center', gap: 6, lineHeight: 1 }}>
           <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4, color: '#4F86F2' }}>
             {Icon.cartSmall(14, 'currentColor')}
-            <span style={{ fontSize: 11.5, fontWeight: 700, letterSpacing: '-0.01em', lineHeight: 1 }}>장바구니</span>
+            <span style={{ fontSize: rem(11.5), fontWeight: 700, letterSpacing: '-0.01em', lineHeight: 1 }}>장바구니</span>
           </span>
-          <span style={{ fontSize: 17, fontWeight: 800, letterSpacing: '-0.02em', color: '#fff', lineHeight: 1 }}>₩ {amount.toLocaleString()}</span>
+          <span style={{ fontSize: rem(17), fontWeight: 800, letterSpacing: '-0.02em', color: '#fff', lineHeight: 1 }}>₩ {amount.toLocaleString()}</span>
         </div>
         {summary && (
-          <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.72)', fontWeight: 500, lineHeight: 1.15, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{summary}</div>
+          <div style={{ fontSize: rem(12), color: 'rgba(255,255,255,0.72)', fontWeight: 500, lineHeight: 1.15, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{summary}</div>
         )}
       </div>
-      <button onClick={onCheckout} style={{ flexShrink: 0, padding: '0 18px', height: 42, borderRadius: 9999, background: BRAND, color: '#fff', fontWeight: 800, fontSize: 13.5, display: 'flex', alignItems: 'center', gap: 3 }}>
-        주문하기 <span style={{ fontSize: 16, marginTop: -1 }}>›</span>
+      <button onClick={onCheckout} style={{ flexShrink: 0, padding: '0 18px', height: 42, borderRadius: 9999, background: BRAND, color: '#fff', fontWeight: 800, fontSize: rem(13.5), display: 'flex', alignItems: 'center', gap: 3 }}>
+        주문하기 <span style={{ fontSize: rem(16), marginTop: -1 }}>›</span>
       </button>
     </div>
   );
@@ -1752,7 +1753,7 @@ function BottomTabBar({ active, onChange }) {
               style={{ flex: 1, padding: '8px 4px 6px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 3 }}
             >
               <div style={{ position: 'relative' }}>{t.icon(on)}</div>
-              <span style={{ fontSize: 10.5, fontWeight: on ? 700 : 500, color: on ? BRAND_STRONG : 'var(--fg-assist)' }}>{t.label}</span>
+              <span style={{ fontSize: rem(10.5), fontWeight: on ? 700 : 500, color: on ? BRAND_STRONG : 'var(--fg-assist)' }}>{t.label}</span>
             </button>
           );
         })}
@@ -1831,9 +1832,9 @@ export function B2BHomeFlow() {
 
   // "더보기 ›" — 모든 섹션 우측에 동일 패턴.
   const MoreBtn = () => (
-    <button style={{ fontSize: 12.5, color: 'var(--fg-alt)', fontWeight: 600, display: 'flex', alignItems: 'center', gap: 3, padding: '2px 0' }}>
+    <button style={{ fontSize: rem(12.5), color: 'var(--fg-alt)', fontWeight: 600, display: 'flex', alignItems: 'center', gap: 3, padding: '2px 0' }}>
       더보기{' '}
-      <span style={{ fontSize: 15, lineHeight: 1, color: 'var(--fg-assist)', fontWeight: 500, marginLeft: 1, marginTop: -1 }}>›</span>
+      <span style={{ fontSize: rem(15), lineHeight: 1, color: 'var(--fg-assist)', fontWeight: 500, marginLeft: 1, marginTop: -1 }}>›</span>
     </button>
   );
 
@@ -1891,7 +1892,7 @@ export function B2BHomeFlow() {
         <MonthlySummaryCard ordersCount={12} ordersAmount={458000} deltaPct={8} monthLabel="5월" creditUsed={3200000} creditLimit={5000000} />
 
         <div style={{ height: 16 }} />
-        <div style={{ textAlign: 'center', fontSize: 11, color: 'var(--fg-assist)', padding: '8px 0 16px' }}>
+        <div style={{ textAlign: 'center', fontSize: rem(11), color: 'var(--fg-assist)', padding: '8px 0 16px' }}>
           ⓒ HiteJinro B2B — 모든 거래는 사업자 등록증 인증 후 가능합니다
         </div>
       </div>
@@ -1920,7 +1921,7 @@ export function B2BHomeFlow() {
             color: '#fff',
             padding: '12px 18px',
             borderRadius: 9999,
-            fontSize: 13,
+            fontSize: rem(13),
             fontWeight: 600,
             zIndex: 50,
             display: 'flex',

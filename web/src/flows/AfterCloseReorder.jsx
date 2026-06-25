@@ -1,5 +1,6 @@
 // Flow 1: 마감 후 재주문 — 김영자 사장님 시나리오 (5단계)
 import React, { useState } from 'react';
+import { rem } from '../lib/rem.js';
 import { favorites, byId, fmtWon } from '../data/products.js';
 import { Ic } from '../components/Icons.jsx';
 import { TabBar, ProductTile, Stepper, PageNav, BottomBar } from '../components/Primitives.jsx';
@@ -144,7 +145,7 @@ export function AfterCloseFlow() {
               gap: 10,
             }}
           >
-            <div style={{ fontSize: 18 }}>🎉</div>
+            <div style={{ fontSize: rem(18) }}>🎉</div>
             <span className="t-body-m" style={{ color: 'var(--green-on)', fontWeight: 600 }}>
               최소 주문 금액 충족! 무료 배송 가능
             </span>
@@ -587,7 +588,7 @@ function SummaryCards() {
       <div className="card" style={{ flex: 1, padding: 14 }}>
         <span className="t-body-s fg-alt">이번 주 주문</span>
         <div className="row" style={{ alignItems: 'baseline', gap: 4, marginTop: 6 }}>
-          <span className="t-num-big fg-strong" style={{ fontSize: 28 }}>
+          <span className="t-num-big fg-strong" style={{ fontSize: rem(28) }}>
             4
           </span>
           <span className="t-body-m fg-alt">건</span>
@@ -609,7 +610,7 @@ function SummaryCards() {
           ⚠ 미결제 금액
         </span>
         <div className="row" style={{ alignItems: 'baseline', gap: 2, marginTop: 6 }}>
-          <span className="t-num-big fg-strong" style={{ fontSize: 24 }}>
+          <span className="t-num-big fg-strong" style={{ fontSize: rem(24) }}>
             220,000
           </span>
           <span className="t-body-m fg-alt">원</span>
@@ -734,7 +735,7 @@ function Categories() {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                fontSize: 22,
+                fontSize: rem(22),
               }}
             >
               {c.emoji}
@@ -800,9 +801,9 @@ function DateStrip({ selected, onChange }) {
               opacity: day.dis ? 0.5 : 1,
             }}
           >
-            <span style={{ fontSize: 11, fontWeight: 600, opacity: 0.8 }}>{day.label || day.w}</span>
-            <span style={{ fontSize: 22, fontWeight: 700 }}>{day.d}</span>
-            <span style={{ fontSize: 10, opacity: 0.65 }}>5월</span>
+            <span style={{ fontSize: rem(11), fontWeight: 600, opacity: 0.8 }}>{day.label || day.w}</span>
+            <span style={{ fontSize: rem(22), fontWeight: 700 }}>{day.d}</span>
+            <span style={{ fontSize: rem(10), opacity: 0.65 }}>5월</span>
           </button>
         );
       })}
