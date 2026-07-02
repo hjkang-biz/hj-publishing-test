@@ -178,7 +178,10 @@ export function MultiStoreFlow() {
           </div>
         </div>
 
-        <div className="col" style={{ padding: '14px 16px', gap: 12 }}>
+        <div
+          className="r-grid"
+          style={{ padding: '14px 16px', '--cols': 1, '--cols-f': 2, '--cols-tl': 3, '--r-gap': '12px' }}
+        >
           {visible.map((s) => (
             <StoreCard key={s.id} s={s} />
           ))}
@@ -209,7 +212,7 @@ export function MultiStoreFlow() {
               전체 보기
             </span>
           </div>
-          <div className="col gap-10">
+          <div className="r-grid" style={{ '--cols': 1, '--cols-f': 2, '--cols-tl': 3, '--r-gap': '10px' }}>
             {stores.map((s) => {
               const p = byId(s.next.sku);
               return (

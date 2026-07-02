@@ -138,7 +138,7 @@ function HomeV2({ onReco, onBundle }) {
               전체
             </span>
           </div>
-          <div className="h-scroll no-scrollbar" style={{ gap: 10, paddingRight: 16, paddingBottom: 4 }}>
+          <div className="h-scroll-grid" style={{ '--card-w': '220px', '--cols-f': 2, '--cols-t': 3, '--cols-tl': 4, paddingRight: 16, paddingBottom: 4 }}>
             {reco.bundles.map((b) => (
               <BundleCard key={b.id} b={b} onTap={() => onBundle(b.id)} />
             ))}
@@ -355,7 +355,6 @@ function BundleCard({ b, onTap }) {
       className="press"
       onClick={onTap}
       style={{
-        width: 220,
         minHeight: 178,
         textAlign: 'left',
         background: 'var(--surface)',
@@ -423,7 +422,6 @@ function NewBundleCard() {
     <button
       className="press"
       style={{
-        width: 160,
         minHeight: 178,
         background: 'transparent',
         border: '1.5px dashed var(--line-strong)',

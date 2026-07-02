@@ -713,7 +713,7 @@ function Categories() {
       <span className="t-title-s fg-strong" style={{ marginBottom: 10, display: 'block' }}>
         카테고리
       </span>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 10 }}>
+      <div className="r-grid" style={{ '--cols': 3, '--cols-f': 4, '--cols-t': 6, '--cols-tl': 6, '--r-gap': '10px' }}>
         {cats.map((c) => (
           <button
             key={c.name}

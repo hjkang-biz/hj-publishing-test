@@ -1456,16 +1456,14 @@ function ProductRow({ p, fav, onFav, onAdd, onOpen }) {
   );
 }
 
+// 모바일=가로 스와이프 / foldable~=반응형 그리드 (2→3→4열). 리플로우 로직은 _responsive.scss.
 function ProductScroller({ products, favs, toggleFav, onAdd, cardWidth = 158, ctaMode = 'default', onOpen }) {
   const dragRef = useDragScroll();
   return (
-    <div ref={dragRef} className="no-scrollbar" style={{ display: 'flex', gap: 12, padding: '0 16px 12px', overflowX: 'auto', scrollSnapType: 'x proximity', WebkitOverflowScrolling: 'touch', scrollPaddingLeft: 16 }}>
+    <div ref={dragRef} className="h-scroll-grid" style={{ padding: '0 16px 12px', '--card-w': `${cardWidth}px` }}>
       {products.map((p) => (
-        <div key={p.id} style={{ width: cardWidth, flexShrink: 0, scrollSnapAlign: 'start' }}>
-          <ProductCardImage p={p} fav={!!favs[p.id]} onFav={() => toggleFav(p.id)} onAdd={onAdd} ctaMode={ctaMode} onOpen={onOpen} />
-        </div>
+        <ProductCardImage key={p.id} p={p} fav={!!favs[p.id]} onFav={() => toggleFav(p.id)} onAdd={onAdd} ctaMode={ctaMode} onOpen={onOpen} />
       ))}
-      <div style={{ width: 8, flexShrink: 0 }} />
     </div>
   );
 }
@@ -1629,16 +1627,14 @@ function OrderGroupRow({ order, onReorder }) {
   );
 }
 
+// 최근주문 카드: 상세도가 높아 넓은 화면에서도 2→2→3열로 여유있게.
 function OrderGroupScroller({ orders, onReorder, cardWidth = 270 }) {
   const dragRef = useDragScroll();
   return (
-    <div ref={dragRef} className="no-scrollbar" style={{ display: 'flex', gap: 12, padding: '0 16px 4px', overflowX: 'auto', scrollSnapType: 'x proximity', WebkitOverflowScrolling: 'touch', scrollPaddingLeft: 16, alignItems: 'stretch' }}>
+    <div ref={dragRef} className="h-scroll-grid" style={{ padding: '0 16px 4px', alignItems: 'stretch', '--card-w': `${cardWidth}px`, '--cols-f': 2, '--cols-t': 2, '--cols-tl': 3 }}>
       {orders.map((o) => (
-        <div key={o.id} style={{ width: cardWidth, flexShrink: 0, scrollSnapAlign: 'start' }}>
-          <OrderGroupCard order={o} onReorder={onReorder} />
-        </div>
+        <OrderGroupCard key={o.id} order={o} onReorder={onReorder} />
       ))}
-      <div style={{ width: 8, flexShrink: 0 }} />
     </div>
   );
 }
@@ -1839,7 +1835,7 @@ export function B2BHomeFlow() {
   );
 
   return (
-    <div style={{ width: '100%', height: '100%', position: 'relative', background: BG_PAGE, paddingTop: 54 /* status bar */ }}>
+    <div style={{ width: '100%', height: '100%', position: 'relative', background: BG_PAGE, paddingTop: 'var(--status-bar-h)' }}>
       <div className="no-scrollbar" style={{ height: '100%', overflowY: 'auto', paddingBottom: 140 /* CartMiniBar + TabBar */ }}>
         <Header cartCount={cartCount} onCart={() => showToast('장바구니로 이동합니다', 1500)} />
         <Banner />

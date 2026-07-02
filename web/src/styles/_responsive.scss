@@ -1,0 +1,90 @@
+// 반응형 레이아웃 유틸리티 — 플로우가 공통으로 쓰는 리플로우 도구
+// ------------------------------------------------------------------
+// 브레이크포인트 로직은 여기 한 곳에만 둔다. 각 섹션은 열 수만 CSS 변수로
+// 선언하면 된다 → 퍼블리셔는 breakpoint px를 몰라도 열 수만 바꾸면 됨.
+//
+//   <div class="r-grid" style="--cols-t:3; --cols-tl:4">…</div>
+//
+//   --cols     모바일(기본, 390~)   기본 1
+//   --cols-f   foldable(673~)       기본 2
+//   --cols-t   tablet(800~)         기본 3
+//   --cols-tl  tablet-l(1200~)      기본 4
+
+@use 'breakpoints' as bp;
+
+// ── 반응형 그리드 — 브레이크포인트마다 열 수 증가 ───────────
+.r-grid {
+  display: grid;
+  gap: var(--r-gap, 12px);
+  grid-template-columns: repeat(var(--cols, 1), minmax(0, 1fr));
+
+  @include bp.up(foldable) {
+    grid-template-columns: repeat(var(--cols-f, 2), minmax(0, 1fr));
+  }
+  @include bp.up(tablet) {
+    grid-template-columns: repeat(var(--cols-t, 3), minmax(0, 1fr));
+  }
+  @include bp.up(tablet-l) {
+    grid-template-columns: repeat(var(--cols-tl, 4), minmax(0, 1fr));
+  }
+}
+
+// ── 모바일=가로 스크롤 / 넓은 화면=그리드 리플로우 ──────────
+// 폰에서는 스와이프(가로 스크롤) 유지, foldable 이상에서 그리드로 펼침.
+// ⚠️ 자식 카드의 인라인 고정 width는 제거해야 그리드에서 늘어난다.
+//    (자식에 flex:0 0 auto 대신 이 컨테이너의 자식 규칙이 폭을 제어)
+.h-scroll-grid {
+  display: flex;
+  gap: var(--r-gap, 12px);
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar { display: none; }
+
+  > * {
+    scroll-snap-align: start;
+    flex: 0 0 var(--card-w, 60%); // 모바일: 카드 폭 = 화면의 60% (살짝 다음 카드 보임)
+    min-width: 0;
+  }
+
+  @include bp.up(foldable) {
+    display: grid;
+    overflow: visible;
+    grid-template-columns: repeat(var(--cols-f, 2), minmax(0, 1fr));
+
+    > * { flex: initial; width: auto; }
+  }
+  @include bp.up(tablet) {
+    grid-template-columns: repeat(var(--cols-t, 3), minmax(0, 1fr));
+  }
+  @include bp.up(tablet-l) {
+    grid-template-columns: repeat(var(--cols-tl, 4), minmax(0, 1fr));
+  }
+}
+
+// ── 넓은 화면 2단 레이아웃 (본문 + 사이드) ──────────────────
+// tablet-l(1200~) 에서 홈을 2단으로. 기본은 1단(세로 쌓기).
+.r-split {
+  display: grid;
+  gap: var(--r-gap, 16px);
+  grid-template-columns: 1fr;
+
+  @include bp.up(tablet-l) {
+    grid-template-columns: minmax(0, 1fr) var(--aside-w, 340px);
+    align-items: start;
+  }
+}
+
+// tablet-l 미만에서는 사이드를 본문 흐름 그대로, 이상에서 sticky
+.r-split__aside {
+  @include bp.up(tablet-l) {
+    position: sticky;
+    top: 16px;
+  }
+}
+
+// ── 특정 브레이크포인트에서만 표시/숨김 ─────────────────────
+.only-wide { display: none; @include bp.up(tablet) { display: revert; } }
+.only-narrow { @include bp.up(tablet) { display: none; } }

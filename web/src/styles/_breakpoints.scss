@@ -1,0 +1,72 @@
+// 반응형 브레이크포인트 — 퍼블리셔용 단일 소스(Single Source of Truth)
+// ------------------------------------------------------------------
+// 모바일 우선(mobile-first) · min-width 기준. 아래로 갈수록 넓은 화면.
+//
+//   mobile    390px  기준 폭 (기본값 — 미디어쿼리 없이 항상 적용)
+//   foldable  673px  이상 — 폴더블 펼침 / 대화면 폰
+//   tablet    800px  이상 — 태블릿 세로
+//   tablet-l  1200px 이상 — 태블릿 가로 / 데스크탑
+//
+// 사용법:
+//   @use 'breakpoints' as bp;
+//   .prod-grid {
+//     grid-template-columns: 1fr;                 // 모바일(기본)
+//     @include bp.up(foldable) { grid-template-columns: repeat(2, 1fr); }
+//     @include bp.up(tablet)   { grid-template-columns: repeat(3, 1fr); }
+//     @include bp.up(tablet-l) { grid-template-columns: repeat(4, 1fr); }
+//   }
+//
+// ⚠️ 새 브레이크포인트가 필요하면 반드시 여기 $breakpoints 맵만 고칠 것.
+//    코드 곳곳에 raw px(@media (min-width: 673px))를 흩뿌리지 말 것.
+
+@use 'sass:map';
+
+// ── 브레이크포인트 값 (px) — 프로젝트 전역 기준 ─────────────
+$mobile: 390px;
+$foldable: 673px;
+$tablet: 800px;
+$tablet-l: 1200px;
+
+$breakpoints: (
+  mobile: $mobile,
+  foldable: $foldable,
+  tablet: $tablet,
+  tablet-l: $tablet-l,
+);
+
+// ── 콘텐츠 컬럼 최대 폭 ─────────────────────────────────────
+// 큰 화면에서 앱 콘텐츠가 무한정 늘어나지 않도록 상한을 두고 가운데 정렬한다.
+// (사용자 요구: 1200 이상에서 "사이드 여백" — 콘텐츠 캡 + 센터링)
+$content-max: 1120px;
+
+// ── up(name): 해당 브레이크포인트 이상에서 적용 (min-width) ──
+@mixin up($name) {
+  $w: map.get($breakpoints, $name);
+  @if not $w {
+    @error "Unknown breakpoint `#{$name}`. 사용 가능: #{map.keys($breakpoints)}";
+  }
+  @media (min-width: $w) {
+    @content;
+  }
+}
+
+// ── down(name): 해당 브레이크포인트 미만에서 적용 (max-width) ─
+//    경계 중복을 피하려 0.02px 뺀다. (모바일 우선이라 되도록 up() 사용 권장)
+@mixin down($name) {
+  $w: map.get($breakpoints, $name);
+  @if not $w {
+    @error "Unknown breakpoint `#{$name}`. 사용 가능: #{map.keys($breakpoints)}";
+  }
+  @media (max-width: ($w - 0.02px)) {
+    @content;
+  }
+}
+
+// ── between(min, max): 두 브레이크포인트 사이에서만 적용 ─────
+@mixin between($min, $max) {
+  $lo: map.get($breakpoints, $min);
+  $hi: map.get($breakpoints, $max);
+  @media (min-width: $lo) and (max-width: ($hi - 0.02px)) {
+    @content;
+  }
+}

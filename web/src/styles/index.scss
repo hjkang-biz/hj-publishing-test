@@ -3,7 +3,7 @@
 @use 'base';
 @use 'typography';
 @use 'utilities';
+@use 'responsive'; // 반응형 그리드/2단 유틸 (breakpoints 기반)
 @use 'components';
 @use 'animations';
-@use 'canvas';
-@use 'mobile';
+@use 'shell'; // 유동 반응형 앱 셸 + 시나리오 스위처 (구 canvas/mobile 통합)

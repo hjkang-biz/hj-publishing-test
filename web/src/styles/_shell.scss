@@ -1,21 +1,47 @@
-// 모바일 풀스크린 모드 — iOS 디바이스 프레임 / 캔버스 chrome 없이 앱처럼 렌더링
+// 앱 셸 — 유동 반응형 (디바이스 프레임 없이 뷰포트를 채운다)
+// ------------------------------------------------------------------
+// 예전엔 데스크탑=iOS 프레임(402px 고정) / 모바일=풀스크린 으로 나뉘었으나,
+// 이제 전 화면 공통으로 "뷰포트를 채우고 브레이크포인트마다 리플로우"하는
+// 단일 반응형 앱으로 통합한다.
+//
+//   .app-shell     뷰포트 전체 바깥 배경 + 가운데 정렬
+//   .app-viewport  실제 앱 컬럼 — 모바일 풀폭 / tablet-l 이상 캡+센터(사이드 여백)
+//   .flow-host     활성 플로우 컨테이너 (하단 고정바의 positioning context)
 
-.app-mobile {
-  // 상태바 자리 = 안전영역 (브라우저는 URL 바가, PWA는 노치가 차지)
-  --status-bar-h: env(safe-area-inset-top, 0px);
+@use 'breakpoints' as bp;
 
+.app-shell {
   position: fixed;
   inset: 0;
+  background: var(--canvas-bg);
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.app-viewport {
+  // 상태바 자리 = 안전영역 (실기기 노치/URL바). 데스크탑 브라우저는 0.
+  --status-bar-h: env(safe-area-inset-top, 0px);
+
+  position: relative;
+  width: 100%;
+  height: 100%;
   background: var(--bg);
   overflow: hidden;
   display: flex;
   flex-direction: column;
 
+  // 넓은 화면: 콘텐츠 폭 상한 + 센터 → 좌우 사이드 여백
+  @include bp.up(tablet-l) {
+    max-width: bp.$content-max;
+    box-shadow: 0 0 0 1px var(--line);
+  }
+
+  // 다크 시나리오(스캔 발주 등) — 플로우가 자체 다크 UI를 그림
   &.is-dark {
     background: #000;
   }
 
-  // 플로우의 .screen 이 자동으로 부모 높이를 채우게 보장
   > .flow-host {
     flex: 1;
     min-height: 0;
@@ -23,7 +49,7 @@
   }
 }
 
-// 시나리오 전환용 플로팅 칩 — 안전영역을 피해 우상단에 작게
+// ── 시나리오 전환 플로팅 칩 (전 화면 공통) ───────────────────
 .scenario-fab {
   position: fixed;
   top: calc(env(safe-area-inset-top, 0px) + 12px);
@@ -46,6 +72,11 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
   cursor: pointer;
 
+  // 넓은 화면에선 앱 컬럼 오른쪽 여백에 맞춰 살짝 안쪽으로
+  @include bp.up(tablet-l) {
+    right: calc(50% - #{bp.$content-max} / 2 + 12px);
+  }
+
   &__dot {
     width: 6px;
     height: 6px;
@@ -54,13 +85,14 @@
   }
 }
 
-// 시나리오 선택 시트 (FAB 클릭 시 등장)
+// ── 시나리오 선택 시트 ──────────────────────────────────────
 .scenario-sheet {
   position: fixed;
   inset: 0;
   z-index: 300;
   display: flex;
   align-items: flex-end;
+  justify-content: center;
   background: rgba(0, 0, 0, 0.5);
 
   &__panel {
@@ -69,6 +101,13 @@
     border-radius: 20px 20px 0 0;
     padding: 12px 16px calc(20px + env(safe-area-inset-bottom));
     animation: slide-up 0.28s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+
+    // 넓은 화면: 가운데 카드형 다이얼로그로
+    @include bp.up(tablet) {
+      max-width: 460px;
+      margin-bottom: 24px;
+      border-radius: 20px;
+    }
   }
 
   &__handle {
@@ -77,6 +116,8 @@
     border-radius: 999px;
     background: var(--line-strong);
     margin: 0 auto 16px;
+
+    @include bp.up(tablet) { display: none; }
   }
 
   &__title {
