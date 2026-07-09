@@ -5,11 +5,18 @@
 //    SCSS 컬러 변수를 직접 쓰면 컴파일 타임에 고정되어 다크모드 전환이 안 됨.
 //    다크모드는 시스템 설정(prefers-color-scheme)을 따라 자동 전환된다 → 기종 무관.
 
-// ── 브랜드 — 시원·청량한 쿨 블루 (소주/맥주 냉장고 무드)
-$brand: #1F6FEB;
-$brand-strong: #0B4ED9;
-$brand-soft: #E8F0FE;
-$brand-tint: rgba(31, 111, 235, 0.08);
+// ── 브랜드 — 하이트진로 그린 (프로토타입 HERO B2B 기준)
+$brand: #007A3D;        // green-600 — PRIMARY (Hite Jinro green)
+$brand-strong: #005C2E; // green-700 — hover/dark accents
+$brand-soft: #E0F0E6;   // green-100
+$brand-tint: rgba(0, 122, 61, 0.08);
+
+// ── 브랜드 그린 스케일 (헤더 그라디언트/틴트 표면용)
+$green-700: #005C2E;
+$green-600: #007A3D;
+$green-500: #1B9050;
+$green-100: #E0F0E6;
+$green-50: #F0F8F3;
 
 // ── 배경 (라이트 기준값 — 다크는 아래 media 블록에서 재정의)
 $bg: #ffffff;
@@ -54,6 +61,14 @@ $r-24: 24px;
   --brand-strong: #{$brand-strong};
   --brand-soft: #{$brand-soft};
   --brand-tint: #{$brand-tint};
+
+  // 브랜드 그린 스케일 — 헤더 그라디언트·틴트 표면
+  --green-700: #{$green-700};
+  --green-600: #{$green-600};
+  --green-500: #{$green-500};
+  --green-100: #{$green-100};
+  --green-50: #{$green-50};
+
   // 브랜드 위 텍스트(흰색) — 다크에서도 동일하게 흰색 유지
   --on-brand: #ffffff;
   // 반전 표면(fg-strong 배경의 활성 칩 등) 위 텍스트/보조 — 테마 반대색
@@ -118,12 +133,19 @@ $r-24: 24px;
   :root {
     color-scheme: dark;
 
-    // 브랜드 — 어두운 배경에서 또렷하도록 살짝 밝게
-    --brand: #4F86F2;
-    --brand-strong: #6FA0FF;
-    --brand-soft: rgba(79, 134, 242, 0.20);
-    --brand-tint: rgba(79, 134, 242, 0.16);
+    // 브랜드 — 어두운 배경에서 또렷하도록 살짝 밝게 (그린)
+    --brand: #3DA866;
+    --brand-strong: #48B873;
+    --brand-soft: rgba(61, 168, 102, 0.20);
+    --brand-tint: rgba(61, 168, 102, 0.16);
     --on-brand: #ffffff;
+
+    // 브랜드 그린 스케일 (다크)
+    --green-700: #48B873;
+    --green-600: #3DA866;
+    --green-500: #2E8F52;
+    --green-100: rgba(61, 168, 102, 0.20);
+    --green-50: rgba(61, 168, 102, 0.12);
     --invert-fg: #000000;
     --invert-faint: rgba(0, 0, 0, 0.22);
 

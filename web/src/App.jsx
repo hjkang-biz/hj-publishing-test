@@ -8,8 +8,16 @@ import { RecoFlowV2 } from './flows/RecoFlow.jsx';
 import { ScanOrderFlow } from './flows/ScanOrder.jsx';
 import { MultiStoreFlow } from './flows/MultiStoreTower.jsx';
 import { B2BHomeFlow } from './flows/B2BHome.jsx';
+import { HeroAppFlow } from './flows/HeroApp.jsx';
 
 const SCENARIOS = [
+  {
+    id: 's-start',
+    label: '🚀 앱 시작',
+    sub: '스플래시 · 로그인 · 홈 · 공지 팝업',
+    Component: HeroAppFlow,
+    dark: false,
+  },
   {
     id: 's0',
     label: '⓪ B2B 홈',

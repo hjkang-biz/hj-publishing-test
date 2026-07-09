@@ -7,3 +7,4 @@
 @use 'components';
 @use 'animations';
 @use 'shell'; // 유동 반응형 앱 셸 + 시나리오 스위처 (구 canvas/mobile 통합)
+@use 'hero'; // 앱 시작 플로우 (스플래시·로그인·홈·공지 팝업)
